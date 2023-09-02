@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import artistRouter from "./routes/artist";
 import albumsRouter from "./routes/album";
 import artistsRouter from "./routes/artist";
+import tracksRouter from "./routes/track";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
+app.use('/tracks', tracksRouter);
 
 const run = async () => {
     await mongoose.connect("mongodb://localhost:27017/music");

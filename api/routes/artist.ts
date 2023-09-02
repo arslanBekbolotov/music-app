@@ -5,16 +5,19 @@ import {Artist} from "../models/Artist";
 const artistsRouter = express.Router();
 
 artistsRouter.post('/',imagesUpload.single('image'),async (req, res,next)=>{
-    const{name,info} = req.body;
-    const image = req.file ? req.file.filename : null;
+    const artistData = {
+        name:req.body.name,
+        info:req.body.info,
+        image:req.file ? req.file.filename : null,
+    };
 
-    const artist = new Artist({name,info,image});
+    const artist = new Artist(artistData);
 
     try{
         await artist.save();
         return res.send(artist);
     }catch (e){
-        next(e);
+        return res.status(400).send(e);
     }
 });
 
