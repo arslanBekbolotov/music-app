@@ -2,9 +2,9 @@ import express from "express";
 import {imagesUpload} from "../multer";
 import {Artist} from "../models/Artist";
 
-const artistRouter = express.Router();
+const artistsRouter = express.Router();
 
-artistRouter.post('/',imagesUpload.single('image'),async (req, res,next)=>{
+artistsRouter.post('/',imagesUpload.single('image'),async (req, res,next)=>{
     const{name,info} = req.body;
     const image = req.file ? req.file.filename : null;
 
@@ -18,7 +18,7 @@ artistRouter.post('/',imagesUpload.single('image'),async (req, res,next)=>{
     }
 });
 
-artistRouter.get('/',async (req, res)=>{
+artistsRouter.get('/',async (req, res)=>{
     try {
         const artist = await Artist.find();
         return res.send(artist);
@@ -27,4 +27,4 @@ artistRouter.get('/',async (req, res)=>{
     }
 });
 
-export default artistRouter;
+export default artistsRouter;

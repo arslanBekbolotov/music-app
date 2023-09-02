@@ -9,7 +9,7 @@ const albumSchema = new Schema({
     artist:{
         type: Schema.Types.ObjectId,
         required: true,
-        ref:"User",
+        ref:"Artist",
         validate: {
             validator: async (value: Types.ObjectId) => Artist.findById(value),
             message: 'Artist does not exist!',
