@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "format-all": "prettier --write .",
     "dev": "nodemon index.ts"
   },
   "keywords": [],
