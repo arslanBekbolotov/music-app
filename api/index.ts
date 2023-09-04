@@ -1,15 +1,12 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
-import artistRouter from "./routes/artist";
 import albumsRouter from "./routes/album";
 import artistsRouter from "./routes/artist";
 import tracksRouter from "./routes/track";
 
-dotenv.config();
 const app = express();
-const PORT = process.env.POST || 8080;
+const PORT = 8001;
 
 app.use(cors());
 app.use(express.static("public"));
