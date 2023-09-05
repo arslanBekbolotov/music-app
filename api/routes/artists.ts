@@ -1,6 +1,7 @@
 import express from "express";
 import { imagesUpload } from "../multer";
 import { Artist } from "../models/Artist";
+import {Error} from "mongoose";
 
 const artistsRouter = express.Router();
 
@@ -19,8 +20,12 @@ artistsRouter.post(
     try {
       await artist.save();
       return res.send(artist);
-    } catch (e) {
-      return res.status(400).send(e);
+    }catch (error) {
+        if (error instanceof Error.ValidationError) {
+            return res.status(400).send(error);
+        }
+
+        return next(error);
     }
   },
 );

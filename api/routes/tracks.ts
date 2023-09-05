@@ -1,17 +1,12 @@
 import express from "express";
 import { Track } from "../models/Track";
 import { Album } from "../models/Album";
+import { ITrackMutation } from "../types";
+import {Error} from "mongoose";
 
 const tracksRouter = express.Router();
 
-interface ITracks {
-  _id: string;
-  name: string;
-  album: string;
-  duration?: string;
-}
-
-tracksRouter.post("/", async (req, res) => {
+tracksRouter.post("/", async (req, res,next) => {
   const trackData = {
     name: req.body.name,
     album: req.body.album,
@@ -23,8 +18,12 @@ tracksRouter.post("/", async (req, res) => {
   try {
     await track.save();
     return res.send(track);
-  } catch (e) {
-    return res.status(400).send(e);
+  } catch (error) {
+    if (error instanceof Error.ValidationError) {
+      return res.status(400).send(error);
+    }
+
+    return next(error);
   }
 });
 
@@ -39,9 +38,9 @@ tracksRouter.get("/", async (req, res) => {
 
     if (artist) {
       const albums = await Album.find({ artist });
-      let tracks: ITracks[] = [];
+      let tracks: ITrackMutation[] = [];
 
-      const tracksList: ITracks[][] = await Promise.all(
+      const tracksList: ITrackMutation[][] = await Promise.all(
         albums.map(async (album) => await Track.find({ album })),
       );
 

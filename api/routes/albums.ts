@@ -1,6 +1,7 @@
 import express from "express";
 import { imagesUpload } from "../multer";
 import { Album } from "../models/Album";
+import {Error} from "mongoose";
 
 const albumsRouter = express.Router();
 
@@ -17,8 +18,12 @@ albumsRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
   try {
     await album.save();
     return res.send(album);
-  } catch (e) {
-    res.status(400).send(e);
+  } catch (error) {
+    if (error instanceof Error.ValidationError) {
+      return res.status(400).send(error);
+    }
+
+    return next(error);
   }
 });
 
@@ -38,7 +43,7 @@ albumsRouter.get("/", async (req, res, next) => {
   }
 });
 
-albumsRouter.get("/:id", async (req, res, next) => {
+albumsRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {

@@ -1,7 +1,8 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { Artist } from "./Artist";
+import { IAlbum } from "../types";
 
-const albumSchema = new Schema({
+const albumSchema = new Schema<IAlbum>({
   name: {
     type: String,
     required: true,
@@ -16,7 +17,7 @@ const albumSchema = new Schema({
     },
   },
   release: {
-    type: String,
+    type: Schema.Types.Date,
     required: true,
   },
   image: String,
