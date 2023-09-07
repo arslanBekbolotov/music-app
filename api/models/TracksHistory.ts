@@ -1,7 +1,7 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { Track } from "./Track";
-import User from "./User";
 import { ITracksHistory } from "../types";
+import { User } from "./User";
 
 const TrackHistorySchema = new Schema<ITracksHistory>({
   user: {
@@ -29,6 +29,4 @@ const TrackHistorySchema = new Schema<ITracksHistory>({
   },
 });
 
-const TrackHistory = mongoose.model("TrackHistory", TrackHistorySchema);
-
-export default TrackHistory;
+export const TrackHistory = mongoose.model("TrackHistory", TrackHistorySchema);

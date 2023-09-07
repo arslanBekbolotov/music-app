@@ -1,18 +1,16 @@
-import mongoose, {Model} from "mongoose";
-import bcrypt from 'bcrypt';
-import {IUser} from "../types";
-import {randomUUID} from "crypto";
+import mongoose, { Model, Schema } from "mongoose";
+import bcrypt from "bcrypt";
+import { IUser } from "../types";
+import { randomUUID } from "crypto";
 
-interface IUserMethods{
-  checkPassword(password:string):Promise<boolean>;
-  generateToken():void;
+interface IUserMethods {
+  checkPassword(password: string): Promise<boolean>;
+  generateToken(): void;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
 
 const SALT_WORK_FACTOR = 7;
-
-const Schema = mongoose.Schema;
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   username: {
@@ -30,8 +28,8 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   },
 });
 
-UserSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
   this.password = await bcrypt.hash(this.password, salt);
@@ -39,21 +37,19 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-UserSchema.set('toJSON', {
+UserSchema.set("toJSON", {
   transform: (doc, ret, options) => {
     delete ret.password;
     return ret;
-  }
+  },
 });
 
-UserSchema.methods.checkPassword = function(password) {
+UserSchema.methods.checkPassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.generateToken = function() {
+UserSchema.methods.generateToken = function () {
   this.token = randomUUID();
 };
 
-const User = mongoose.model<IUser, UserModel>('User', UserSchema)
-
-export default User;
+export const User = mongoose.model<IUser, UserModel>("User", UserSchema);

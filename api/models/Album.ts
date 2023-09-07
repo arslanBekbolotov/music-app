@@ -18,6 +18,7 @@ const albumSchema = new Schema<IAlbum>({
   },
   release: {
     type: Schema.Types.Date,
+    default: Date(),
     required: true,
   },
   image: String,

@@ -1,8 +1,6 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { Album } from "./Album";
 import { ITrack } from "../types";
-
-const Schema = mongoose.Schema;
 
 const trackSchema = new Schema<ITrack>({
   name: {

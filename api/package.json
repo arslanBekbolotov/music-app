@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format-all": "prettier --write .",
+    "seed": "ts-node fixtures.ts",
     "dev": "nodemon index.ts"
   },
   "keywords": [],

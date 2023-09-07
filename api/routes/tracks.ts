@@ -1,12 +1,12 @@
 import express from "express";
 import { Track } from "../models/Track";
+import { Error } from "mongoose";
 import { Album } from "../models/Album";
 import { ITrackMutation } from "../types";
-import {Error} from "mongoose";
 
 const tracksRouter = express.Router();
 
-tracksRouter.post("/", async (req, res,next) => {
+tracksRouter.post("/", async (req, res, next) => {
   const trackData = {
     name: req.body.name,
     album: req.body.album,

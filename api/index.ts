@@ -5,6 +5,8 @@ import albumsRouter from "./routes/albums";
 import artistsRouter from "./routes/artists";
 import tracksRouter from "./routes/tracks";
 import usersRouter from "./routes/users";
+import trackHistoryRouter from "./routes/trackHistory";
+import config from "./config";
 
 const app = express();
 const PORT = 8001;
@@ -16,9 +18,10 @@ app.use("/artists", artistsRouter);
 app.use("/albums", albumsRouter);
 app.use("/tracks", tracksRouter);
 app.use("/users", usersRouter);
+app.use("/track_history", trackHistoryRouter);
 
 const run = async () => {
-  await mongoose.connect("mongodb://localhost:27017/music");
+  await mongoose.connect(config.db);
 
   app.listen(PORT, () => {
     console.log(`Server started on ${PORT} port!`);
