@@ -1,6 +1,7 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, {Schema, Types} from "mongoose";
 import { Artist } from "./Artist";
-import { IAlbum } from "../types";
+import {IAlbum} from "../types";
+
 
 const albumSchema = new Schema<IAlbum>({
   name: {
@@ -23,4 +24,4 @@ const albumSchema = new Schema<IAlbum>({
   image: String,
 });
 
-export const Album = mongoose.model("Album", albumSchema);
+export const Album = mongoose.model<IAlbum>("Album", albumSchema);

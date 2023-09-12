@@ -1,10 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 export interface IAlbum {
   name: string;
   artist: Schema.Types.ObjectId;
   release: Schema.Types.Date;
   image: string;
+}
+
+export interface IAlbumMutation extends IAlbum {
+  _id:Schema.Types.ObjectId,
+  count:number,
 }
 
 export interface IArtist {
@@ -16,11 +21,10 @@ export interface IArtist {
 export interface ITrack {
   name: string;
   album: Schema.Types.ObjectId;
+  number: number;
   duration?: string;
-}
-
-export interface ITrackMutation extends ITrack {
-  id: Schema.Types.ObjectId;
+  image?: string;
+  mp3File?: string;
 }
 
 export interface IUser {

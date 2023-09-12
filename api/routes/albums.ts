@@ -2,6 +2,7 @@ import express from "express";
 import { imagesUpload } from "../multer";
 import { Album } from "../models/Album";
 import { Error } from "mongoose";
+import {IAlbumMutation} from "../types";
 
 const albumsRouter = express.Router();
 
@@ -33,10 +34,12 @@ albumsRouter.get("/", async (req, res) => {
   try {
     if (artist) {
       const albums = await Album.find({ artist });
+
       return res.send(albums);
     }
 
-    const albums = await Album.find();
+    const albums:IAlbumMutation[] = await Album.find();
+
     return res.send(albums);
   } catch (e) {
     return res.status(500).send(e);

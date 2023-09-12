@@ -2,30 +2,35 @@ import express from "express";
 import { Track } from "../models/Track";
 import { Error } from "mongoose";
 import { Album } from "../models/Album";
-import { ITrackMutation } from "../types";
+import { mp3FileUpload } from "../multer";
 
 const tracksRouter = express.Router();
 
-tracksRouter.post("/", async (req, res, next) => {
-  const trackData = {
-    name: req.body.name,
-    album: req.body.album,
-    duration: req.body.duration,
-  };
+tracksRouter.post(
+  "/",
+  mp3FileUpload.single("mp3File"),
+  async (req, res, next) => {
+    const trackData = {
+      name: req.body.name,
+      album: req.body.album,
+      duration: req.body.duration,
+      mp3File: req.file ? req.file.filename : null,
+    };
 
-  const track = new Track(trackData);
+    const track = new Track(trackData);
 
-  try {
-    await track.save();
-    return res.send(track);
-  } catch (error) {
-    if (error instanceof Error.ValidationError) {
-      return res.status(400).send(error);
+    try {
+      await track.save();
+      return res.send(track);
+    } catch (error) {
+      if (error instanceof Error.ValidationError) {
+        return res.status(400).send(error);
+      }
+
+      return next(error);
     }
-
-    return next(error);
-  }
-});
+  },
+);
 
 tracksRouter.get("/", async (req, res) => {
   const { album, artist } = req.query;
@@ -38,15 +43,7 @@ tracksRouter.get("/", async (req, res) => {
 
     if (artist) {
       const albums = await Album.find({ artist });
-      let tracks: ITrackMutation[] = [];
-
-      const tracksList: ITrackMutation[][] = await Promise.all(
-        albums.map(async (album) => await Track.find({ album })),
-      );
-
-      for (let i = 0; i <= tracksList.length - 1; i++) {
-        tracks = [...tracks, ...tracksList[i]];
-      }
+      const tracks = await Track.find({album:{$in:albums}});
 
       return res.send(tracks);
     }

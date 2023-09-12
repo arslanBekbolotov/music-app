@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 import config from "./config";
 import { Artist } from "./models/Artist";
-import { User } from "./models/User";
 import { Album } from "./models/Album";
-import { TrackHistory } from "./models/TracksHistory";
 import { Track } from "./models/Track";
 
 const run = async () => {
@@ -20,58 +18,187 @@ const run = async () => {
     console.log("Collection were not present, skipping drop...");
   }
 
-  const [artistJohn, artistDoe] = await Artist.create(
+  const [michaelJackson, theBeatles] = await Artist.create(
     {
-      name: "John",
-      image: "fixtures/artistJohn.jpg",
+      name: "michaelJackson",
+      image: "fixtures/michaelJackson.jpeg",
     },
     {
-      name: "Doe",
-    },
-  );
-
-  const user1 = new User({
-    username: "username#23",
-    password: "123",
-  });
-
-  user1.generateToken();
-  await user1.save();
-
-  const [firstAlbum, secondAlbum] = await Album.create(
-    {
-      name: "album1",
-      artist: artistJohn._id,
-    },
-    {
-      name: "album2",
-      artist: artistDoe._id,
+      name: "The Beatles",
+      image: "fixtures/beatles.webp",
     },
   );
 
-  const [firstTrack, secondTrack] = await Track.create(
+  const [album1, album2, album3, album4] = await Album.create(
     {
-      name: "track1",
-      album: firstAlbum._id,
-      duration: "2:30",
+      name: "Help!",
+      artist: theBeatles._id,
+      release: "1965",
+      image: "fixtures/helpAlbum.jpeg",
     },
     {
-      name: "track2",
-      album: secondAlbum._id,
-      duration: "3:30",
+      name: "Let It Be",
+      artist: theBeatles._id,
+      release: "1970",
+      image: "fixtures/letItBeAlbum.jpeg",
+    },
+    {
+      name: "Thriller",
+      artist: michaelJackson._id,
+      release: "1982",
+      image: "fixtures/thrillerAlbum.jpeg",
+    },
+    {
+      name: "Bad",
+      artist: michaelJackson._id,
+      release: "1987",
+      image: "fixtures/badAlbum.jpeg",
     },
   );
 
-  const [firstTrackHistory, secondTrackHistory] = await TrackHistory.create(
-    {
-      user: user1._id,
-      track: firstTrack._id,
-    },
-    {
-      user: user1._id,
-      track: secondTrack._id,
-    },
-  );
+  const [album1Track1, album1Track2, album1Track3, album1Track4, album1Track5] =
+    await Track.create(
+      {
+        name: "Yesterday",
+        number: 1,
+        album: album1._id,
+        duration: "3:37",
+        image: "fixtures/Yesterday.jpeg",
+        mp3File: "fixtures/Yesterday.mp3",
+      },
+      {
+        name: "Come Together",
+        number: 2,
+        album: album1._id,
+        duration: "4:34",
+      },
+      {
+        name: "Let It Be",
+        number: 3,
+        album: album1._id,
+        duration: "3:21",
+      },
+      {
+        name: "BlackBird",
+        number: 4,
+        album: album1._id,
+        duration: "3:20",
+      },
+      {
+        name: "Here Comes The Sun",
+        number: 5,
+        album: album1._id,
+        duration: "3:39",
+        image: "fixtures/herecomesthesun.jpeg",
+        mp3File: "fixtures/TheyDon'tCareAboutUs.mp3",
+      },
+    );
+
+  const [album2Track1, album2Track2, album2Track3, album2Track4, album2Track5] =
+    await Track.create(
+      {
+        name: "A Day in the Life",
+        number: 1,
+        album: album2._id,
+        duration: "3:37",
+      },
+      {
+        name: "Something",
+        number: 4,
+        album: album2._id,
+        duration: "4:34",
+      },
+      {
+        name: "I Want to Hold Your Hand",
+        number: 7,
+        album: album2._id,
+        duration: "3:21",
+      },
+      {
+        name: "Hey Jude",
+        number: 2,
+        album: album2._id,
+        duration: "3:20",
+      },
+      {
+        name: "Across the Universe",
+        number: 6,
+        album: album2._id,
+        duration: "3:39",
+      },
+    );
+
+  const [album3Track1, album3Track2, album3Track3, album3Track4, album3Track5] =
+    await Track.create(
+      {
+        name: "Billie Jean",
+        number: 1,
+        album: album3._id,
+        duration: "3:37",
+      },
+      {
+        name: "Beat It",
+        number: 3,
+        album: album3._id,
+        duration: "4:34",
+      },
+      {
+        name: "Remember the Time",
+        number: 2,
+        album: album3._id,
+        duration: "3:21",
+      },
+      {
+        name: "Ghosts",
+        number: 5,
+        album: album3._id,
+        duration: "3:20",
+      },
+      {
+        name: "Thriller Megamix",
+        number: 4,
+        album: album3._id,
+        duration: "3:39",
+      },
+    );
+
+  const [album4Track1, album4Track2, album4Track3, album4Track4, album4Track5] =
+    await Track.create(
+      {
+        name: "Bad",
+        album: album4._id,
+        number: 1,
+        duration: "3:37",
+        image: "fixtures/bad.jpeg",
+        mp3File: "fixtures/Bad.mp3",
+      },
+      {
+        name: "Smooth Criminal",
+        number: 2,
+        album: album4._id,
+        duration: "4:34",
+      },
+      {
+        name: "Speed Demon",
+        number: 3,
+        album: album4._id,
+        duration: "3:21",
+      },
+      {
+        name: "Man in the Mirror",
+        number: 6,
+        album: album4._id,
+        duration: "3:20",
+      },
+      {
+        name: "They Don't Care About Us",
+        album: album4._id,
+        number: 5,
+        duration: "3:39",
+        image: "fixtures/theyDontCare.jpeg",
+        mp3File: "fixtures/TheyDon'tCareAboutUs.mp3",
+      },
+    );
 
   await db.close();
 };
