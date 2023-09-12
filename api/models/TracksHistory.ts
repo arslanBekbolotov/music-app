@@ -24,7 +24,7 @@ const TrackHistorySchema = new Schema<ITracksHistory>({
   },
   date: {
     type: Schema.Types.Date,
-    default: Date(),
+    default: () => Date(),
     required: true,
   },
 });

@@ -15,7 +15,7 @@ trackHistoryRouter.post("/", auth, async (req, res, next) => {
     });
 
     await trackHistory.save();
-    res.send({ trackHistory, username });
+    return res.send({ trackHistory, username });
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);

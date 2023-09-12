@@ -27,7 +27,7 @@ albumsRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
   }
 });
 
-albumsRouter.get("/", async (req, res, next) => {
+albumsRouter.get("/", async (req, res) => {
   const { artist } = req.query;
 
   try {
@@ -39,7 +39,7 @@ albumsRouter.get("/", async (req, res, next) => {
     const albums = await Album.find();
     return res.send(albums);
   } catch (e) {
-    res.status(500).send(e);
+    return res.status(500).send(e);
   }
 });
 
@@ -50,7 +50,7 @@ albumsRouter.get("/:id", async (req, res) => {
     const albums = await Album.findOne({ _id: id }).populate("artist");
     return res.send(albums);
   } catch (e) {
-    res.status(500).send(e);
+    return res.status(500).send(e);
   }
 });
 
