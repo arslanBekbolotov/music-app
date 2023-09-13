@@ -2,7 +2,7 @@ import express from "express";
 import { imagesUpload } from "../multer";
 import { Album } from "../models/Album";
 import { Error } from "mongoose";
-import {IAlbumMutation} from "../types";
+import {Track} from "../models/Track";
 
 const albumsRouter = express.Router();
 
@@ -34,11 +34,20 @@ albumsRouter.get("/", async (req, res) => {
   try {
     if (artist) {
       const albums = await Album.find({ artist });
+      const result = await Promise.all(albums.map(async (item)=> {
+       const tracks = await Track.find({album: item._id}).count();
+       return  {
+         _id:item._id,
+         name:item.name,
+         image:item.image,
+         release:item.release,
+         count:tracks,
+       }}))
 
-      return res.send(albums);
+      return res.send(result);
     }
 
-    const albums:IAlbumMutation[] = await Album.find();
+    const albums = await Album.find();
 
     return res.send(albums);
   } catch (e) {

@@ -3,13 +3,8 @@ import { Schema } from "mongoose";
 export interface IAlbum {
   name: string;
   artist: Schema.Types.ObjectId;
-  release: Schema.Types.Date;
+  release: string;
   image: string;
-}
-
-export interface IAlbumMutation extends IAlbum {
-  _id:Schema.Types.ObjectId,
-  count:number,
 }
 
 export interface IArtist {
