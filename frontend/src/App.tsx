@@ -19,6 +19,7 @@ function App() {
               <Routes>
                   <Route path='/' element={<Artists/>}/>
                   <Route path='/albums/:id' element={<Albums/>}/>
+                  <Route path='/tracks/:id' element={<Albums/>}/>
               </Routes>
             </Layout>
         </ThemeProvider>

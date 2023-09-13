@@ -5,7 +5,7 @@ import {IAlbum} from "../../types";
 export const fetchAlbums = createAsyncThunk(
     "albums/fetch",
     async (artist?:string)=>{
-        const {data} = await axiosApi<IAlbum[]>('albums/' + artist);
+        const {data} = await axiosApi<IAlbum[]>('albums?artist=' + artist);
         return data;
     }
 )

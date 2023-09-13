@@ -7,7 +7,11 @@ export interface IArtist{
 export interface IAlbum{
     _id:string,
     name:string,
-    artist:string,
     release:string,
+    artist:IArtist,
     image:string,
+}
+
+export interface IAlbumApi{
+
 }

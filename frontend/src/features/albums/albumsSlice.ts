@@ -1,15 +1,17 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IAlbum} from "../../types";
+import {IAlbum, IArtist} from "../../types";
 import {fetchAlbums} from "./albumsThunk";
 
 interface AlbumsState{
     albums:IAlbum[],
+    artist:IArtist | null,
     fetchLoading:boolean,
     error:boolean,
 }
 
 const initialState:AlbumsState = {
     albums:[],
+    artist:null,
     fetchLoading:false,
     error:false,
 }
@@ -17,7 +19,11 @@ const initialState:AlbumsState = {
 export  const albumsSlice = createSlice({
     name:"albums",
     initialState,
-    reducers:{},
+    reducers:{
+        setArtist(state,{payload:artist}){
+            state.artist = artist;
+        }
+    },
     extraReducers:(builder)=>{
         builder.addCase(fetchAlbums.pending,(state)=>{
             state.fetchLoading = true;
@@ -34,3 +40,4 @@ export  const albumsSlice = createSlice({
 });
 
 export const albumsReducer = albumsSlice.reducer;
+export const {setArtist} = albumsSlice.actions

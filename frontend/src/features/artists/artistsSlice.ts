@@ -36,3 +36,4 @@ export  const artistsSlice = createSlice({
 
 export const artistsReducer = artistsSlice.reducer;
 export const selectArtists = (state:RootState)=>state.artistsStore.artists;
+export const selectFetchLoading = (state:RootState)=>state.artistsStore.fetchLoading;
