@@ -1,6 +1,6 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {axiosApi} from "../../axiosApi";
-import {IAlbumApi} from "../../types";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosApi } from "../../axiosApi";
+import { IAlbumApi } from "../../types";
 
 export const fetchAlbums = createAsyncThunk(
   "albums/fetch",

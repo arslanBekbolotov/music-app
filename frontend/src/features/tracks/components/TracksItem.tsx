@@ -35,6 +35,7 @@ const TracksItem: React.FC<Props> = ({ track }) => {
         <Typography sx={{ textAlign: "start" }}>{track.number}.</Typography>
         <Typography sx={{ textAlign: "center" }}>{track.name}</Typography>
       </Grid>
+      <Typography sx={{ textAlign: "center" }}>{track.duration}</Typography>
     </Paper>
   );
 };

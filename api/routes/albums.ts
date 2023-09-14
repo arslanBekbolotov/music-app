@@ -40,10 +40,7 @@ albumsRouter.get("/", async (req, res) => {
         albums.map(async (item) => {
           const count = await Track.find({ album: item._id }).count();
           return {
-            _id: item._id,
-            name: item.name,
-            image: item.image,
-            release: item.release,
+            ...item.toObject(),
             count,
           };
         }),
