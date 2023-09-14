@@ -20,7 +20,7 @@ const run = async () => {
 
   const [michaelJackson, theBeatles] = await Artist.create(
     {
-      name: "michaelJackson",
+      name: "Michael Jackson",
       image: "fixtures/michaelJackson.jpeg",
     },
     {
@@ -46,7 +46,7 @@ const run = async () => {
       name: "Thriller",
       artist: michaelJackson._id,
       release: "1982",
-      image: "fixtures/thrillerAlbum.jpeg",
+      image: "fixtures/thrillerAlbum.png",
     },
     {
       name: "Bad",
@@ -90,7 +90,7 @@ const run = async () => {
         album: album1._id,
         duration: "3:39",
         image: "fixtures/herecomesthesun.jpeg",
-        mp3File: "fixtures/TheyDon'tCareAboutUs.mp3",
+        mp3File: "fixtures/HereComesTheSun.mp3",
       },
     );
 

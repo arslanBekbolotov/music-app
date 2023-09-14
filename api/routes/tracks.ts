@@ -37,18 +37,22 @@ tracksRouter.get("/", async (req, res) => {
 
   try {
     if (album) {
-      const tracks = await Track.findOne({ album }).populate("album");
-      return res.send(tracks);
+      const tracks = await Track.find({ album }).sort({ number: 1 });
+      const albumData = await Album.findOne({ _id: album }).populate("artist");
+
+      return res.send({ tracks: [...tracks], album: albumData });
     }
 
     if (artist) {
       const albums = await Album.find({ artist });
-      const tracks = await Track.find({album:{$in:albums}});
+      const tracks = await Track.find({ album: { $in: albums } }).sort({
+        number: 1,
+      });
 
       return res.send(tracks);
     }
 
-    const tracks = await Track.find();
+    const tracks = await Track.find().sort({ number: 1 });
     return res.send(tracks);
   } catch (e) {
     return res.sendStatus(500);

@@ -7,15 +7,15 @@ const trackHistoryRouter = express.Router();
 
 trackHistoryRouter.post("/", auth, async (req, res, next) => {
   try {
-    const { username } = (req as IRequestWithUser).user;
+    const user = (req as IRequestWithUser).user;
 
     const trackHistory = new TrackHistory({
       track: req.body.track,
-      user: req.body.user,
+      user: user._id,
     });
 
     await trackHistory.save();
-    return res.send({ trackHistory, username });
+    return res.send({ trackHistory, username: user.username });
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);
