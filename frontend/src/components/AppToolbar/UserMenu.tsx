@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { IUser } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   user: IUser;
 }
 
 const UserMenu: React.FC<Props> = ({ user }) => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,7 +29,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem>Track History</MenuItem>
+        <MenuItem onClick={() => navigate("/track_history")}>
+          Track History
+        </MenuItem>
         <MenuItem>My account</MenuItem>
         <MenuItem>Logout</MenuItem>
       </Menu>

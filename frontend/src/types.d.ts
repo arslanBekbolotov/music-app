@@ -25,6 +25,7 @@ export interface ITrack {
   _id: string;
   name: string;
   album: string;
+  artist: string;
   image?: string;
   number: number;
   duration: string;
@@ -59,6 +60,30 @@ export interface IUser {
   _id: string;
   username: string;
   password: string;
+}
+
+interface ITrackArtistMutation {
+  _id: string;
+  name: string;
+}
+
+interface ITrackAlbumMutation {
+  _id: string;
+  name: string;
+  artist: ITrackArtistMutation;
+}
+
+interface ITrackMutation {
+  _id: string;
+  name: string;
+  album: ITrackAlbumMutation;
+}
+
+export interface ITracksHistory {
+  _id: string;
+  user: string;
+  track: ITrackMutation;
+  date: string;
 }
 
 export interface ValidationError {

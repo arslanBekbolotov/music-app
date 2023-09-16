@@ -42,7 +42,7 @@ const Tracks = () => {
         }}
       >
         {fetchLoading
-          ? Array.from(new Array(12)).map((item, index) => (
+          ? Array.from(new Array(12)).map((_, index) => (
               <Skeleton
                 key={index}
                 variant="rounded"

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchTracks } from "./tracksThunk";
 import { IAlbumMutation, ITrack } from "../../types";
+import { RootState } from "../../app/store";
 
 interface tracksState {
   tracks: ITrack[];
@@ -45,3 +46,5 @@ export const tracksSlice = createSlice({
 export const tracksReducer = tracksSlice.reducer;
 
 export const { setCurrentPlayingTrack } = tracksSlice.actions;
+export const selectCurrentPlayingMusic = (state: RootState) =>
+  state.tracksStore.currentPlayingTrack;

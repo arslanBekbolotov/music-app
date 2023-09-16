@@ -3,7 +3,6 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
-  Button,
   Container,
   Grid,
   Link,
@@ -12,13 +11,15 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectRegisterError } from "./usersSlice";
 import { register } from "./usersThunk";
 import { RegisterMutation } from "../../types";
+import { LoadingButton } from "@mui/lab";
 
 const Register = () => {
   const dispatch = useAppDispatch();
-  const error = useAppSelector(selectRegisterError);
+  const { registerLoading, registerError: error } = useAppSelector(
+    (state) => state.usersStore,
+  );
   const navigate = useNavigate();
 
   const [state, setState] = useState<RegisterMutation>({
@@ -102,14 +103,15 @@ const Register = () => {
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
+            loading={registerLoading}
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link component={RouterLink} to="/login" variant="body2">

@@ -25,4 +25,31 @@ trackHistoryRouter.post("/", auth, async (req, res, next) => {
   }
 });
 
+trackHistoryRouter.get("/", auth, async (req, res, next) => {
+  try {
+    const user = (req as IRequestWithUser).user;
+
+    if (user) {
+      const trackHistories = await TrackHistory.find({ user })
+        .populate({
+          path: "track",
+          select: "name",
+          populate: {
+            path: "album",
+            select: "name",
+            populate: {
+              path: "artist",
+              model: "Artist",
+              select: "name",
+            },
+          },
+        })
+        .sort({ date: -1 });
+      return res.send(trackHistories);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
 export default trackHistoryRouter;

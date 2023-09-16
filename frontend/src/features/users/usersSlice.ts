@@ -54,11 +54,4 @@ export const usersSlice = createSlice({
 
 export const usersReducer = usersSlice.reducer;
 
-// export const selectLoginLoading = (state: RootState) => state.usersStore.loginLoading;
-
-export const selectLoginError = (state: RootState) =>
-  state.usersStore.loginError;
 export const selectUser = (state: RootState) => state.usersStore.user;
-// export const selectRegisterLoading = (state: RootState) => state.usersStore.registerLoading;
-export const selectRegisterError = (state: RootState) =>
-  state.usersStore.registerError;
