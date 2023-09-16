@@ -6,6 +6,7 @@ import { RootState } from "../../app/store";
 interface tracksState {
   tracks: ITrack[];
   currentPlayingTrack: ITrack | null;
+  youtubeLink: string;
   album: IAlbumMutation | null;
   fetchLoading: boolean;
   error: boolean;
@@ -14,6 +15,7 @@ interface tracksState {
 const initialState: tracksState = {
   tracks: [],
   currentPlayingTrack: null,
+  youtubeLink: "",
   album: null,
   fetchLoading: false,
   error: false,
@@ -25,6 +27,12 @@ export const tracksSlice = createSlice({
   reducers: {
     setCurrentPlayingTrack(state, { payload: track }) {
       state.currentPlayingTrack = track;
+    },
+    onClose(state) {
+      state.youtubeLink = "";
+    },
+    setYoutubeLink(state, { payload }) {
+      state.youtubeLink = payload;
     },
   },
   extraReducers: (builder) => {
@@ -45,6 +53,9 @@ export const tracksSlice = createSlice({
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const { setCurrentPlayingTrack } = tracksSlice.actions;
+export const { setCurrentPlayingTrack, onClose, setYoutubeLink } =
+  tracksSlice.actions;
+export const selectYoutubeLink = (state: RootState) =>
+  state.tracksStore.youtubeLink;
 export const selectCurrentPlayingMusic = (state: RootState) =>
   state.tracksStore.currentPlayingTrack;

@@ -11,7 +11,6 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       </header>
       <Container>
         <main>{children}</main>
-        <MusicPlayer />
       </Container>
     </div>
   );

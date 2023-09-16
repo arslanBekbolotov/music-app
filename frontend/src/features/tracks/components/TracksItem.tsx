@@ -14,6 +14,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
   selectCurrentPlayingMusic,
   setCurrentPlayingTrack,
+  setYoutubeLink,
 } from "../tracksSlice";
 import IconButton from "@mui/material/IconButton";
 import { selectUser } from "../../users/usersSlice";
@@ -26,12 +27,19 @@ interface Props {
 
 const TracksItem: React.FC<Props> = ({ track }) => {
   const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   const currentPlayingTrack = useAppSelector(selectCurrentPlayingMusic);
   const createTrackHistoryLoading = useAppSelector(
     selectCreateTrackHistoryLoading,
   );
-  const dispatch = useAppDispatch();
+
   const playTrack = () => {
+    if (track.youtubeLink) {
+      dispatch(setYoutubeLink(track.youtubeLink));
+      dispatch(createTrackHistory(track._id));
+      return;
+    }
+
     if (track.mp3File) {
       dispatch(setCurrentPlayingTrack(track));
     }

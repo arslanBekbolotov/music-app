@@ -8,6 +8,7 @@ import Tracks from "./features/tracks/Tracks";
 import Register from "./features/users/Register";
 import Login from "./features/users/Login";
 import TrackHistory from "./features/trackHistory/trackHistory";
+import YoutubeModel from "./components/YoutubeModel";
 
 function App() {
   const darkTheme = createTheme({
@@ -27,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/track_history" element={<TrackHistory />} />
+            <Route path="/iframe" element={<YoutubeModel />} />
           </Routes>
         </Layout>
       </ThemeProvider>

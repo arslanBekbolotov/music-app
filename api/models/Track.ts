@@ -17,6 +17,7 @@ const trackSchema = new Schema<ITrack>({
     },
   },
   image: String,
+  youtubeLink: String,
   number: {
     type: Number,
     required: true,

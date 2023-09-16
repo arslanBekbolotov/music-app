@@ -27,6 +27,7 @@ export interface ITrack {
   album: string;
   artist: string;
   image?: string;
+  youtubeLink?: string;
   number: number;
   duration: string;
   mp3File?: string;

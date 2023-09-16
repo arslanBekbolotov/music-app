@@ -5,6 +5,7 @@ import { fetchTracks } from "./tracksThunk";
 import { Box, Skeleton, Typography } from "@mui/material";
 import TracksItem from "./components/TracksItem";
 import MusicPlayer from "../../components/Player";
+import YoutubeModel from "../../components/YoutubeModel";
 
 const Tracks = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,7 @@ const Tracks = () => {
           {album?.artist && album.artist.name}
         </Typography>
       </Box>
+      <YoutubeModel />
       <MusicPlayer />
       <div
         style={{

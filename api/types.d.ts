@@ -16,6 +16,7 @@ export interface IArtist {
 export interface ITrack {
   name: string;
   album: Schema.Types.ObjectId;
+  youtubeLink?: string;
   number: number;
   duration?: string;
   image?: string;

@@ -62,6 +62,7 @@ const run = async () => {
         name: "Yesterday",
         number: 1,
         album: album1._id,
+        youtubeLink: "https://www.youtube.com/watch?v=wXTJBr9tt8Q",
         duration: "3:37",
         image: "fixtures/Yesterday.jpeg",
         mp3File: "fixtures/Yesterday.mp3",
@@ -104,6 +105,7 @@ const run = async () => {
       },
       {
         name: "Something",
+        youtubeLink: "https://www.youtube.com/watch?v=UelDrZ1aFeY",
         number: 4,
         album: album2._id,
         duration: "4:34",
@@ -133,6 +135,7 @@ const run = async () => {
       {
         name: "Billie Jean",
         number: 1,
+        youtubeLink: "https://www.youtube.com/watch?v=Zi_XLOBDo_Y",
         album: album3._id,
         duration: "3:37",
       },
@@ -155,8 +158,9 @@ const run = async () => {
         duration: "3:20",
       },
       {
-        name: "Thriller Megamix",
+        name: "Thunderstruck",
         number: 4,
+        youtubeLink: "https://www.youtube.com/watch?v=v2AC41dglnM",
         album: album3._id,
         duration: "3:39",
       },
@@ -168,6 +172,7 @@ const run = async () => {
         name: "Bad",
         album: album4._id,
         number: 1,
+        youtubeLink: "https://www.youtube.com/watch?v=dsUXAEzaC3Q",
         duration: "3:37",
         image: "fixtures/bad.jpeg",
         mp3File: "fixtures/Bad.mp3",

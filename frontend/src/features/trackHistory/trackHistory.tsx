@@ -20,7 +20,7 @@ const TrackHistory = () => {
     if (!user) {
       navigate("/");
     }
-  }, [dispatch,user,navigate]);
+  }, [dispatch, user, navigate]);
 
   return (
     <div>
