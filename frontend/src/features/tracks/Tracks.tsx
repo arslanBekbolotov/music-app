@@ -15,7 +15,7 @@ const Tracks = () => {
 
   useEffect(() => {
     dispatch(fetchTracks(id));
-  }, []);
+  }, [dispatch,id]);
 
   return (
     <div>

@@ -45,6 +45,12 @@ const MusicPlayer = () => {
 
   const mainIconColor = theme.palette.mode === "dark" ? "#fff" : "#000";
 
+  useEffect(() => {
+    if (audioPlay.current?.duration) {
+      setDuration(Math.floor(audioPlay.current.duration));
+    }
+  }, [audioPlay?.current?.onloadedmetadata]);
+
   if (currentPlayingTrack !== null && !currentPlayingTrack?.mp3File) {
     return <Widget sx={{ mb: "20px" }}>Плейер не найден</Widget>;
   }
@@ -54,14 +60,6 @@ const MusicPlayer = () => {
     const secondLeft = value - minute * 60;
     return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;
   };
-
-  /* eslint-disable react-hooks/rules-of-hooks */
-  useEffect(() => {
-    if (audioPlay.current?.duration) {
-      setDuration(Math.floor(audioPlay.current.duration));
-    }
-  }, [audioPlay?.current?.onloadedmetadata]);
-  /* eslint-disable react-hooks/rules-of-hooks */
 
   const closePlayer = () => {
     dispatch(setCurrentPlayingTrack(null));

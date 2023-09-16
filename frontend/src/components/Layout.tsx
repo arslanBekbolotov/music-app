@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Container } from "@mui/material";
-import Header from "./Header";
+import Header from "./AppToolbar/Header";
 import MusicPlayer from "./Player";
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {

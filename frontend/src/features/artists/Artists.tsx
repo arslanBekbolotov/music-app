@@ -12,7 +12,7 @@ const Artists = () => {
 
   useEffect(() => {
     dispatch(fetchArtists());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

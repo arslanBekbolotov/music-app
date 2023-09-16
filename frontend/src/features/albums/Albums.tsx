@@ -14,7 +14,7 @@ const Albums = () => {
 
   useEffect(() => {
     dispatch(fetchAlbums(id));
-  }, []);
+  }, [dispatch,id]);
 
   return (
     <div>

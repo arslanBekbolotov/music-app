@@ -5,6 +5,8 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Layout from "./components/Layout";
 import Albums from "./features/albums/Albums";
 import Tracks from "./features/tracks/Tracks";
+import Register from "./features/users/Register";
+import Login from "./features/users/Login";
 
 function App() {
   const darkTheme = createTheme({
@@ -21,6 +23,8 @@ function App() {
             <Route path="/" element={<Artists />} />
             <Route path="/albums/:id" element={<Albums />} />
             <Route path="/tracks/:id" element={<Tracks />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Layout>
       </ThemeProvider>
