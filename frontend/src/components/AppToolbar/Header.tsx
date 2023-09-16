@@ -1,8 +1,8 @@
 import React from "react";
-import {AppBar, Box, Grid, Toolbar, Typography,} from "@mui/material";
-import {Link} from "react-router-dom";
-import {selectUser} from "../../features/users/usersSlice";
-import {useAppSelector} from "../../app/hooks";
+import { AppBar, Box, Grid, Toolbar, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import { selectUser } from "../../features/users/usersSlice";
+import { useAppSelector } from "../../app/hooks";
 import UserMenu from "./UserMenu";
 import AnonymousMenu from "./AnonymousMenu";
 
@@ -21,11 +21,7 @@ const Header = () => {
             </Typography>
           </Link>
           <Grid item>
-            {user ? (
-                <UserMenu user={user}/>
-            ) : (
-                <AnonymousMenu/>
-            )}
+            {user ? <UserMenu user={user} /> : <AnonymousMenu />}
           </Grid>
         </Toolbar>
       </AppBar>
