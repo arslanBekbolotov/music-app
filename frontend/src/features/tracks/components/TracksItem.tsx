@@ -34,6 +34,17 @@ const TracksItem: React.FC<Props> = ({ track }) => {
   );
 
   const playTrack = () => {
+    if (track.youtubeLink && track.mp3File) {
+      if (window.confirm("Do you want to watch the video")) {
+        dispatch(setYoutubeLink(track.youtubeLink));
+      } else {
+        dispatch(setCurrentPlayingTrack(track));
+      }
+
+      dispatch(createTrackHistory(track._id));
+      return;
+    }
+
     if (track.youtubeLink) {
       dispatch(setYoutubeLink(track.youtubeLink));
       dispatch(createTrackHistory(track._id));
