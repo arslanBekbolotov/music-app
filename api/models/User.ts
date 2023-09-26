@@ -26,6 +26,12 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
       message: "This user is already registered",
     },
   },
+  role: {
+    type: String,
+    required: true,
+    default: "user",
+    enum: ["admin", "user"],
+  },
   password: {
     type: String,
     required: true,

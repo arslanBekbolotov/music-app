@@ -5,12 +5,14 @@ export interface IAlbum {
   artist: Schema.Types.ObjectId;
   release: string;
   image: string;
+  isPublished: boolean;
 }
 
 export interface IArtist {
   name: string;
   info: string;
   image: string;
+  isPublished: boolean;
 }
 
 export interface ITrack {
@@ -21,10 +23,12 @@ export interface ITrack {
   duration?: string;
   image?: string;
   mp3File?: string;
+  isPublished: boolean;
 }
 
 export interface IUser {
   username: string;
+  role: string;
   password: string;
   token: string;
 }

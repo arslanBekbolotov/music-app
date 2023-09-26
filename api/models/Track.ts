@@ -24,6 +24,11 @@ const trackSchema = new Schema<ITrack>({
   },
   duration: String,
   mp3File: String,
+  isPublished: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 export const Track = mongoose.model("Track", trackSchema);
