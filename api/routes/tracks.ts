@@ -3,11 +3,17 @@ import { Track } from "../models/Track";
 import { Error } from "mongoose";
 import { Album } from "../models/Album";
 import { mp3FileUpload } from "../multer";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
+import config from "../config";
+import fs from "fs";
 
 const tracksRouter = express.Router();
 
 tracksRouter.post(
   "/",
+  auth,
+  permit("admin"),
   mp3FileUpload.single("mp3File"),
   async (req, res, next) => {
     const trackData = {
@@ -54,8 +60,54 @@ tracksRouter.get("/", async (req, res) => {
 
     const tracks = await Track.find().sort({ number: 1 });
     return res.send(tracks);
-  } catch (e) {
+  } catch {
     return res.sendStatus(500);
+  }
+});
+
+tracksRouter.patch(
+  "/:id/togglePublished",
+  auth,
+  permit("admin"),
+  async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const track = await Track.findById(id);
+
+      if (!track) {
+        return res.status(404).send("Not Found!");
+      }
+
+      await Track.findByIdAndUpdate(id, { isPublished: !track.isPublished });
+
+      return res.send({ message: "success" });
+    } catch (e) {
+      res.status(500).send("error");
+    }
+  },
+);
+
+tracksRouter.delete("/:id", auth, permit("admin"), async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const track = await Track.findById(id);
+
+    if (!track) {
+      return res.status(404).send("Not Found!");
+    }
+
+    await Track.findByIdAndRemove(id);
+
+    if (track.image) {
+      const filePath = config.publicPath + "/" + track.image;
+      fs.unlinkSync(filePath);
+    }
+
+    res.send("Deleted");
+  } catch (e) {
+    res.status(500).send("error");
   }
 });
 

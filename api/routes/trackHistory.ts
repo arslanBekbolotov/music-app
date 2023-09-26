@@ -48,7 +48,7 @@ trackHistoryRouter.get("/", auth, async (req, res, next) => {
       return res.send(trackHistories);
     }
   } catch (error) {
-    return next(error);
+    next(error);
   }
 });
 

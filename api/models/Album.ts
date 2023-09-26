@@ -1,11 +1,21 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { Artist } from "./Artist";
 import { IAlbum } from "../types";
+import { User } from "./User";
 
 const albumSchema = new Schema<IAlbum>({
   name: {
     type: String,
     required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    validate: {
+      validator: async (value: Types.ObjectId) => User.findById(value),
+      message: "User does not exist!",
+    },
   },
   artist: {
     type: Schema.Types.ObjectId,

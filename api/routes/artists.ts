@@ -2,17 +2,23 @@ import express from "express";
 import { imagesUpload } from "../multer";
 import { Artist } from "../models/Artist";
 import { Error } from "mongoose";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
+import config from "../config";
+import fs from "fs";
 
 const artistsRouter = express.Router();
 
 artistsRouter.post(
   "/",
+  auth,
+  permit("admin"),
   imagesUpload.single("image"),
   async (req, res, next) => {
     const artistData = {
       name: req.body.name,
       info: req.body.info,
-      image: req.file ? req.file.filename : null,
+      image: req.file && req.file.filename,
     };
 
     const artist = new Artist(artistData);
@@ -25,7 +31,7 @@ artistsRouter.post(
         return res.status(400).send(error);
       }
 
-      return next(error);
+      next(error);
     }
   },
 );
@@ -36,6 +42,52 @@ artistsRouter.get("/", async (req, res) => {
     return res.send(artist);
   } catch (e) {
     return res.sendStatus(500);
+  }
+});
+
+artistsRouter.patch(
+  "/:id/togglePublished",
+  auth,
+  permit("admin"),
+  async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const artist = await Artist.findById(id);
+
+      if (!artist) {
+        return res.status(404).send("Not Found!");
+      }
+
+      await Artist.findByIdAndUpdate(id, { isPublished: !artist.isPublished });
+
+      return res.send({ message: "success" });
+    } catch (e) {
+      res.status(500).send("error");
+    }
+  },
+);
+
+artistsRouter.delete("/:id", auth, permit("admin"), async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const artist = await Artist.findById(id);
+
+    if (!artist) {
+      return res.status(404).send("Not Found!");
+    }
+
+    await Artist.findByIdAndRemove(id);
+
+    if (artist.image) {
+      const filePath = config.publicPath + "/" + artist.image;
+      fs.unlinkSync(filePath);
+    }
+
+    res.send("Deleted");
+  } catch (e) {
+    res.status(500).send("error");
   }
 });
 

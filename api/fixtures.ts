@@ -20,7 +20,7 @@ const run = async () => {
     console.log("Collection were not present, skipping drop...");
   }
 
-  await User.create(
+  const [user_1, user_2] = await User.create(
     {
       username: "user",
       password: "123",
@@ -38,16 +38,19 @@ const run = async () => {
   const [michaelJackson, theBeatles, ac_dc] = await Artist.create(
     {
       name: "Michael Jackson",
+      user: user_1._id,
       image: "fixtures/michaelJackson.jpeg",
       isPublished: true,
     },
     {
       name: "The Beatles",
+      user: user_2._id,
       image: "fixtures/beatles.webp",
       isPublished: true,
     },
     {
       name: "AC/DC",
+      user: user_1._id,
       image: "fixtures/ac_dc.jpeg",
       isPublished: false,
     },
@@ -56,6 +59,7 @@ const run = async () => {
   const [album1, album2, album3, album4, album5] = await Album.create(
     {
       name: "Help!",
+      user: user_1._id,
       artist: theBeatles._id,
       release: "1965",
       image: "fixtures/helpAlbum.jpeg",
@@ -63,6 +67,7 @@ const run = async () => {
     },
     {
       name: "Let It Be",
+      user: user_1._id,
       artist: theBeatles._id,
       release: "1970",
       image: "fixtures/letItBeAlbum.jpeg",
@@ -70,6 +75,7 @@ const run = async () => {
     },
     {
       name: "Thriller",
+      user: user_2._id,
       artist: michaelJackson._id,
       release: "1982",
       image: "fixtures/thrillerAlbum.png",
@@ -77,6 +83,7 @@ const run = async () => {
     },
     {
       name: "Bad",
+      user: user_2._id,
       artist: michaelJackson._id,
       release: "1987",
       image: "fixtures/badAlbum.jpeg",
@@ -84,6 +91,7 @@ const run = async () => {
     },
     {
       name: "Highway to Hell",
+      user: user_1._id,
       artist: ac_dc._id,
       release: "1979",
       mage: "fixtures/ac_dc.jpeg",
@@ -94,6 +102,7 @@ const run = async () => {
   await Track.create(
     {
       name: "Yesterday",
+      user: user_1._id,
       number: 1,
       album: album1._id,
       youtubeLink: "https://www.youtube.com/watch?v=wXTJBr9tt8Q",
@@ -104,6 +113,7 @@ const run = async () => {
     },
     {
       name: "Come Together",
+      user: user_1._id,
       number: 2,
       album: album1._id,
       duration: "4:34",
@@ -111,6 +121,7 @@ const run = async () => {
     },
     {
       name: "Let It Be",
+      user: user_1._id,
       number: 3,
       album: album1._id,
       duration: "3:21",
@@ -118,6 +129,7 @@ const run = async () => {
     },
     {
       name: "BlackBird",
+      user: user_1._id,
       number: 4,
       album: album1._id,
       duration: "3:20",
@@ -125,6 +137,7 @@ const run = async () => {
     },
     {
       name: "Here Comes The Sun",
+      user: user_1._id,
       number: 5,
       album: album1._id,
       duration: "3:39",
@@ -137,6 +150,7 @@ const run = async () => {
   await Track.create(
     {
       name: "A Day in the Life",
+      user: user_2._id,
       number: 1,
       album: album2._id,
       duration: "3:37",
@@ -144,6 +158,7 @@ const run = async () => {
     },
     {
       name: "Something",
+      user: user_2._id,
       youtubeLink: "https://www.youtube.com/watch?v=UelDrZ1aFeY",
       number: 4,
       album: album2._id,
@@ -152,6 +167,7 @@ const run = async () => {
     },
     {
       name: "I Want to Hold Your Hand",
+      user: user_2._id,
       number: 7,
       album: album2._id,
       duration: "3:21",
@@ -159,6 +175,7 @@ const run = async () => {
     },
     {
       name: "Hey Jude",
+      user: user_2._id,
       number: 2,
       album: album2._id,
       duration: "3:20",
@@ -166,6 +183,7 @@ const run = async () => {
     },
     {
       name: "Across the Universe",
+      user: user_2._id,
       number: 6,
       album: album2._id,
       duration: "3:39",
@@ -176,6 +194,7 @@ const run = async () => {
   await Track.create(
     {
       name: "Billie Jean",
+      user: user_1._id,
       number: 1,
       youtubeLink: "https://www.youtube.com/watch?v=Zi_XLOBDo_Y",
       album: album3._id,
@@ -184,6 +203,7 @@ const run = async () => {
     },
     {
       name: "Beat It",
+      user: user_1._id,
       number: 3,
       album: album3._id,
       duration: "4:34",
@@ -191,6 +211,7 @@ const run = async () => {
     },
     {
       name: "Remember the Time",
+      user: user_1._id,
       number: 2,
       album: album3._id,
       duration: "3:21",
@@ -198,6 +219,7 @@ const run = async () => {
     },
     {
       name: "Ghosts",
+      user: user_2._id,
       number: 5,
       album: album3._id,
       duration: "3:20",
@@ -205,6 +227,7 @@ const run = async () => {
     },
     {
       name: "Thunderstruck",
+      user: user_1._id,
       number: 4,
       youtubeLink: "https://www.youtube.com/watch?v=v2AC41dglnM",
       album: album3._id,
@@ -216,6 +239,7 @@ const run = async () => {
   await Track.create(
     {
       name: "Bad",
+      user: user_1._id,
       album: album4._id,
       number: 1,
       youtubeLink: "https://www.youtube.com/watch?v=dsUXAEzaC3Q",
@@ -226,6 +250,7 @@ const run = async () => {
     },
     {
       name: "Smooth Criminal",
+      user: user_1._id,
       number: 2,
       album: album4._id,
       duration: "4:34",
@@ -233,6 +258,7 @@ const run = async () => {
     },
     {
       name: "Speed Demon",
+      user: user_1._id,
       number: 3,
       album: album4._id,
       duration: "3:21",
@@ -240,6 +266,7 @@ const run = async () => {
     },
     {
       name: "Man in the Mirror",
+      user: user_1._id,
       number: 6,
       album: album4._id,
       duration: "3:20",
@@ -247,6 +274,7 @@ const run = async () => {
     },
     {
       name: "They Don't Care About Us",
+      user: user_1._id,
       album: album4._id,
       number: 5,
       duration: "3:39",
@@ -259,6 +287,7 @@ const run = async () => {
   await Track.create(
     {
       name: "Thunderstruck",
+      user: user_2._id,
       number: 1,
       youtubeLink: "https://www.youtube.com/watch?v=v2AC41dglnM",
       album: album5._id,
@@ -267,6 +296,7 @@ const run = async () => {
     },
     {
       name: "Back in Black",
+      user: user_2._id,
       number: 2,
       album: album5._id,
       isPublished: false,
@@ -274,6 +304,7 @@ const run = async () => {
     },
     {
       name: "Highway to Hell",
+      user: user_2._id,
       number: 4,
       album: album5._id,
       isPublished: false,
