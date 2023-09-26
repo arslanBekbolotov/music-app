@@ -7,15 +7,21 @@ import Albums from "./features/albums/Albums";
 import Tracks from "./features/tracks/Tracks";
 import Register from "./features/users/Register";
 import Login from "./features/users/Login";
-import TrackHistory from "./features/trackHistory/trackHistory";
 import YoutubeModel from "./components/YoutubeModel";
+import NewAlbum from "./features/albums/NewAlbum";
+import ProtectedRoute from "./components/ProtectedRoute";
+import {useAppSelector} from "./app/hooks";
+import {selectUser} from "./features/users/usersSlice";
+import TrackHistory from "./features/trackHistory/TrackHistory";
 
 function App() {
+  const user = useAppSelector(selectUser);
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
     },
   });
+
   return (
     <div className="App">
       <ThemeProvider theme={darkTheme}>
@@ -27,8 +33,27 @@ function App() {
             <Route path="/tracks/:id" element={<Tracks />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/track_history" element={<TrackHistory />} />
+            <Route path="/track_history" element={
+              <ProtectedRoute isAllowed={!!user}>
+                <TrackHistory />
+              </ProtectedRoute>
+            } />
             <Route path="/iframe" element={<YoutubeModel />} />
+            <Route path="/new_album" element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <NewAlbum />
+              </ProtectedRoute>
+            } />
+            <Route path="/new_track" element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <NewAlbum />
+              </ProtectedRoute>
+            } />
+            <Route path="/new_artist" element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <NewAlbum />
+              </ProtectedRoute>
+            } />
           </Routes>
         </Layout>
       </ThemeProvider>

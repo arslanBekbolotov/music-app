@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { IRequestWithUser } from "./auth";
 
 const permit = (...roles: string[]) => {
-  return (expressReq: Request, res: Response, next: NextFunction) => {
+  return async (expressReq: Request, res: Response, next: NextFunction) => {
     const req = expressReq as IRequestWithUser;
 
     if (!req.user) {

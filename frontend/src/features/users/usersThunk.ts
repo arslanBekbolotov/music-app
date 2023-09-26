@@ -9,6 +9,7 @@ import {
   ValidationError,
 } from "../../types";
 import { axiosApi } from "../../axiosApi";
+
 export const register = createAsyncThunk<
   RegisterResponse,
   RegisterMutation,
@@ -47,3 +48,10 @@ export const login = createAsyncThunk<
     throw e;
   }
 });
+
+export const logout = createAsyncThunk(
+    "users/logout",
+    async () => {
+      await axiosApi.delete("/users/sessions");
+    },
+);

@@ -2,7 +2,7 @@ import express from "express";
 import { imagesUpload } from "../multer";
 import { Artist } from "../models/Artist";
 import { Error } from "mongoose";
-import auth from "../middleware/auth";
+import auth, {IRequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import config from "../config";
 import fs from "fs";
@@ -12,11 +12,13 @@ const artistsRouter = express.Router();
 artistsRouter.post(
   "/",
   auth,
-  permit("admin"),
   imagesUpload.single("image"),
   async (req, res, next) => {
+      const user = (req as IRequestWithUser).user;
+
     const artistData = {
       name: req.body.name,
+        user:user._id,
       info: req.body.info,
       image: req.file && req.file.filename,
     };

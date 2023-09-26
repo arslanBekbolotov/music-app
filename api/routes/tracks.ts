@@ -3,7 +3,7 @@ import { Track } from "../models/Track";
 import { Error } from "mongoose";
 import { Album } from "../models/Album";
 import { mp3FileUpload } from "../multer";
-import auth from "../middleware/auth";
+import auth, {IRequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import config from "../config";
 import fs from "fs";
@@ -13,14 +13,18 @@ const tracksRouter = express.Router();
 tracksRouter.post(
   "/",
   auth,
-  permit("admin"),
   mp3FileUpload.single("mp3File"),
   async (req, res, next) => {
+    const user = (req as IRequestWithUser).user;
+
     const trackData = {
       name: req.body.name,
+      user:user._id,
+      number:req.body.number,
       album: req.body.album,
       duration: req.body.duration,
       mp3File: req.file ? req.file.filename : null,
+      youtubeLink:req.body.youtubeLink,
     };
 
     const track = new Track(trackData);

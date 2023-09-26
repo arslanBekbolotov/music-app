@@ -3,7 +3,7 @@ import { imagesUpload } from "../multer";
 import { Album } from "../models/Album";
 import { Error } from "mongoose";
 import { Track } from "../models/Track";
-import auth from "../middleware/auth";
+import auth, {IRequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import config from "../config";
 import * as fs from "fs";
@@ -13,14 +13,17 @@ const albumsRouter = express.Router();
 albumsRouter.post(
   "/",
   auth,
-  permit("admin"),
   imagesUpload.single("image"),
   async (req, res, next) => {
+      const user = (req as IRequestWithUser).user;
+
     const albumData = {
       name: req.body.name,
+        user:user._id,
       album: req.body.album,
       release: req.body.release,
       image: req.file ? req.file.filename : null,
+        artist:req.body.artist
     };
 
     const album = new Album(albumData);
@@ -39,24 +42,24 @@ albumsRouter.post(
 );
 
 albumsRouter.get("/", async (req, res) => {
-  const { album } = req.query;
+  const { artist } = req.query;
 
   try {
-    if (album) {
-      const albums = await Album.find({ album })
-        .populate("album")
-        .sort({ release: -1 });
+    if (artist) {
+      const albums = await Album.find({ artist })
+          .populate("artist","name")
+          .sort({ release: -1 });
       const result = await Promise.all(
-        albums.map(async (item) => {
-          const count = await Track.find({ album: item._id }).count();
-          return {
-            ...item.toObject(),
-            count,
-          };
-        }),
+          albums.map(async (item) => {
+            const count = await Track.find({ album: item._id }).count();
+            return {
+              ...item.toObject(),
+              count,
+            };
+          }),
       );
 
-      return res.send({ albums: result, album: albums[0].artist });
+      return res.send({ albums: result, artist: albums[0].artist });
     }
 
     const albums = await Album.find().sort({ release: -1 });

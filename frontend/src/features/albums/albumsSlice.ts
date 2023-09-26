@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAlbum, IArtist } from "../../types";
-import { fetchAlbums } from "./albumsThunk";
-import { RootState } from "../../app/store";
+import {IAlbum, IArtistMutation} from "../../types";
+import {createAlbum, fetchAlbums} from "./albumsThunk";
 
 interface AlbumsState {
   albums: IAlbum[];
-  artist: IArtist | null;
+  artist: IArtistMutation | null;
   fetchLoading: boolean;
   error: boolean;
 }
@@ -38,10 +37,20 @@ export const albumsSlice = createSlice({
       state.fetchLoading = false;
       state.error = true;
     });
+
+    builder.addCase(createAlbum.pending, (state) => {
+      state.fetchLoading = true;
+    });
+    builder.addCase(createAlbum.fulfilled, (state) => {
+      state.fetchLoading = false;
+    });
+    builder.addCase(createAlbum.rejected, (state) => {
+      state.fetchLoading = false;
+      state.error = true;
+    });
   },
 });
 
 export const albumsReducer = albumsSlice.reducer;
 export const { setArtist } = albumsSlice.actions;
 
-export const selectArtist = (state: RootState) => state.albumsStore.artist;

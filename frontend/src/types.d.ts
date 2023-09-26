@@ -1,35 +1,54 @@
 export interface IArtist {
   _id: string;
+  user:string;
   image: string;
   name: string;
+  isPublished: boolean;
 }
 
 export interface IAlbum {
   _id: string;
+  artist:string;
   name: string;
+  user:string;
   release: string;
   image: string;
   count: number;
+  isPublished: boolean;
+}
+
+export type IAlbumFormMutation  = {
+  artist:string;
+  name: string;
+  release: string;
+  image: File | null;
 }
 
 export interface IAlbumMutation extends IAlbum {
   artist: IArtist;
 }
 
+export interface IArtistMutation{
+  _id:string;
+  name:string;
+}
+
 export interface IAlbumApi {
   albums: IAlbum[];
-  artist: IArtist;
+  artist: IArtistMutation;
 }
 
 export interface ITrack {
   _id: string;
   name: string;
+  user:string;
   album: string;
   image?: string;
   youtubeLink?: string;
   number: number;
   duration: string;
   mp3File?: string;
+  isPublished: boolean;
 }
 
 export interface ITrackApi {
@@ -59,6 +78,8 @@ export interface GlobalError {
 export interface IUser {
   _id: string;
   username: string;
+  token:string;
+  role:string;
   password: string;
 }
 
