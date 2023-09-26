@@ -25,7 +25,6 @@ export interface ITrack {
   _id: string;
   name: string;
   album: string;
-  artist: string;
   image?: string;
   youtubeLink?: string;
   number: number;
