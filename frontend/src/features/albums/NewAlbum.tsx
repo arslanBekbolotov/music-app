@@ -18,12 +18,14 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {createAlbum} from "./albumsThunk";
 import {useNavigate} from "react-router-dom";
 import {fetchArtists} from "../artists/artistsThunk";
-import {selectArtists} from "../artists/artistsSlice";
+import {selectArtistCreateLoading, selectArtists} from "../artists/artistsSlice";
+import {selectAlbumCreateLoading} from "./albumsSlice";
 
 const NewAlbum = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const artists = useAppSelector(selectArtists);
+    const createLoading = useAppSelector(selectAlbumCreateLoading);
     const [state,setState] = useState<IAlbumFormMutation>({
         name:"",
         release:"",
@@ -93,13 +95,13 @@ const NewAlbum = () => {
                             value={state.release}
                             onChange={onChangeInput}
                         />
+                    </Grid>
                     <Grid item xs={12} sx={{pt:'16px'}}>
                         <FileInput
                             onChange={filesInputChangeHandler}
                             name="image"
                             label="image"
                         />
-                    </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl fullWidth>
@@ -119,7 +121,7 @@ const NewAlbum = () => {
                     </Grid>
                     <Grid container item xs={12} justifyContent="center">
                         <LoadingButton
-                            loading={false}
+                            loading={createLoading}
                             type="submit"
                             endIcon={<SendIcon/>}
                             fullWidth

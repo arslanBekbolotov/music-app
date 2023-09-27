@@ -49,6 +49,11 @@ albumsRouter.get("/", async (req, res) => {
       const albums = await Album.find({ artist })
           .populate("artist","name")
           .sort({ release: -1 });
+
+      if(!albums.length){
+          return res.send(albums);
+      }
+
       const result = await Promise.all(
           albums.map(async (item) => {
             const count = await Track.find({ album: item._id }).count();

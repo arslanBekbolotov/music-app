@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTracks } from "./tracksThunk";
-import { IAlbumMutation, ITrack } from "../../types";
+import {createTrack, fetchTracks} from "./tracksThunk";
+import {IAlbumMutation, ITrack, ValidationError} from "../../types";
 import { RootState } from "../../app/store";
 
 interface tracksState {
@@ -9,7 +9,9 @@ interface tracksState {
   youtubeLink: string;
   album: IAlbumMutation | null;
   fetchLoading: boolean;
-  error: boolean;
+  createTrackLoading:boolean;
+  error:boolean;
+  tracksValidationError: ValidationError | null;
 }
 
 const initialState: tracksState = {
@@ -18,7 +20,9 @@ const initialState: tracksState = {
   youtubeLink: "",
   album: null,
   fetchLoading: false,
-  error: false,
+  createTrackLoading:false,
+  error:false,
+  tracksValidationError: null,
 };
 
 export const tracksSlice = createSlice({
@@ -48,6 +52,18 @@ export const tracksSlice = createSlice({
       state.fetchLoading = false;
       state.error = true;
     });
+
+    builder.addCase(createTrack.pending, (state) => {
+      state.createTrackLoading = true;
+      state.tracksValidationError = null;
+    });
+    builder.addCase(createTrack.fulfilled, (state) => {
+      state.createTrackLoading = false;
+    });
+    builder.addCase(createTrack.rejected, (state,{payload:error}) => {
+      state.createTrackLoading = false;
+      state.tracksValidationError = error || null;
+    });
   },
 });
 
@@ -59,3 +75,6 @@ export const selectYoutubeLink = (state: RootState) =>
   state.tracksStore.youtubeLink;
 export const selectCurrentPlayingMusic = (state: RootState) =>
   state.tracksStore.currentPlayingTrack;
+
+export const selectCreateTrackLoading = (state: RootState) =>
+    state.tracksStore.createTrackLoading;

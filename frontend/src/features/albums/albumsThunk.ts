@@ -1,17 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosApi } from "../../axiosApi";
-import {IAlbumApi, IAlbumFormMutation} from "../../types";
+import {IAlbum, IAlbumApi, IAlbumFormMutation} from "../../types";
 
-export const fetchAlbums = createAsyncThunk(
-  "albums/fetch",
-  async (artist?: string) => {
+export const fetchAllAlbums = createAsyncThunk(
+    "albums/fetchAll",
+    async () => {
+        const { data } = await axiosApi<IAlbum[]>("albums");
+        return data;
+    },
+);
+
+export const fetchAlbumsByQuery = createAsyncThunk(
+  "albums/fetchByQuery",
+  async (artist:string) => {
     const { data } = await axiosApi<IAlbumApi>("albums?artist=" + artist);
     return data;
   },
 );
 
 export const createAlbum = createAsyncThunk<void, IAlbumFormMutation>(
-    "product/createPost",
+    "albums/create",
     async (albumData) => {
         try {
             const formData = new FormData();

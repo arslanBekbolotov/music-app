@@ -33,6 +33,11 @@ export interface IArtistMutation{
   name:string;
 }
 
+export type IArtistFormMutation = {
+  name:string;
+  image:File | null;
+}
+
 export interface IAlbumApi {
   albums: IAlbum[];
   artist: IArtistMutation;
@@ -54,6 +59,16 @@ export interface ITrack {
 export interface ITrackApi {
   tracks: ITrack[];
   album: IAlbumMutation;
+}
+
+export interface ITrackFormMutation {
+  name: string;
+  album: string;
+  image: File | null;
+  youtubeLink?: string;
+  number: string;
+  duration: string;
+  mp3File: File | null;
 }
 
 export interface RegisterMutation {

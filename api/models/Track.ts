@@ -1,6 +1,6 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, {HydratedDocument, Schema, Types} from "mongoose";
 import { Album } from "./Album";
-import { ITrack } from "../types";
+import {ITrack} from "../types";
 import { User } from "./User";
 
 const trackSchema = new Schema<ITrack>({
@@ -29,8 +29,16 @@ const trackSchema = new Schema<ITrack>({
   image: String,
   youtubeLink: String,
   number: {
-    type: Number,
+    type: String,
     required: true,
+    validate: {
+      validator: async function (this: HydratedDocument<ITrack>, value: string) {
+        const tracks = await Track.find({ album: this.album });
+        const filteredTracks = tracks.filter(item=> item.number === value )
+        if (filteredTracks.length) return false;
+      },
+      message: "This number is already taken",
+    },
   },
   duration: String,
   mp3File: String,

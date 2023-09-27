@@ -1,7 +1,7 @@
-import mongoose, { HydratedDocument, Model, Schema } from "mongoose";
+import mongoose, {HydratedDocument, Model, Schema} from "mongoose";
 import bcrypt from "bcrypt";
-import { IUser } from "../types";
-import { randomUUID } from "crypto";
+import {IUser} from "../types";
+import {randomUUID} from "crypto";
 
 interface IUserMethods {
   checkPassword(password: string): Promise<boolean>;

@@ -22,7 +22,7 @@ export interface ITrack {
   user: Schema.Types.ObjectId;
   album: Schema.Types.ObjectId;
   youtubeLink?: string;
-  number: number;
+  number: string;
   duration?: string;
   image?: string;
   mp3File?: string;

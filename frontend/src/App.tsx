@@ -13,6 +13,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import {useAppSelector} from "./app/hooks";
 import {selectUser} from "./features/users/usersSlice";
 import TrackHistory from "./features/trackHistory/TrackHistory";
+import NewArtist from "./features/artists/NewArtist";
+import NewTrack from "./features/tracks/NewTrack";
 
 function App() {
   const user = useAppSelector(selectUser);
@@ -23,41 +25,41 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Artists />} />
-            <Route path="/albums/:id" element={<Albums />} />
-            <Route path="/tracks/:id" element={<Tracks />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/track_history" element={
-              <ProtectedRoute isAllowed={!!user}>
-                <TrackHistory />
-              </ProtectedRoute>
-            } />
-            <Route path="/iframe" element={<YoutubeModel />} />
-            <Route path="/new_album" element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <NewAlbum />
-              </ProtectedRoute>
-            } />
-            <Route path="/new_track" element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <NewAlbum />
-              </ProtectedRoute>
-            } />
-            <Route path="/new_artist" element={
-              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
-                <NewAlbum />
-              </ProtectedRoute>
-            } />
-          </Routes>
-        </Layout>
-      </ThemeProvider>
-    </div>
+      <div className="App">
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline/>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Artists/>}/>
+              <Route path="/albums/:id" element={<Albums/>}/>
+              <Route path="/tracks/:id" element={<Tracks/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/track_history" element={
+                <ProtectedRoute isAllowed={!!user}>
+                  <TrackHistory/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/iframe" element={<YoutubeModel/>}/>
+              <Route path="/new_album" element={
+                <ProtectedRoute isAllowed={!!user}>
+                  <NewAlbum/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/new_track" element={
+                <ProtectedRoute isAllowed={!!user}>
+                  <NewTrack/>
+                </ProtectedRoute>
+              }/>
+              <Route path="/new_artist" element={
+                <ProtectedRoute isAllowed={!!user}>
+                  <NewArtist/>
+                </ProtectedRoute>
+              }/>
+            </Routes>
+          </Layout>
+        </ThemeProvider>
+      </div>
   );
 }
 

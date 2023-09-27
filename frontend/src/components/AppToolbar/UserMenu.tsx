@@ -57,17 +57,17 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           Track History
         </MenuItem>
         <MenuItem>
-            <Link to="new_album">
+            <Link to="/new_album">
                 Add New Album
             </Link>
         </MenuItem>
           <MenuItem>
-              <Link to="new_artist">
+              <Link to="/new_artist">
                   Add New Artist
               </Link>
           </MenuItem>
           <MenuItem>
-              <Link to="new_track">
+              <Link to="/new_track">
                   Add New Track
               </Link>
           </MenuItem>

@@ -17,6 +17,7 @@ const TrackHistory = () => {
           <TrackHistoryItem key={item._id} trackHistory={item} />
         ))
       )}
+      {!trackHistory.length && <h2 style={{position:'absolute',fontSize:"35px",left:"50%",top:'38%',transform:"translateX(-50%)"}}>Your track history is empty</h2>}
     </div>
   );
 };
