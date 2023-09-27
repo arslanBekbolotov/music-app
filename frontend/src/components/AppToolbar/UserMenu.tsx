@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { IUser } from "../../types";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../app/hooks";
-import {logout} from "../../features/users/usersThunk";
-import {unsetUser} from "../../features/users/usersSlice";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { logout } from "../../features/users/usersThunk";
+import { unsetUser } from "../../features/users/usersSlice";
 import { Link as NavLink } from "react-router-dom";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 const Link = styled(NavLink)({
+  color: "inherit",
+  textDecoration: "none",
+  "&:hover": {
     color: "inherit",
-    textDecoration: "none",
-    "&:hover": {
-        color: "inherit",
-    },
+  },
 });
 
 interface Props {
@@ -32,15 +32,15 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     setAnchorEl(null);
   };
 
-    const handleLogout = async () => {
-        try {
-            await dispatch(logout()).unwrap();
-            dispatch(unsetUser());
-            navigate("/");
-        } catch {
-            //nothing
-        }
-    };
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      dispatch(unsetUser());
+      navigate("/");
+    } catch {
+      //nothing
+    }
+  };
 
   return (
     <>
@@ -57,20 +57,14 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           Track History
         </MenuItem>
         <MenuItem>
-            <Link to="/new_album">
-                Add New Album
-            </Link>
+          <Link to="/new_album">Add New Album</Link>
         </MenuItem>
-          <MenuItem>
-              <Link to="/new_artist">
-                  Add New Artist
-              </Link>
-          </MenuItem>
-          <MenuItem>
-              <Link to="/new_track">
-                  Add New Track
-              </Link>
-          </MenuItem>
+        <MenuItem>
+          <Link to="/new_artist">Add New Artist</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/new_track">Add New Track</Link>
+        </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

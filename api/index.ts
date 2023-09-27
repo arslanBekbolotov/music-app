@@ -7,6 +7,7 @@ import tracksRouter from "./routes/tracks";
 import usersRouter from "./routes/users";
 import trackHistoryRouter from "./routes/trackHistory";
 import config from "./config";
+import adminRouter from "./routes/admin";
 
 const app = express();
 const PORT = 8001;
@@ -19,6 +20,7 @@ app.use("/albums", albumsRouter);
 app.use("/tracks", tracksRouter);
 app.use("/users", usersRouter);
 app.use("/track_history", trackHistoryRouter);
+app.use("/admin", adminRouter);
 
 const run = async () => {
   await mongoose.connect(config.db);

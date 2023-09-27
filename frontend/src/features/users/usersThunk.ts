@@ -49,9 +49,6 @@ export const login = createAsyncThunk<
   }
 });
 
-export const logout = createAsyncThunk(
-    "users/logout",
-    async () => {
-      await axiosApi.delete("/users/sessions");
-    },
-);
+export const logout = createAsyncThunk("users/logout", async () => {
+  await axiosApi.delete("/users/sessions");
+});

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import {login, logout, register} from "./usersThunk";
+import { login, logout, register } from "./usersThunk";
 import { GlobalError, IUser, ValidationError } from "../../types";
 
 interface UsersState {
@@ -9,7 +9,7 @@ interface UsersState {
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
-  deleteLoading:boolean;
+  deleteLoading: boolean;
 }
 
 const initialState: UsersState = {
@@ -18,7 +18,7 @@ const initialState: UsersState = {
   registerError: null,
   loginLoading: false,
   loginError: null,
-  deleteLoading:false,
+  deleteLoading: false,
 };
 
 export const usersSlice = createSlice({
@@ -70,6 +70,6 @@ export const usersSlice = createSlice({
 
 export const usersReducer = usersSlice.reducer;
 
-export const {unsetUser} = usersSlice.actions;
+export const { unsetUser } = usersSlice.actions;
 
 export const selectUser = (state: RootState) => state.usersStore.user;

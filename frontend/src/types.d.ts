@@ -1,6 +1,6 @@
 export interface IArtist {
   _id: string;
-  user:string;
+  user: string;
   image: string;
   name: string;
   isPublished: boolean;
@@ -8,35 +8,35 @@ export interface IArtist {
 
 export interface IAlbum {
   _id: string;
-  artist:string;
+  artist: string;
   name: string;
-  user:string;
+  user: string;
   release: string;
   image: string;
   count: number;
   isPublished: boolean;
 }
 
-export type IAlbumFormMutation  = {
-  artist:string;
+export type IAlbumFormMutation = {
+  artist: string;
   name: string;
   release: string;
   image: File | null;
-}
+};
 
 export interface IAlbumMutation extends IAlbum {
   artist: IArtist;
 }
 
-export interface IArtistMutation{
-  _id:string;
-  name:string;
+export interface IArtistMutation {
+  _id: string;
+  name: string;
 }
 
 export type IArtistFormMutation = {
-  name:string;
-  image:File | null;
-}
+  name: string;
+  image: File | null;
+};
 
 export interface IAlbumApi {
   albums: IAlbum[];
@@ -46,7 +46,7 @@ export interface IAlbumApi {
 export interface ITrack {
   _id: string;
   name: string;
-  user:string;
+  user: string;
   album: string;
   image?: string;
   youtubeLink?: string;
@@ -93,8 +93,8 @@ export interface GlobalError {
 export interface IUser {
   _id: string;
   username: string;
-  token:string;
-  role:string;
+  token: string;
+  role: string;
   password: string;
 }
 

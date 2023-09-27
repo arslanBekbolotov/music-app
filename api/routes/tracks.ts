@@ -3,7 +3,7 @@ import { Track } from "../models/Track";
 import { Error } from "mongoose";
 import { Album } from "../models/Album";
 import { mp3FileUpload } from "../multer";
-import auth, {IRequestWithUser} from "../middleware/auth";
+import auth, { IRequestWithUser } from "../middleware/auth";
 import permit from "../middleware/permit";
 import config from "../config";
 import fs from "fs";
@@ -19,12 +19,12 @@ tracksRouter.post(
 
     const trackData = {
       name: req.body.name,
-      user:user._id,
-      number:req.body.number,
+      user: user._id,
+      number: req.body.number,
       album: req.body.album,
       duration: req.body.duration,
       mp3File: req.file ? req.file.filename : null,
-      youtubeLink:req.body.youtubeLink,
+      youtubeLink: req.body.youtubeLink,
     };
 
     const track = new Track(trackData);
@@ -72,7 +72,7 @@ tracksRouter.get("/", async (req, res) => {
 tracksRouter.patch(
   "/:id/togglePublished",
   auth,
-  permit("admin"),
+  permit("", "admin"),
   async (req, res) => {
     const { id } = req.params;
 
@@ -92,27 +92,37 @@ tracksRouter.patch(
   },
 );
 
-tracksRouter.delete("/:id", auth, permit("admin"), async (req, res) => {
-  const { id } = req.params;
+tracksRouter.delete(
+  "/:id",
+  auth,
+  permit("track", "admin"),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const track = await Track.findById(id);
+    try {
+      const track = await Track.findById(id);
 
-    if (!track) {
-      return res.status(404).send("Not Found!");
+      if (!track) {
+        return res.status(404).send({ message: "Not Found!" });
+      }
+
+      await Track.findByIdAndRemove(id);
+
+      if (track.image) {
+        const filePath = config.publicPath + "/" + track.image;
+        fs.unlinkSync(filePath);
+      }
+
+      if (track.mp3File) {
+        const filePath = config.publicPath + "/" + track.mp3File;
+        fs.unlinkSync(filePath);
+      }
+
+      res.send("Deleted");
+    } catch (e) {
+      res.status(500).send("error");
     }
-
-    await Track.findByIdAndRemove(id);
-
-    if (track.image) {
-      const filePath = config.publicPath + "/" + track.image;
-      fs.unlinkSync(filePath);
-    }
-
-    res.send("Deleted");
-  } catch (e) {
-    res.status(500).send("error");
-  }
-});
+  },
+);
 
 export default tracksRouter;

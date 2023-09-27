@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {fetchAlbumsByQuery} from "./albumsThunk";
+import { fetchAlbumsByQuery } from "./albumsThunk";
 import { useParams } from "react-router-dom";
 import AlbumsItem from "./components/AlbumsItem";
 import { Box, Skeleton, Typography } from "@mui/material";
@@ -20,7 +20,7 @@ const Albums = () => {
     <div>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="h3" component="h2" sx={{ mb: "20px" }}>
-          {artist && artist.name}
+          {!!albums.length && artist && artist.name}
         </Typography>
       </Box>
       <div
@@ -42,7 +42,19 @@ const Albums = () => {
               />
             ))
           : albums.map((album) => <AlbumsItem key={album._id} album={album} />)}
-          {!albums.length && <h2 style={{position:'absolute',fontSize:"35px",left:"50%",top:'38%',transform:"translateX(-50%)"}}>Sorry this artist has no albums</h2>}
+        {!albums.length && (
+          <h2
+            style={{
+              position: "absolute",
+              fontSize: "35px",
+              left: "50%",
+              top: "38%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            Sorry this artist has no albums
+          </h2>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
-import mongoose, {HydratedDocument, Schema, Types} from "mongoose";
+import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 import { Album } from "./Album";
-import {ITrack} from "../types";
+import { ITrack } from "../types";
 import { User } from "./User";
 
 const trackSchema = new Schema<ITrack>({
@@ -32,9 +32,12 @@ const trackSchema = new Schema<ITrack>({
     type: String,
     required: true,
     validate: {
-      validator: async function (this: HydratedDocument<ITrack>, value: string) {
+      validator: async function (
+        this: HydratedDocument<ITrack>,
+        value: string,
+      ) {
         const tracks = await Track.find({ album: this.album });
-        const filteredTracks = tracks.filter(item=> item.number === value )
+        const filteredTracks = tracks.filter((item) => item.number === value);
         if (filteredTracks.length) return false;
       },
       message: "This number is already taken",

@@ -53,7 +53,19 @@ const Tracks = () => {
               />
             ))
           : tracks.map((track) => <TracksItem key={track._id} track={track} />)}
-          {!tracks.length && <h2 style={{position:'absolute',fontSize:"35px",left:"50%",top:'38%',transform:"translateX(-50%)"}}>Sorry there’s no tracks in this album</h2>}
+        {!tracks.length && (
+          <h2
+            style={{
+              position: "absolute",
+              fontSize: "35px",
+              left: "50%",
+              top: "38%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            Sorry there’s no tracks in this album
+          </h2>
+        )}
       </div>
     </div>
   );

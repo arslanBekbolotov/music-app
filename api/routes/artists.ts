@@ -2,8 +2,10 @@ import express from "express";
 import { imagesUpload } from "../multer";
 import { Artist } from "../models/Artist";
 import { Error } from "mongoose";
-import auth, {IRequestWithUser} from "../middleware/auth";
+import auth, { IRequestWithUser } from "../middleware/auth";
 import permit from "../middleware/permit";
+import { Album } from "../models/Album";
+import { Track } from "../models/Track";
 import config from "../config";
 import fs from "fs";
 
@@ -14,11 +16,11 @@ artistsRouter.post(
   auth,
   imagesUpload.single("image"),
   async (req, res, next) => {
-      const user = (req as IRequestWithUser).user;
+    const user = (req as IRequestWithUser).user;
 
     const artistData = {
       name: req.body.name,
-        user:user._id,
+      user: user._id,
       info: req.body.info,
       image: req.file && req.file.filename,
     };
@@ -50,7 +52,7 @@ artistsRouter.get("/", async (req, res) => {
 artistsRouter.patch(
   "/:id/togglePublished",
   auth,
-  permit("admin"),
+  permit("", "admin"),
   async (req, res) => {
     const { id } = req.params;
 
@@ -70,27 +72,38 @@ artistsRouter.patch(
   },
 );
 
-artistsRouter.delete("/:id", auth, permit("admin"), async (req, res) => {
-  const { id } = req.params;
+artistsRouter.delete(
+  "/:id",
+  auth,
+  permit("artist", "admin"),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const artist = await Artist.findById(id);
+    try {
+      const artist = await Artist.findById(id);
+      if (!artist) {
+        return res.status(404).send({ message: "Not Found!" });
+      }
 
-    if (!artist) {
-      return res.status(404).send("Not Found!");
+      const albums = await Album.find({ artist: { $in: artist._id } });
+
+      for (const album of albums) {
+        await Track.deleteMany({ album: { $in: album._id } });
+      }
+
+      await Album.deleteMany({ artist: { $in: artist._id } });
+      await Artist.findByIdAndRemove(id);
+
+      if (artist.image) {
+        const filePath = config.publicPath + "/" + artist.image;
+        fs.unlinkSync(filePath);
+      }
+
+      res.send("Deleted");
+    } catch (e) {
+      res.status(500).send("error");
     }
-
-    await Artist.findByIdAndRemove(id);
-
-    if (artist.image) {
-      const filePath = config.publicPath + "/" + artist.image;
-      fs.unlinkSync(filePath);
-    }
-
-    res.send("Deleted");
-  } catch (e) {
-    res.status(500).send("error");
-  }
-});
+  },
+);
 
 export default artistsRouter;

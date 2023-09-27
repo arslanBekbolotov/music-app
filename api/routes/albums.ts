@@ -3,7 +3,7 @@ import { imagesUpload } from "../multer";
 import { Album } from "../models/Album";
 import { Error } from "mongoose";
 import { Track } from "../models/Track";
-import auth, {IRequestWithUser} from "../middleware/auth";
+import auth, { IRequestWithUser } from "../middleware/auth";
 import permit from "../middleware/permit";
 import config from "../config";
 import * as fs from "fs";
@@ -15,15 +15,15 @@ albumsRouter.post(
   auth,
   imagesUpload.single("image"),
   async (req, res, next) => {
-      const user = (req as IRequestWithUser).user;
+    const user = (req as IRequestWithUser).user;
 
     const albumData = {
       name: req.body.name,
-        user:user._id,
+      user: user._id,
       album: req.body.album,
       release: req.body.release,
       image: req.file ? req.file.filename : null,
-        artist:req.body.artist
+      artist: req.body.artist,
     };
 
     const album = new Album(albumData);
@@ -47,21 +47,21 @@ albumsRouter.get("/", async (req, res) => {
   try {
     if (artist) {
       const albums = await Album.find({ artist })
-          .populate("artist","name")
-          .sort({ release: -1 });
+        .populate("artist", "name")
+        .sort({ release: -1 });
 
-      if(!albums.length){
-          return res.send(albums);
+      if (!albums.length) {
+        return res.send(albums);
       }
 
       const result = await Promise.all(
-          albums.map(async (item) => {
-            const count = await Track.find({ album: item._id }).count();
-            return {
-              ...item.toObject(),
-              count,
-            };
-          }),
+        albums.map(async (item) => {
+          const count = await Track.find({ album: item._id }).count();
+          return {
+            ...item.toObject(),
+            count,
+          };
+        }),
       );
 
       return res.send({ albums: result, artist: albums[0].artist });
@@ -89,7 +89,7 @@ albumsRouter.get("/:id", async (req, res) => {
 albumsRouter.patch(
   "/:id/togglePublished",
   auth,
-  permit("admin"),
+  permit("", "admin"),
   async (req, res) => {
     const { id } = req.params;
 
@@ -109,27 +109,33 @@ albumsRouter.patch(
   },
 );
 
-albumsRouter.delete("/:id", auth, permit("admin"), async (req, res) => {
-  const { id } = req.params;
+albumsRouter.delete(
+  "/:id",
+  auth,
+  permit("album", "admin"),
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const album = await Album.findById(id);
+    try {
+      const album = await Album.findById(id);
 
-    if (!album) {
-      return res.status(404).send("Not Found!");
+      if (!album) {
+        return res.status(404).send({ message: "Not Found!" });
+      }
+
+      await Album.findByIdAndRemove(id);
+      await Track.deleteMany({ album: { $in: album._id } });
+
+      if (album.image) {
+        const filePath = config.publicPath + "/" + album.image;
+        fs.unlinkSync(filePath);
+      }
+
+      return res.send("Deleted");
+    } catch (e) {
+      res.status(500).send("error");
     }
-
-    await Album.findByIdAndRemove(id);
-
-    if (album.image) {
-      const filePath = config.publicPath + "/" + album.image;
-      fs.unlinkSync(filePath);
-    }
-
-    return res.send("Deleted");
-  } catch (e) {
-    res.status(500).send("error");
-  }
-});
+  },
+);
 
 export default albumsRouter;
