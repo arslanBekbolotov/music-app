@@ -82,12 +82,13 @@ const AlbumsItem: React.FC<Props> = ({ album }) => {
             {album.release}
           </Typography>
         </Box>
-        {(user?.role === "admin" || user?._id === album.user) && (
+        {(user?.role === "admin" ||
+          (user?._id === album.user && !album.isPublished)) && (
           <span
             style={{
-              backgroundColor: album.isPublished ? "#2196f3" : "#795548",
+              border: "1px solid #ccc",
+              backgroundColor: "#121212",
               padding: "5px 10px",
-              borderRadius: "10px",
               position: "absolute",
               top: 0,
               right: 0,

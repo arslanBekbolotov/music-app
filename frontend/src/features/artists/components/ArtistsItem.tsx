@@ -71,12 +71,13 @@ const ArtistsItem: React.FC<Props> = ({ artist }) => {
         <Typography sx={{ textAlign: "center", mb: "10px" }}>
           {artist.name}
         </Typography>
-        {(user?.role === "admin" || user?._id === artist.user) && (
+        {(user?.role === "admin" ||
+          (user?._id === artist.user && !artist.isPublished)) && (
           <span
             style={{
-              backgroundColor: artist.isPublished ? "#2196f3" : "#795548",
+              border: "1px solid #ccc",
+              backgroundColor: "#121212",
               padding: "5px 10px",
-              borderRadius: "10px",
               position: "absolute",
               top: 0,
               right: 0,

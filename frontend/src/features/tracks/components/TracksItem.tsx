@@ -163,12 +163,13 @@ const TracksItem: React.FC<Props> = ({ track }) => {
             </LoadingButton>
           )}
         </Grid>
-        {(user?.role === "admin" || user?._id === track.user) && (
+        {(user?.role === "admin" ||
+          (user?._id === track.user && !track.isPublished)) && (
           <span
             style={{
-              backgroundColor: track.isPublished ? "#2196f3" : "#795548",
+              border: "1px solid #ccc",
+              backgroundColor: "#121212",
               padding: "5px 10px",
-              borderRadius: "10px",
               position: "absolute",
               top: 0,
               right: 0,

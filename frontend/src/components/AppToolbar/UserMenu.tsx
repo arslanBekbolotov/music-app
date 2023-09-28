@@ -56,6 +56,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         <MenuItem onClick={() => navigate("/track_history")}>
           Track History
         </MenuItem>
+        {user.role === "admin" && (
+          <MenuItem>
+            <Link to="/unpublished">Unpublished</Link>
+          </MenuItem>
+        )}
         <MenuItem>
           <Link to="/new_album">Add New Album</Link>
         </MenuItem>

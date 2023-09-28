@@ -133,3 +133,9 @@ export interface ValidationError {
   name: string;
   _message: string;
 }
+
+export interface IAdminApi {
+  tracks: ITrack[];
+  albums: IAlbum[];
+  artists: IArtist[];
+}

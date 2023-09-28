@@ -1,12 +1,18 @@
-import React from "react";
-import { useAppSelector } from "../../app/hooks";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import TrackHistoryItem from "./components/TrackHistoryItem";
 import Spinner from "../../components/Spinner";
+import { fetchUserTracksHistory } from "./trackHistoryTnunk";
 
 const TrackHistory = () => {
+  const dispatch = useAppDispatch();
   const { trackHistory, fetchLoading } = useAppSelector(
     (state) => state.tracksHistoryStore,
   );
+
+  useEffect(() => {
+    dispatch(fetchUserTracksHistory());
+  }, [dispatch]);
 
   return (
     <div>

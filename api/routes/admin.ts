@@ -10,9 +10,10 @@ adminRouter.get("/", async (req, res) => {
     const unpublishedTracks = await Track.find({ isPublished: false });
     const unpublishedAlbums = await Album.find({ isPublished: false });
     const unpublishedArtists = await Artist.find({ isPublished: false });
+
     res.send({
       albums: unpublishedAlbums,
-      artist: unpublishedArtists,
+      artists: unpublishedArtists,
       tracks: unpublishedTracks,
     });
   } catch {

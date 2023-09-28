@@ -20,7 +20,7 @@ app.use("/albums", albumsRouter);
 app.use("/tracks", tracksRouter);
 app.use("/users", usersRouter);
 app.use("/track_history", trackHistoryRouter);
-app.use("/admin", adminRouter);
+app.use("/unpublished", adminRouter);
 
 const run = async () => {
   await mongoose.connect(config.db);

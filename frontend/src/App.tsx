@@ -15,6 +15,7 @@ import { selectUser } from "./features/users/usersSlice";
 import TrackHistory from "./features/trackHistory/TrackHistory";
 import NewArtist from "./features/artists/NewArtist";
 import NewTrack from "./features/tracks/NewTrack";
+import AdminTable from "./features/admin/AdminTable";
 
 function App() {
   const user = useAppSelector(selectUser);
@@ -35,6 +36,14 @@ function App() {
             <Route path="/tracks/:id" element={<Tracks />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route
+              path="/unpublished"
+              element={
+                <ProtectedRoute isAllowed={user?.role === "admin"}>
+                  <AdminTable />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/track_history"
               element={
