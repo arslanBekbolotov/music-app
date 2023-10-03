@@ -92,10 +92,13 @@ export interface GlobalError {
 
 export interface IUser {
   _id: string;
+  displayName: string;
+  avatar?: string;
   username: string;
   token: string;
   role: string;
   password: string;
+  googleID?: string;
 }
 
 interface ITrackArtistMutation {

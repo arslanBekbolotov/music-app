@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { register } from "./usersThunk";
+import { googleLogin, register } from "./usersThunk";
 import { RegisterMutation } from "../../types";
 import { LoadingButton } from "@mui/lab";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -52,6 +53,11 @@ const Register = () => {
     } catch {
       return undefined;
     }
+  };
+
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate("/");
   };
 
   return (
@@ -101,6 +107,20 @@ const Register = () => {
                 error={Boolean(getFieldError("password"))}
                 helperText={getFieldError("password")}
               />
+            </Grid>
+            <Grid item>
+              <Box>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    if (credentialResponse.credential) {
+                      void googleLoginHandler(credentialResponse.credential);
+                    }
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </Box>
             </Grid>
           </Grid>
           <LoadingButton

@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { login } from "./usersThunk";
+import { googleLogin, login } from "./usersThunk";
 import { LoadingButton } from "@mui/lab";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -41,6 +42,11 @@ const Login = () => {
     } catch {
       //nothing
     }
+  };
+
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate("/");
   };
 
   return (
@@ -89,6 +95,20 @@ const Login = () => {
                 onChange={inputChangeHandler}
               />
             </Grid>
+            <Grid item>
+              <Box>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    if (credentialResponse.credential) {
+                      void googleLoginHandler(credentialResponse.credential);
+                    }
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </Box>
+            </Grid>
           </Grid>
           <LoadingButton
             loading={loginLoading}
@@ -97,7 +117,7 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Sign In
           </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>

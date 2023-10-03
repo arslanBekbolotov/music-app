@@ -26,6 +26,11 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
       message: "This user is already registered",
     },
   },
+  displayName: {
+    type: String,
+    required: true,
+  },
+  avatar: String,
   role: {
     type: String,
     required: true,
@@ -40,6 +45,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: true,
   },
+  googleID: String,
 });
 
 UserSchema.pre("save", async function (next) {
