@@ -1,24 +1,24 @@
 import React from 'react';
-import { TableCell, TableRow } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import {TableCell, TableRow} from '@mui/material';
+import {LoadingButton} from '@mui/lab';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishIcon from '@mui/icons-material/Publish';
-import { deleteAlbum, publishAlbum } from '../../albums/albumsThunk';
-import { deleteTrack, publishTracks } from '../../tracks/tracksThunk';
-import { deleteArtist, publishArtist } from '../../artists/artistsThunk';
-import { fetchUnpublishedSubjects } from '../adminThunk';
-import { IAlbum, IArtist, ITrack } from '../../../types';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectAlbumDeleteLoading } from '../../albums/albumsSlice';
-import { selectDeleteTrackLoading } from '../../tracks/tracksSlice';
-import { selectDeleteArtistLoading } from '../../artists/artistsSlice';
+import {deleteAlbum, publishAlbum} from '../../albums/albumsThunk';
+import {deleteTrack, publishTracks} from '../../tracks/tracksThunk';
+import {deleteArtist, publishArtist} from '../../artists/artistsThunk';
+import {fetchUnpublishedSubjects} from '../adminThunk';
+import {IAlbum, IArtist, ITrack} from '../../../types';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {selectAlbumDeleteLoading} from '../../albums/albumsSlice';
+import {selectDeleteTrackLoading} from '../../tracks/tracksSlice';
+import {selectDeleteArtistLoading} from '../../artists/artistsSlice';
 
 interface Props {
   item: IArtist | IAlbum | ITrack;
   subjectName: string;
 }
 
-const AdminTableRow: React.FC<Props> = ({ item, subjectName }) => {
+const AdminTableRow: React.FC<Props> = ({item, subjectName}) => {
   const dispatch = useAppDispatch();
   const albumDeleteLoading = useAppSelector(selectAlbumDeleteLoading);
   const trackDeleteLoading = useAppSelector(selectDeleteTrackLoading);
@@ -81,7 +81,7 @@ const AdminTableRow: React.FC<Props> = ({ item, subjectName }) => {
           loading={deleteLoading === item._id}
           disabled={!!deleteLoading}
           color={item.isPublished ? 'warning' : 'success'}
-          sx={{ color: '#fff', ml: '10px' }}
+          sx={{color: '#fff', ml: '10px'}}
           variant="contained"
           size="small"
         >

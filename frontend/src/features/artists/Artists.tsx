@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Skeleton } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectArtists, selectFetchLoading } from './artistsSlice';
-import { fetchArtists } from './artistsThunk';
+import React, {useEffect} from 'react';
+import {Skeleton} from '@mui/material';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {selectArtists, selectFetchLoading} from './artistsSlice';
+import {fetchArtists} from './artistsThunk';
 import ArtistsItem from './components/ArtistsItem';
 
 const Artists = () => {

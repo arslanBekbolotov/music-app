@@ -4,8 +4,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { onClose, selectYoutubeLink } from '../features/tracks/tracksSlice';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {onClose, selectYoutubeLink} from '../features/tracks/tracksSlice';
 
 const YoutubeModel = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const YoutubeModel = () => {
 
   return (
     <Dialog onClose={() => dispatch(onClose())} open={!!youtubeLink}>
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+      <DialogTitle sx={{m: 0, p: 2}} id="customized-dialog-title">
         Youtube Music Player
       </DialogTitle>
       <IconButton

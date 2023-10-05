@@ -1,7 +1,7 @@
-import mongoose, { Schema, Types } from 'mongoose';
-import { Track } from './Track';
-import { ITracksHistory } from '../types';
-import { User } from './User';
+import mongoose, {Schema, Types} from 'mongoose';
+import {Track} from './Track';
+import {ITracksHistory} from '../types';
+import {User} from './User';
 
 const TrackHistorySchema = new Schema<ITracksHistory>({
   user: {

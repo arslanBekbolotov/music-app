@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useParams } from 'react-router-dom';
-import { fetchTracks } from './tracksThunk';
-import { Box, Skeleton, Typography } from '@mui/material';
+import React, {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {useParams} from 'react-router-dom';
+import {fetchTracks} from './tracksThunk';
+import {Box, Skeleton, Typography} from '@mui/material';
 import TracksItem from './components/TracksItem';
 import MusicPlayer from '../../components/Player';
 import YoutubeModel from '../../components/YoutubeModel';
 
 const Tracks = () => {
   const dispatch = useAppDispatch();
-  const { id } = useParams() as { id: string };
-  const { tracks, fetchLoading, album } = useAppSelector((state) => state.tracksStore);
+  const {id} = useParams() as {id: string};
+  const {tracks, fetchLoading, album} = useAppSelector((state) => state.tracksStore);
 
   useEffect(() => {
     dispatch(fetchTracks(id));
@@ -18,11 +18,11 @@ const Tracks = () => {
 
   return (
     <div>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Typography variant="h4" component="h2" sx={{ mb: '20px', mr: '3px' }}>
+      <Box sx={{display: 'flex', flexDirection: 'row'}}>
+        <Typography variant="h4" component="h2" sx={{mb: '20px', mr: '3px'}}>
           {album && album.name}
         </Typography>
-        <Typography variant="subtitle1" component="span" color="sesondary.text" sx={{ mb: '20px' }}>
+        <Typography variant="subtitle1" component="span" color="sesondary.text" sx={{mb: '20px'}}>
           {album?.artist && album.artist.name}
         </Typography>
       </Box>

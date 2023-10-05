@@ -1,7 +1,7 @@
-import mongoose, { Schema, Types } from 'mongoose';
-import { Artist } from './Artist';
-import { IAlbum } from '../types';
-import { User } from './User';
+import mongoose, {Schema, Types} from 'mongoose';
+import {Artist} from './Artist';
+import {IAlbum} from '../types';
+import {User} from './User';
 
 const albumSchema = new Schema<IAlbum>({
   name: {

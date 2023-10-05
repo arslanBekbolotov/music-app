@@ -1,18 +1,18 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IArtist, IArtistFormMutation, ValidationError } from '../../types';
-import { axiosApi } from '../../axiosApi';
-import { isAxiosError } from 'axios';
+import {createAsyncThunk} from '@reduxjs/toolkit';
+import {IArtist, IArtistFormMutation, ValidationError} from '../../types';
+import {axiosApi} from '../../axiosApi';
+import {isAxiosError} from 'axios';
 
 export const fetchArtists = createAsyncThunk('artists/fetch', async () => {
-  const { data } = await axiosApi<IArtist[]>('artists');
+  const {data} = await axiosApi<IArtist[]>('artists');
   return data;
 });
 
 export const createArtist = createAsyncThunk<
   void,
   IArtistFormMutation,
-  { rejectValue: ValidationError }
->('artist/create', async (artistData, { rejectWithValue }) => {
+  {rejectValue: ValidationError}
+>('artist/create', async (artistData, {rejectWithValue}) => {
   try {
     const formData = new FormData();
     const keys = Object.keys(artistData) as (keyof IArtistFormMutation)[];

@@ -1,7 +1,7 @@
 import express from 'express';
-import { Error } from 'mongoose';
-import { TrackHistory } from '../models/TracksHistory';
-import auth, { IRequestWithUser } from '../middleware/auth';
+import {Error} from 'mongoose';
+import {TrackHistory} from '../models/TracksHistory';
+import auth, {IRequestWithUser} from '../middleware/auth';
 
 const trackHistoryRouter = express.Router();
 
@@ -15,7 +15,7 @@ trackHistoryRouter.post('/', auth, async (req, res, next) => {
     });
 
     await trackHistory.save();
-    return res.send({ trackHistory, username: user.username });
+    return res.send({trackHistory, username: user.username});
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);
@@ -30,7 +30,7 @@ trackHistoryRouter.get('/', auth, async (req, res, next) => {
     const user = (req as IRequestWithUser).user;
 
     if (user) {
-      const trackHistories = await TrackHistory.find({ user })
+      const trackHistories = await TrackHistory.find({user})
         .populate({
           path: 'track',
           select: 'name',
@@ -44,7 +44,7 @@ trackHistoryRouter.get('/', auth, async (req, res, next) => {
             },
           },
         })
-        .sort({ date: -1 });
+        .sort({date: -1});
       return res.send(trackHistories);
     }
   } catch (error) {

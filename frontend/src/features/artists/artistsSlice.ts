@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IArtist, ValidationError } from '../../types';
-import { RootState } from '../../app/store';
-import { createArtist, deleteArtist, fetchArtists, publishArtist } from './artistsThunk';
+import {createSlice} from '@reduxjs/toolkit';
+import {IArtist, ValidationError} from '../../types';
+import {RootState} from '../../app/store';
+import {createArtist, deleteArtist, fetchArtists, publishArtist} from './artistsThunk';
 
 interface ArtistsState {
   artists: IArtist[];
@@ -29,7 +29,7 @@ export const artistsSlice = createSlice({
     builder.addCase(fetchArtists.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchArtists.fulfilled, (state, { payload: artists }) => {
+    builder.addCase(fetchArtists.fulfilled, (state, {payload: artists}) => {
       state.fetchLoading = false;
       state.artists = artists;
     });
@@ -45,7 +45,7 @@ export const artistsSlice = createSlice({
     builder.addCase(createArtist.fulfilled, (state) => {
       state.createArtistLoading = false;
     });
-    builder.addCase(createArtist.rejected, (state, { payload: error }) => {
+    builder.addCase(createArtist.rejected, (state, {payload: error}) => {
       state.createArtistLoading = false;
       state.artistValidationError = error || null;
     });

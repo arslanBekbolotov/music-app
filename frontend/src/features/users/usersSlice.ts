@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import { googleLogin, login, logout, register } from './usersThunk';
-import { GlobalError, IUser, ValidationError } from '../../types';
+import {createSlice} from '@reduxjs/toolkit';
+import {RootState} from '../../app/store';
+import {googleLogin, login, logout, register} from './usersThunk';
+import {GlobalError, IUser, ValidationError} from '../../types';
 
 interface UsersState {
   user: IUser | null;
@@ -34,11 +34,11 @@ export const usersSlice = createSlice({
       state.registerLoading = true;
       state.registerError = null;
     });
-    builder.addCase(register.fulfilled, (state, { payload: userResponse }) => {
+    builder.addCase(register.fulfilled, (state, {payload: userResponse}) => {
       state.registerLoading = false;
       state.user = userResponse.user;
     });
-    builder.addCase(register.rejected, (state, { payload: error }) => {
+    builder.addCase(register.rejected, (state, {payload: error}) => {
       state.registerLoading = false;
       state.registerError = error || null;
     });
@@ -47,11 +47,11 @@ export const usersSlice = createSlice({
       state.loginLoading = true;
       state.loginError = null;
     });
-    builder.addCase(login.fulfilled, (state, { payload: user }) => {
+    builder.addCase(login.fulfilled, (state, {payload: user}) => {
       state.loginLoading = false;
       state.user = user;
     });
-    builder.addCase(login.rejected, (state, { payload: error }) => {
+    builder.addCase(login.rejected, (state, {payload: error}) => {
       state.loginLoading = false;
       state.loginError = error || null;
     });
@@ -59,11 +59,11 @@ export const usersSlice = createSlice({
     builder.addCase(googleLogin.pending, (state) => {
       state.loginLoading = true;
     });
-    builder.addCase(googleLogin.fulfilled, (state, { payload: user }) => {
+    builder.addCase(googleLogin.fulfilled, (state, {payload: user}) => {
       state.loginLoading = false;
       state.user = user;
     });
-    builder.addCase(googleLogin.rejected, (state, { payload: error }) => {
+    builder.addCase(googleLogin.rejected, (state, {payload: error}) => {
       state.loginLoading = false;
       state.loginError = error || null;
     });
@@ -82,6 +82,6 @@ export const usersSlice = createSlice({
 
 export const usersReducer = usersSlice.reducer;
 
-export const { unsetUser } = usersSlice.actions;
+export const {unsetUser} = usersSlice.actions;
 
 export const selectUser = (state: RootState) => state.usersStore.user;

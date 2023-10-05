@@ -1,11 +1,11 @@
 import express from 'express';
-import { imagesUpload } from '../multer';
-import { Artist } from '../models/Artist';
-import { Error } from 'mongoose';
-import auth, { IRequestWithUser } from '../middleware/auth';
+import {imagesUpload} from '../multer';
+import {Artist} from '../models/Artist';
+import {Error} from 'mongoose';
+import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
-import { Album } from '../models/Album';
-import { Track } from '../models/Track';
+import {Album} from '../models/Album';
+import {Track} from '../models/Track';
 import config from '../config';
 import fs from 'fs';
 
@@ -45,7 +45,7 @@ artistsRouter.get('/', async (req, res) => {
 });
 
 artistsRouter.patch('/:id/togglePublished', auth, permit('', 'admin'), async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
 
   try {
     const artist = await Artist.findById(id);
@@ -54,30 +54,30 @@ artistsRouter.patch('/:id/togglePublished', auth, permit('', 'admin'), async (re
       return res.status(404).send('Not Found!');
     }
 
-    await Artist.findByIdAndUpdate(id, { isPublished: !artist.isPublished });
+    await Artist.findByIdAndUpdate(id, {isPublished: !artist.isPublished});
 
-    return res.send({ message: 'success' });
+    return res.send({message: 'success'});
   } catch (e) {
     res.status(500).send('error');
   }
 });
 
 artistsRouter.delete('/:id', auth, permit('artist', 'admin'), async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
 
   try {
     const artist = await Artist.findById(id);
     if (!artist) {
-      return res.status(404).send({ message: 'Not Found!' });
+      return res.status(404).send({message: 'Not Found!'});
     }
 
-    const albums = await Album.find({ artist: { $in: artist._id } });
+    const albums = await Album.find({artist: {$in: artist._id}});
 
     for (const album of albums) {
-      await Track.deleteMany({ album: { $in: album._id } });
+      await Track.deleteMany({album: {$in: album._id}});
     }
 
-    await Album.deleteMany({ artist: { $in: artist._id } });
+    await Album.deleteMany({artist: {$in: artist._id}});
     await Artist.findByIdAndRemove(id);
 
     if (artist.image) {

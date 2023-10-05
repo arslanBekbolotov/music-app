@@ -1,24 +1,24 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import IconButton from '@mui/material/IconButton';
 import PauseRounded from '@mui/icons-material/PauseRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCurrentPlayingTrack } from '../features/tracks/tracksSlice';
-import { useEffect, useRef, useState } from 'react';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {setCurrentPlayingTrack} from '../features/tracks/tracksSlice';
+import {useEffect, useRef, useState} from 'react';
 import {
   FastForwardRounded,
   FastRewindRounded,
   VolumeDownRounded,
   VolumeUpRounded,
 } from '@mui/icons-material';
-import { CardMedia, Stack } from '@mui/material';
+import {CardMedia, Stack} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Widget = styled('div')(({ theme }) => ({
+const Widget = styled('div')(({theme}) => ({
   padding: 16,
   borderRadius: 16,
   width: 343,
@@ -53,7 +53,7 @@ const MusicPlayer = () => {
   const [position, setPosition] = useState(0);
   const [paused, setPaused] = useState(true);
   const [volume, setVolume] = useState(50);
-  const { currentPlayingTrack, album, tracks } = useAppSelector((state) => state.tracksStore);
+  const {currentPlayingTrack, album, tracks} = useAppSelector((state) => state.tracksStore);
   const audioPlay = useRef<HTMLAudioElement | null>(null);
   let interval: NodeJS.Timer;
 
@@ -68,7 +68,7 @@ const MusicPlayer = () => {
   }, [audioPlay?.current?.onloadedmetadata]);
 
   if (currentPlayingTrack !== null && !currentPlayingTrack?.mp3File) {
-    return <Widget sx={{ mb: '20px' }}>Плейер не найден</Widget>;
+    return <Widget sx={{mb: '20px'}}>Плейер не найден</Widget>;
   }
 
   const formatDuration = (value: number) => {
@@ -144,15 +144,15 @@ const MusicPlayer = () => {
       }}
     >
       <Widget>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
           <CoverImage>
             <CardMedia
-              sx={{ height: 140 }}
+              sx={{height: 140}}
               image={'http://localhost:8001/' + currentPlayingTrack?.image}
               title={currentPlayingTrack?.name}
             />
           </CoverImage>
-          <Box sx={{ ml: 1.5, minWidth: 0 }}>
+          <Box sx={{ml: 1.5, minWidth: 0}}>
             <Typography variant="subtitle1" color="text.secondary" fontWeight={500}>
               {currentPlayingTrack?.name}
             </Typography>
@@ -160,7 +160,7 @@ const MusicPlayer = () => {
               <b>{album?.artist && album.artist.name}</b>
             </Typography>
           </Box>
-          <IconButton sx={{ ml: 'auto' }} onClick={closePlayer}>
+          <IconButton sx={{ml: 'auto'}} onClick={closePlayer}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -207,16 +207,16 @@ const MusicPlayer = () => {
           </IconButton>
           <IconButton onClick={() => togglePlay()}>
             {paused ? (
-              <PlayArrowRounded sx={{ fontSize: '3rem' }} htmlColor={mainIconColor} />
+              <PlayArrowRounded sx={{fontSize: '3rem'}} htmlColor={mainIconColor} />
             ) : (
-              <PauseRounded sx={{ fontSize: '3rem' }} htmlColor={mainIconColor} />
+              <PauseRounded sx={{fontSize: '3rem'}} htmlColor={mainIconColor} />
             )}
           </IconButton>
           <IconButton aria-label="next song" onClick={() => changeSong()}>
             <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />
           </IconButton>
         </Box>
-        <Stack spacing={2} direction="row" sx={{ mb: 1, px: 1 }} alignItems="center">
+        <Stack spacing={2} direction="row" sx={{mb: 1, px: 1}} alignItems="center">
           <VolumeDownRounded htmlColor={lightIconColor} />
           <Slider
             aria-label="Volume"

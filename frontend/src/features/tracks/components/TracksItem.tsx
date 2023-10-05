@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, CardMedia, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import {Box, CardMedia, CircularProgress, Grid, Paper, Typography} from '@mui/material';
 import notFoundImage from '../../../assets/notFound.png';
-import { ITrack } from '../../../types';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import {ITrack} from '../../../types';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {
   selectCurrentPlayingMusic,
@@ -11,23 +11,23 @@ import {
   setYoutubeLink,
 } from '../tracksSlice';
 import IconButton from '@mui/material/IconButton';
-import { selectUser } from '../../users/usersSlice';
-import { createTrackHistory } from '../../trackHistory/trackHistoryTnunk';
-import { selectCreateTrackHistoryLoading } from '../../trackHistory/trackHistorySlice';
-import { LoadingButton } from '@mui/lab';
+import {selectUser} from '../../users/usersSlice';
+import {createTrackHistory} from '../../trackHistory/trackHistoryTnunk';
+import {selectCreateTrackHistoryLoading} from '../../trackHistory/trackHistorySlice';
+import {LoadingButton} from '@mui/lab';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useNavigate, useParams } from 'react-router-dom';
-import { deleteTrack, fetchTracks, publishTracks } from '../tracksThunk';
+import {useNavigate, useParams} from 'react-router-dom';
+import {deleteTrack, fetchTracks, publishTracks} from '../tracksThunk';
 import PublishIcon from '@mui/icons-material/Publish';
 
 interface Props {
   track: ITrack;
 }
 
-const TracksItem: React.FC<Props> = ({ track }) => {
+const TracksItem: React.FC<Props> = ({track}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id } = useParams() as { id: string };
+  const {id} = useParams() as {id: string};
   const user = useAppSelector(selectUser);
   const deleteLoading = useAppSelector(selectDeleteTrackLoading);
   const currentPlayingTrack = useAppSelector(selectCurrentPlayingMusic);
@@ -89,13 +89,13 @@ const TracksItem: React.FC<Props> = ({ track }) => {
         elevation={3}
         sx={{
           p: '15px',
-          ':hover': { filter: 'brightness(90%)' },
+          ':hover': {filter: 'brightness(90%)'},
           position: 'relative',
         }}
       >
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{position: 'relative'}}>
           <CardMedia
-            sx={{ height: 170, backgroundSize: 'contain', mb: '15px' }}
+            sx={{height: 170, backgroundSize: 'contain', mb: '15px'}}
             image={track.image ? 'http://localhost:8001/' + track.image : notFoundImage}
             title={track.name}
           />
@@ -108,7 +108,7 @@ const TracksItem: React.FC<Props> = ({ track }) => {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 bgcolor: '#121212',
-                ':hover': { bgcolor: '#1DB954' },
+                ':hover': {bgcolor: '#1DB954'},
                 fontSize: '25px',
               }}
             >
@@ -117,7 +117,7 @@ const TracksItem: React.FC<Props> = ({ track }) => {
           )}
         </Box>
 
-        <Grid container item justifyContent="space-evenly" sx={{ mb: '5px' }}>
+        <Grid container item justifyContent="space-evenly" sx={{mb: '5px'}}>
           <Typography>{track.number + '.' + track.name}</Typography>
           <Typography>{track.duration}</Typography>
         </Grid>
@@ -142,7 +142,7 @@ const TracksItem: React.FC<Props> = ({ track }) => {
               loading={deleteLoading === track._id}
               disabled={!!deleteLoading.length}
               color={track.isPublished ? 'warning' : 'success'}
-              sx={{ color: '#fff', ml: '10px' }}
+              sx={{color: '#fff', ml: '10px'}}
               variant="contained"
               size="small"
             >

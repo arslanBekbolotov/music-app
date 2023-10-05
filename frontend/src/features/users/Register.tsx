@@ -73,7 +73,8 @@ const Register = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
           <LockOutlinedIcon />
         </Avatar>
@@ -145,7 +146,8 @@ const Register = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{mt: 3, mb: 2}}>
+            sx={{mt: 3, mb: 2}}
+          >
             Sign Up
           </LoadingButton>
           <Grid container justifyContent="flex-end">

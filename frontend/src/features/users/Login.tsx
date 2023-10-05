@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { LoginMutation } from '../../types';
-import { Alert, Avatar, Box, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import React, {useState} from 'react';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
+import {LoginMutation} from '../../types';
+import {Alert, Avatar, Box, Container, Grid, Link, TextField, Typography} from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { googleLogin, login } from './usersThunk';
-import { LoadingButton } from '@mui/lab';
-import { GoogleLogin } from '@react-oauth/google';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {googleLogin, login} from './usersThunk';
+import {LoadingButton} from '@mui/lab';
+import {GoogleLogin} from '@react-oauth/google';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loginError: error, loginLoading } = useAppSelector((state) => state.usersStore);
+  const {loginError: error, loginLoading} = useAppSelector((state) => state.usersStore);
 
   const [state, setState] = useState<LoginMutation>({
     username: '',
@@ -19,8 +19,8 @@ const Login = () => {
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    const {name, value} = event.target;
+    setState((prevState) => ({...prevState, [name]: value}));
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -48,7 +48,7 @@ const Login = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
           <LockOpenIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -56,12 +56,12 @@ const Login = () => {
         </Typography>
 
         {error && (
-          <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
+          <Alert severity="error" sx={{mt: 3, width: '100%'}}>
             {error.error}
           </Alert>
         )}
 
-        <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -104,7 +104,7 @@ const Login = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{mt: 3, mb: 2}}
           >
             Sign In
           </LoadingButton>

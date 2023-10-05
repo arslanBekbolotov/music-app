@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createTrack, deleteTrack, fetchTracks, publishTracks } from './tracksThunk';
-import { IAlbumMutation, ITrack, ValidationError } from '../../types';
-import { RootState } from '../../app/store';
+import {createSlice} from '@reduxjs/toolkit';
+import {createTrack, deleteTrack, fetchTracks, publishTracks} from './tracksThunk';
+import {IAlbumMutation, ITrack, ValidationError} from '../../types';
+import {RootState} from '../../app/store';
 
 interface tracksState {
   tracks: ITrack[];
@@ -31,13 +31,13 @@ export const tracksSlice = createSlice({
   name: 'tracks',
   initialState,
   reducers: {
-    setCurrentPlayingTrack(state, { payload: track }) {
+    setCurrentPlayingTrack(state, {payload: track}) {
       state.currentPlayingTrack = track;
     },
     onClose(state) {
       state.youtubeLink = '';
     },
-    setYoutubeLink(state, { payload }) {
+    setYoutubeLink(state, {payload}) {
       state.youtubeLink = payload;
     },
   },
@@ -45,7 +45,7 @@ export const tracksSlice = createSlice({
     builder.addCase(fetchTracks.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTracks.fulfilled, (state, { payload: data }) => {
+    builder.addCase(fetchTracks.fulfilled, (state, {payload: data}) => {
       state.fetchLoading = false;
       state.tracks = data.tracks;
       state.album = data.album;
@@ -62,7 +62,7 @@ export const tracksSlice = createSlice({
     builder.addCase(createTrack.fulfilled, (state) => {
       state.createTrackLoading = false;
     });
-    builder.addCase(createTrack.rejected, (state, { payload: error }) => {
+    builder.addCase(createTrack.rejected, (state, {payload: error}) => {
       state.createTrackLoading = false;
       state.tracksValidationError = error || null;
     });
@@ -93,7 +93,7 @@ export const tracksSlice = createSlice({
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const { setCurrentPlayingTrack, onClose, setYoutubeLink } = tracksSlice.actions;
+export const {setCurrentPlayingTrack, onClose, setYoutubeLink} = tracksSlice.actions;
 export const selectYoutubeLink = (state: RootState) => state.tracksStore.youtubeLink;
 
 export const selectDeleteTrackLoading = (state: RootState) => state.tracksStore.deleteLoading;

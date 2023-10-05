@@ -9,17 +9,17 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { LoadingButton } from '@mui/lab';
-import { IAlbumFormMutation } from '../../types';
+import React, {useEffect, useState} from 'react';
+import {LoadingButton} from '@mui/lab';
+import {IAlbumFormMutation} from '../../types';
 import SendIcon from '@mui/icons-material/Send';
 import FileInput from '../../components/FileInput';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createAlbum } from './albumsThunk';
-import { useNavigate } from 'react-router-dom';
-import { fetchArtists } from '../artists/artistsThunk';
-import { selectArtists } from '../artists/artistsSlice';
-import { selectAlbumCreateLoading } from './albumsSlice';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {createAlbum} from './albumsThunk';
+import {useNavigate} from 'react-router-dom';
+import {fetchArtists} from '../artists/artistsThunk';
+import {selectArtists} from '../artists/artistsSlice';
+import {selectAlbumCreateLoading} from './albumsSlice';
 
 const NewAlbum = () => {
   const dispatch = useAppDispatch();
@@ -38,13 +38,13 @@ const NewAlbum = () => {
   }, [dispatch]);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
+    const {value, name} = e.target;
 
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    setState((prevState) => ({...prevState, [name]: value}));
   };
 
   const onChangeSelect = (e: SelectChangeEvent) => {
-    setState((prevState) => ({ ...prevState, artist: e.target.value }));
+    setState((prevState) => ({...prevState, artist: e.target.value}));
   };
 
   const filesInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +72,7 @@ const NewAlbum = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }}>
+      <Box component="form" onSubmit={onSubmit} sx={{mt: 3}}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -96,7 +96,7 @@ const NewAlbum = () => {
               onChange={onChangeInput}
             />
           </Grid>
-          <Grid item xs={12} sx={{ pt: '16px' }}>
+          <Grid item xs={12} sx={{pt: '16px'}}>
             <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
           <Grid item xs={12}>
@@ -124,7 +124,7 @@ const NewAlbum = () => {
               endIcon={<SendIcon />}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, maxWidth: '25%' }}
+              sx={{mt: 3, mb: 2, maxWidth: '25%'}}
             >
               Send
             </LoadingButton>

@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import config from './config';
-import { Artist } from './models/Artist';
-import { Album } from './models/Album';
-import { Track } from './models/Track';
-import { User } from './models/User';
-import { randomUUID } from 'crypto';
+import {Artist} from './models/Artist';
+import {Album} from './models/Album';
+import {Track} from './models/Track';
+import {User} from './models/User';
+import {randomUUID} from 'crypto';
 
 const run = async () => {
   await mongoose.connect(config.db);

@@ -1,7 +1,7 @@
-import mongoose, { HydratedDocument, Schema, Types } from 'mongoose';
-import { Album } from './Album';
-import { ITrack } from '../types';
-import { User } from './User';
+import mongoose, {HydratedDocument, Schema, Types} from 'mongoose';
+import {Album} from './Album';
+import {ITrack} from '../types';
+import {User} from './User';
 
 const trackSchema = new Schema<ITrack>({
   name: {
@@ -33,7 +33,7 @@ const trackSchema = new Schema<ITrack>({
     required: true,
     validate: {
       validator: async function (this: HydratedDocument<ITrack>, value: string) {
-        const tracks = await Track.find({ album: this.album });
+        const tracks = await Track.find({album: this.album});
         const filteredTracks = tracks.filter((item) => item.number === value);
         if (filteredTracks.length) return false;
       },

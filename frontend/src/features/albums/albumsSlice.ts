@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IAlbum, IArtistMutation } from '../../types';
+import {createSlice} from '@reduxjs/toolkit';
+import {IAlbum, IArtistMutation} from '../../types';
 import {
   createAlbum,
   deleteAlbum,
@@ -7,7 +7,7 @@ import {
   fetchAllAlbums,
   publishAlbum,
 } from './albumsThunk';
-import { RootState } from '../../app/store';
+import {RootState} from '../../app/store';
 
 interface AlbumsState {
   albums: IAlbum[];
@@ -35,7 +35,7 @@ export const albumsSlice = createSlice({
     builder.addCase(fetchAlbumsByQuery.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchAlbumsByQuery.fulfilled, (state, { payload: data }) => {
+    builder.addCase(fetchAlbumsByQuery.fulfilled, (state, {payload: data}) => {
       state.fetchLoading = false;
       if (data.albums) {
         state.albums = data.albums;
@@ -52,7 +52,7 @@ export const albumsSlice = createSlice({
     builder.addCase(fetchAllAlbums.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchAllAlbums.fulfilled, (state, { payload: albums }) => {
+    builder.addCase(fetchAllAlbums.fulfilled, (state, {payload: albums}) => {
       state.fetchLoading = false;
       state.albums = albums;
     });

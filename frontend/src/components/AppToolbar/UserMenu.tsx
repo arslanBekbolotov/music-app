@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Button, CardMedia, Grid, Menu, MenuItem } from '@mui/material';
-import { IUser } from '../../types';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
-import { logout } from '../../features/users/usersThunk';
-import { unsetUser } from '../../features/users/usersSlice';
-import { Link as NavLink } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import React, {useState} from 'react';
+import {Button, CardMedia, Grid, Menu, MenuItem} from '@mui/material';
+import {IUser} from '../../types';
+import {useNavigate} from 'react-router-dom';
+import {useAppDispatch} from '../../app/hooks';
+import {logout} from '../../features/users/usersThunk';
+import {unsetUser} from '../../features/users/usersSlice';
+import {Link as NavLink} from 'react-router-dom';
+import {styled} from '@mui/material/styles';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -20,7 +20,7 @@ interface Props {
   user: IUser;
 }
 
-const UserMenu: React.FC<Props> = ({ user }) => {
+const UserMenu: React.FC<Props> = ({user}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);

@@ -1,17 +1,17 @@
-import { Box, Container, Grid, TextField } from '@mui/material';
-import React, { useState } from 'react';
-import { LoadingButton } from '@mui/lab';
+import {Box, Container, Grid, TextField} from '@mui/material';
+import React, {useState} from 'react';
+import {LoadingButton} from '@mui/lab';
 import SendIcon from '@mui/icons-material/Send';
 import FileInput from '../../components/FileInput';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useNavigate } from 'react-router-dom';
-import { createArtist } from './artistsThunk';
-import { IArtistFormMutation } from '../../types';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {useNavigate} from 'react-router-dom';
+import {createArtist} from './artistsThunk';
+import {IArtistFormMutation} from '../../types';
 
 const NewArtist = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { createArtistLoading, artistValidationError } = useAppSelector(
+  const {createArtistLoading, artistValidationError} = useAppSelector(
     (state) => state.artistsStore,
   );
   const [state, setState] = useState<IArtistFormMutation>({
@@ -20,9 +20,9 @@ const NewArtist = () => {
   });
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
+    const {value, name} = e.target;
 
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    setState((prevState) => ({...prevState, [name]: value}));
   };
 
   const filesInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ const NewArtist = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }}>
+      <Box component="form" onSubmit={onSubmit} sx={{mt: 3}}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -65,7 +65,7 @@ const NewArtist = () => {
               helperText={artistValidationError?.errors.name.message}
             />
           </Grid>
-          <Grid item xs={12} sx={{ pt: '16px' }}>
+          <Grid item xs={12} sx={{pt: '16px'}}>
             <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
           <Grid container item xs={12} justifyContent="center">
@@ -75,7 +75,7 @@ const NewArtist = () => {
               endIcon={<SendIcon />}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, maxWidth: '25%' }}
+              sx={{mt: 3, mb: 2, maxWidth: '25%'}}
             >
               Send
             </LoadingButton>

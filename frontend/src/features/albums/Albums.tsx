@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { fetchAlbumsByQuery } from './albumsThunk';
-import { useParams } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {fetchAlbumsByQuery} from './albumsThunk';
+import {useParams} from 'react-router-dom';
 import AlbumsItem from './components/AlbumsItem';
-import { Box, Skeleton, Typography } from '@mui/material';
+import {Box, Skeleton, Typography} from '@mui/material';
 
 const Albums = () => {
   const dispatch = useAppDispatch();
-  const { id } = useParams() as { id: string };
-  const { albums, fetchLoading, artist } = useAppSelector((state) => state.albumsStore);
+  const {id} = useParams() as {id: string};
+  const {albums, fetchLoading, artist} = useAppSelector((state) => state.albumsStore);
 
   useEffect(() => {
     dispatch(fetchAlbumsByQuery(id));
@@ -16,8 +16,8 @@ const Albums = () => {
 
   return (
     <div>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h3" component="h2" sx={{ mb: '20px' }}>
+      <Box sx={{display: 'flex', flexDirection: 'column'}}>
+        <Typography variant="h3" component="h2" sx={{mb: '20px'}}>
           {!!albums.length && artist && artist.name}
         </Typography>
       </Box>

@@ -1,12 +1,12 @@
 import React from 'react';
-import { ITracksHistory } from '../../../types';
-import { Paper, Typography } from '@mui/material';
+import {ITracksHistory} from '../../../types';
+import {Paper, Typography} from '@mui/material';
 
 interface Props {
   trackHistory: ITracksHistory;
 }
 
-const TrackHistoryItem: React.FC<Props> = ({ trackHistory }) => {
+const TrackHistoryItem: React.FC<Props> = ({trackHistory}) => {
   return (
     <Paper
       sx={{
