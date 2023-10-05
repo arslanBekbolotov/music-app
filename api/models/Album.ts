@@ -1,7 +1,7 @@
-import mongoose, { Schema, Types } from "mongoose";
-import { Artist } from "./Artist";
-import { IAlbum } from "../types";
-import { User } from "./User";
+import mongoose, { Schema, Types } from 'mongoose';
+import { Artist } from './Artist';
+import { IAlbum } from '../types';
+import { User } from './User';
 
 const albumSchema = new Schema<IAlbum>({
   name: {
@@ -11,20 +11,20 @@ const albumSchema = new Schema<IAlbum>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => User.findById(value),
-      message: "User does not exist!",
+      message: 'User does not exist!',
     },
   },
   artist: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "Artist",
+    ref: 'Artist',
     validate: {
       validator: async (value: Types.ObjectId) => Artist.findById(value),
-      message: "Artist does not exist!",
+      message: 'Artist does not exist!',
     },
   },
   release: {
@@ -39,4 +39,4 @@ const albumSchema = new Schema<IAlbum>({
   },
 });
 
-export const Album = mongoose.model<IAlbum>("Album", albumSchema);
+export const Album = mongoose.model<IAlbum>('Album', albumSchema);

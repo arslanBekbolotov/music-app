@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
-import { IUser } from "../../types";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
-import { logout } from "../../features/users/usersThunk";
-import { unsetUser } from "../../features/users/usersSlice";
-import { Link as NavLink } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import React, { useState } from 'react';
+import { Button, CardMedia, Grid, Menu, MenuItem } from '@mui/material';
+import { IUser } from '../../types';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../app/hooks';
+import { logout } from '../../features/users/usersThunk';
+import { unsetUser } from '../../features/users/usersSlice';
+import { Link as NavLink } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 const Link = styled(NavLink)({
-  color: "inherit",
-  textDecoration: "none",
-  "&:hover": {
-    color: "inherit",
+  color: 'inherit',
+  textDecoration: 'none',
+  '&:hover': {
+    color: 'inherit',
   },
 });
 
@@ -36,27 +36,36 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     try {
       await dispatch(logout()).unwrap();
       dispatch(unsetUser());
-      navigate("/");
+      navigate('/');
     } catch {
       //nothing
     }
   };
 
+  const avatar = user.avatar ? 'http://localhost:8001/' + user.avatar : '';
+
   return (
     <>
       <Button onClick={handleClick} color="inherit">
-        Hello, {user.displayName}
+        <Grid container item alignItems="center">
+          Hello, {user.displayName}
+          {user.avatar && (
+            <CardMedia
+              sx={{
+                height: '35px',
+                width: '35px',
+                backgroundSize: 'contain',
+                ml: '5px',
+              }}
+              image={avatar}
+              title={user.displayName}
+            />
+          )}
+        </Grid>
       </Button>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={() => navigate("/track_history")}>
-          Track History
-        </MenuItem>
-        {user.role === "admin" && (
+      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <MenuItem onClick={() => navigate('/track_history')}>Track History</MenuItem>
+        {user.role === 'admin' && (
           <MenuItem>
             <Link to="/unpublished">Unpublished</Link>
           </MenuItem>

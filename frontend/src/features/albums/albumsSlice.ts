@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IAlbum, IArtistMutation } from "../../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { IAlbum, IArtistMutation } from '../../types';
 import {
   createAlbum,
   deleteAlbum,
   fetchAlbumsByQuery,
   fetchAllAlbums,
   publishAlbum,
-} from "./albumsThunk";
-import { RootState } from "../../app/store";
+} from './albumsThunk';
+import { RootState } from '../../app/store';
 
 interface AlbumsState {
   albums: IAlbum[];
@@ -23,30 +23,27 @@ const initialState: AlbumsState = {
   artist: null,
   fetchLoading: false,
   createLoading: false,
-  deleteLoading: "",
+  deleteLoading: '',
   error: false,
 };
 
 export const albumsSlice = createSlice({
-  name: "albums",
+  name: 'albums',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAlbumsByQuery.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(
-      fetchAlbumsByQuery.fulfilled,
-      (state, { payload: data }) => {
-        state.fetchLoading = false;
-        if (data.albums) {
-          state.albums = data.albums;
-          state.artist = data.artist;
-        } else {
-          state.albums = [];
-        }
-      },
-    );
+    builder.addCase(fetchAlbumsByQuery.fulfilled, (state, { payload: data }) => {
+      state.fetchLoading = false;
+      if (data.albums) {
+        state.albums = data.albums;
+        state.artist = data.artist;
+      } else {
+        state.albums = [];
+      }
+    });
     builder.addCase(fetchAlbumsByQuery.rejected, (state) => {
       state.fetchLoading = false;
       state.error = true;
@@ -79,10 +76,10 @@ export const albumsSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(publishAlbum.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(publishAlbum.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
 
@@ -90,10 +87,10 @@ export const albumsSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(deleteAlbum.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(deleteAlbum.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
   },
@@ -101,9 +98,7 @@ export const albumsSlice = createSlice({
 
 export const albumsReducer = albumsSlice.reducer;
 
-export const selectAlbumCreateLoading = (state: RootState) =>
-  state.albumsStore.createLoading;
+export const selectAlbumCreateLoading = (state: RootState) => state.albumsStore.createLoading;
 
-export const selectAlbumDeleteLoading = (state: RootState) =>
-  state.albumsStore.deleteLoading;
+export const selectAlbumDeleteLoading = (state: RootState) => state.albumsStore.deleteLoading;
 export const selectAlbums = (state: RootState) => state.albumsStore.albums;

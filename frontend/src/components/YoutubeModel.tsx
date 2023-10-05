@@ -1,11 +1,11 @@
-import React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { onClose, selectYoutubeLink } from "../features/tracks/tracksSlice";
+import React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { onClose, selectYoutubeLink } from '../features/tracks/tracksSlice';
 
 const YoutubeModel = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const YoutubeModel = () => {
         aria-label="close"
         onClick={() => dispatch(onClose())}
         sx={{
-          position: "absolute",
+          position: 'absolute',
           right: 8,
           top: 8,
           color: (theme) => theme.palette.grey[500],
@@ -33,7 +33,7 @@ const YoutubeModel = () => {
           <iframe
             width="560"
             height="315"
-            src={youtubeLink.replace("watch?v=", "embed/")}
+            src={youtubeLink.replace('watch?v=', 'embed/')}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           ></iframe>

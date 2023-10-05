@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ITracksHistory } from "../../types";
-import { fetchUserTracksHistory } from "./trackHistoryTnunk";
-import { RootState } from "../../app/store";
+import { createSlice } from '@reduxjs/toolkit';
+import { ITracksHistory } from '../../types';
+import { fetchUserTracksHistory } from './trackHistoryTnunk';
+import { RootState } from '../../app/store';
 
 interface tracksHistoryState {
   trackHistory: ITracksHistory[];
@@ -18,20 +18,17 @@ const initialState: tracksHistoryState = {
 };
 
 export const tracksHistorySlice = createSlice({
-  name: "tracks",
+  name: 'tracks',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUserTracksHistory.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(
-      fetchUserTracksHistory.fulfilled,
-      (state, { payload: trackHistory }) => {
-        state.fetchLoading = false;
-        state.trackHistory = trackHistory;
-      },
-    );
+    builder.addCase(fetchUserTracksHistory.fulfilled, (state, { payload: trackHistory }) => {
+      state.fetchLoading = false;
+      state.trackHistory = trackHistory;
+    });
     builder.addCase(fetchUserTracksHistory.rejected, (state) => {
       state.fetchLoading = false;
       state.error = true;

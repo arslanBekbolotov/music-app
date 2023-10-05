@@ -1,27 +1,27 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Artists from "./features/artists/Artists";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import Layout from "./components/Layout";
-import Albums from "./features/albums/Albums";
-import Tracks from "./features/tracks/Tracks";
-import Register from "./features/users/Register";
-import Login from "./features/users/Login";
-import YoutubeModel from "./components/YoutubeModel";
-import NewAlbum from "./features/albums/NewAlbum";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useAppSelector } from "./app/hooks";
-import { selectUser } from "./features/users/usersSlice";
-import TrackHistory from "./features/trackHistory/TrackHistory";
-import NewArtist from "./features/artists/NewArtist";
-import NewTrack from "./features/tracks/NewTrack";
-import AdminTable from "./features/admin/AdminTable";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Artists from './features/artists/Artists';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import Layout from './components/Layout';
+import Albums from './features/albums/Albums';
+import Tracks from './features/tracks/Tracks';
+import Register from './features/users/Register';
+import Login from './features/users/Login';
+import YoutubeModel from './components/YoutubeModel';
+import NewAlbum from './features/albums/NewAlbum';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAppSelector } from './app/hooks';
+import { selectUser } from './features/users/usersSlice';
+import TrackHistory from './features/trackHistory/TrackHistory';
+import NewArtist from './features/artists/NewArtist';
+import NewTrack from './features/tracks/NewTrack';
+import AdminTable from './features/admin/AdminTable';
 
 function App() {
   const user = useAppSelector(selectUser);
   const darkTheme = createTheme({
     palette: {
-      mode: "dark",
+      mode: 'dark',
     },
   });
 
@@ -39,7 +39,7 @@ function App() {
             <Route
               path="/unpublished"
               element={
-                <ProtectedRoute isAllowed={user?.role === "admin"}>
+                <ProtectedRoute isAllowed={user?.role === 'admin'}>
                   <AdminTable />
                 </ProtectedRoute>
               }

@@ -1,24 +1,27 @@
-import express from "express";
-import { Error } from "mongoose";
-import { User } from "../models/User";
-import config from "../config";
-import { OAuth2Client } from "google-auth-library";
-import crypto from "crypto";
+import express from 'express';
+import {Error} from 'mongoose';
+import {User} from '../models/User';
+import config from '../config';
+import {OAuth2Client} from 'google-auth-library';
+import crypto from 'crypto';
+import {imagesUpload} from '../multer';
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
 
-usersRouter.post("/", async (req, res, next) => {
+usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
   try {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
+      displayName: req.body.displayName,
+      avatar: req.file && req.file.filename,
     });
 
     user.generateToken();
 
     await user.save();
-    return res.send({ user, message: "Success" });
+    return res.send({user, message: 'Success'});
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);
@@ -28,25 +31,25 @@ usersRouter.post("/", async (req, res, next) => {
   }
 });
 
-usersRouter.post("/sessions", async (req, res, next) => {
+usersRouter.post('/sessions', async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({username: req.body.username});
 
     if (!user) {
-      return res.status(400).send({ error: "Wrong password or username!" });
+      return res.status(400).send({error: 'Wrong password or username!'});
     }
 
     const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
-      return res.status(400).send({ error: "Wrong password or username!" });
+      return res.status(400).send({error: 'Wrong password or username!'});
     }
 
     user.generateToken();
     await user.save();
 
     res.send({
-      message: "Username and password correct!",
+      message: 'Username and password correct!',
       user,
     });
   } catch (e) {
@@ -54,7 +57,7 @@ usersRouter.post("/sessions", async (req, res, next) => {
   }
 });
 
-usersRouter.post("/google", async (req, res, next) => {
+usersRouter.post('/google', async (req, res, next) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.body.credential,
@@ -64,20 +67,18 @@ usersRouter.post("/google", async (req, res, next) => {
     const payload = ticket.getPayload();
 
     if (!payload) {
-      return res.status(400).send({ error: "Google login error!" });
+      return res.status(400).send({error: 'Google login error!'});
     }
 
-    const email = payload["email"];
-    const id = payload["sub"];
-    const displayName = payload["name"];
+    const email = payload['email'];
+    const id = payload['sub'];
+    const displayName = payload['name'];
 
     if (!email) {
-      return res
-        .status(400)
-        .send({ error: "Not enough user data to continue" });
+      return res.status(400).send({error: 'Not enough user data to continue'});
     }
 
-    let user = await User.findOne({ googleID: id });
+    let user = await User.findOne({googleID: id});
 
     if (!user) {
       user = new User({
@@ -92,20 +93,20 @@ usersRouter.post("/google", async (req, res, next) => {
 
     await user.save();
 
-    return res.send({ message: "Login with Google successful!", user });
+    return res.send({message: 'Login with Google successful!', user});
   } catch (e) {
     return next(e);
   }
 });
 
-usersRouter.delete("/sessions", async (req, res, next) => {
+usersRouter.delete('/sessions', async (req, res, next) => {
   try {
-    const token = req.get("Authorization");
-    const success = { message: "Success" };
+    const token = req.get('Authorization');
+    const success = {message: 'Success'};
     if (!token) {
       return res.status(204).send(success);
     }
-    const user = await User.findOne({ token });
+    const user = await User.findOne({token});
 
     if (!user) return res.status(204).send(success);
 

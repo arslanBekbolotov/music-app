@@ -74,6 +74,8 @@ export interface ITrackFormMutation {
 export interface RegisterMutation {
   username: string;
   password: string;
+  avatar: File | null;
+  displayName: string;
 }
 
 export interface LoginMutation {

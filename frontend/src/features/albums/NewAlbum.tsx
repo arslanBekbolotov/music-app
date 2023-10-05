@@ -8,18 +8,18 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { LoadingButton } from "@mui/lab";
-import { IAlbumFormMutation } from "../../types";
-import SendIcon from "@mui/icons-material/Send";
-import FileInput from "../../components/FileInput";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { createAlbum } from "./albumsThunk";
-import { useNavigate } from "react-router-dom";
-import { fetchArtists } from "../artists/artistsThunk";
-import { selectArtists } from "../artists/artistsSlice";
-import { selectAlbumCreateLoading } from "./albumsSlice";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { LoadingButton } from '@mui/lab';
+import { IAlbumFormMutation } from '../../types';
+import SendIcon from '@mui/icons-material/Send';
+import FileInput from '../../components/FileInput';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { createAlbum } from './albumsThunk';
+import { useNavigate } from 'react-router-dom';
+import { fetchArtists } from '../artists/artistsThunk';
+import { selectArtists } from '../artists/artistsSlice';
+import { selectAlbumCreateLoading } from './albumsSlice';
 
 const NewAlbum = () => {
   const dispatch = useAppDispatch();
@@ -27,9 +27,9 @@ const NewAlbum = () => {
   const artists = useAppSelector(selectArtists);
   const createLoading = useAppSelector(selectAlbumCreateLoading);
   const [state, setState] = useState<IAlbumFormMutation>({
-    name: "",
-    release: "",
-    artist: "",
+    name: '',
+    release: '',
+    artist: '',
     image: null,
   });
 
@@ -64,7 +64,7 @@ const NewAlbum = () => {
 
     try {
       await dispatch(createAlbum(state)).unwrap();
-      navigate("/");
+      navigate('/');
     } catch {
       //nothing
     }
@@ -96,12 +96,8 @@ const NewAlbum = () => {
               onChange={onChangeInput}
             />
           </Grid>
-          <Grid item xs={12} sx={{ pt: "16px" }}>
-            <FileInput
-              onChange={filesInputChangeHandler}
-              name="image"
-              label="image"
-            />
+          <Grid item xs={12} sx={{ pt: '16px' }}>
+            <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -128,7 +124,7 @@ const NewAlbum = () => {
               endIcon={<SendIcon />}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, maxWidth: "25%" }}
+              sx={{ mt: 3, mb: 2, maxWidth: '25%' }}
             >
               Send
             </LoadingButton>

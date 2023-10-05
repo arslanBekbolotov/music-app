@@ -1,11 +1,11 @@
-import express from "express";
-import { Error } from "mongoose";
-import { TrackHistory } from "../models/TracksHistory";
-import auth, { IRequestWithUser } from "../middleware/auth";
+import express from 'express';
+import { Error } from 'mongoose';
+import { TrackHistory } from '../models/TracksHistory';
+import auth, { IRequestWithUser } from '../middleware/auth';
 
 const trackHistoryRouter = express.Router();
 
-trackHistoryRouter.post("/", auth, async (req, res, next) => {
+trackHistoryRouter.post('/', auth, async (req, res, next) => {
   try {
     const user = (req as IRequestWithUser).user;
 
@@ -25,22 +25,22 @@ trackHistoryRouter.post("/", auth, async (req, res, next) => {
   }
 });
 
-trackHistoryRouter.get("/", auth, async (req, res, next) => {
+trackHistoryRouter.get('/', auth, async (req, res, next) => {
   try {
     const user = (req as IRequestWithUser).user;
 
     if (user) {
       const trackHistories = await TrackHistory.find({ user })
         .populate({
-          path: "track",
-          select: "name",
+          path: 'track',
+          select: 'name',
           populate: {
-            path: "album",
-            select: "name",
+            path: 'album',
+            select: 'name',
             populate: {
-              path: "artist",
-              model: "Artist",
-              select: "name",
+              path: 'artist',
+              model: 'Artist',
+              select: 'name',
             },
           },
         })

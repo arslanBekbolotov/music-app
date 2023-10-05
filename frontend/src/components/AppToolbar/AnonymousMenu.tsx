@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Menu, MenuItem } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import IconButton from "@mui/material/IconButton";
-import { Link as NavLink } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import React, { useState } from 'react';
+import { Menu, MenuItem } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import IconButton from '@mui/material/IconButton';
+import { Link as NavLink } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 const Link = styled(NavLink)({
-  color: "inherit",
-  textDecoration: "none",
-  "&:hover": {
-    color: "inherit",
+  color: 'inherit',
+  textDecoration: 'none',
+  '&:hover': {
+    color: 'inherit',
   },
 });
 
@@ -29,7 +29,7 @@ const AnonymousMenu = () => {
         <AccountCircleIcon fontSize="large" />
       </IconButton>
       <Menu
-        sx={{ left: "0" }}
+        sx={{ left: '0' }}
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}

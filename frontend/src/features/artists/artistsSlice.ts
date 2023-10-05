@@ -1,12 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IArtist, ValidationError } from "../../types";
-import { RootState } from "../../app/store";
-import {
-  createArtist,
-  deleteArtist,
-  fetchArtists,
-  publishArtist,
-} from "./artistsThunk";
+import { createSlice } from '@reduxjs/toolkit';
+import { IArtist, ValidationError } from '../../types';
+import { RootState } from '../../app/store';
+import { createArtist, deleteArtist, fetchArtists, publishArtist } from './artistsThunk';
 
 interface ArtistsState {
   artists: IArtist[];
@@ -22,12 +17,12 @@ const initialState: ArtistsState = {
   fetchLoading: false,
   createArtistLoading: false,
   artistValidationError: null,
-  deleteLoading: "",
+  deleteLoading: '',
   error: false,
 };
 
 export const artistsSlice = createSlice({
-  name: "artists",
+  name: 'artists',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -59,10 +54,10 @@ export const artistsSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(publishArtist.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(publishArtist.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
 
@@ -70,10 +65,10 @@ export const artistsSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(deleteArtist.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(deleteArtist.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
   },
@@ -81,7 +76,5 @@ export const artistsSlice = createSlice({
 
 export const artistsReducer = artistsSlice.reducer;
 export const selectArtists = (state: RootState) => state.artistsStore.artists;
-export const selectDeleteArtistLoading = (state: RootState) =>
-  state.artistsStore.deleteLoading;
-export const selectFetchLoading = (state: RootState) =>
-  state.artistsStore.fetchLoading;
+export const selectDeleteArtistLoading = (state: RootState) => state.artistsStore.deleteLoading;
+export const selectFetchLoading = (state: RootState) => state.artistsStore.fetchLoading;

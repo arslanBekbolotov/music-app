@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
-import { googleLogin, login, logout, register } from "./usersThunk";
-import { GlobalError, IUser, ValidationError } from "../../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
+import { googleLogin, login, logout, register } from './usersThunk';
+import { GlobalError, IUser, ValidationError } from '../../types';
 
 interface UsersState {
   user: IUser | null;
@@ -22,7 +22,7 @@ const initialState: UsersState = {
 };
 
 export const usersSlice = createSlice({
-  name: "users",
+  name: 'users',
   initialState,
   reducers: {
     unsetUser: (state) => {

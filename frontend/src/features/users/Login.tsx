@@ -1,32 +1,21 @@
-import React, { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { LoginMutation } from "../../types";
-import {
-  Alert,
-  Avatar,
-  Box,
-  Container,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { googleLogin, login } from "./usersThunk";
-import { LoadingButton } from "@mui/lab";
-import { GoogleLogin } from "@react-oauth/google";
+import React, { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { LoginMutation } from '../../types';
+import { Alert, Avatar, Box, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { googleLogin, login } from './usersThunk';
+import { LoadingButton } from '@mui/lab';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loginError: error, loginLoading } = useAppSelector(
-    (state) => state.usersStore,
-  );
+  const { loginError: error, loginLoading } = useAppSelector((state) => state.usersStore);
 
   const [state, setState] = useState<LoginMutation>({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +27,7 @@ const Login = () => {
     event.preventDefault();
     try {
       await dispatch(login(state)).unwrap();
-      navigate("/");
+      navigate('/');
     } catch {
       //nothing
     }
@@ -46,7 +35,7 @@ const Login = () => {
 
   const googleLoginHandler = async (credential: string) => {
     await dispatch(googleLogin(credential)).unwrap();
-    navigate("/");
+    navigate('/');
   };
 
   return (
@@ -54,12 +43,12 @@ const Login = () => {
       <Box
         style={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOpenIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -67,7 +56,7 @@ const Login = () => {
         </Typography>
 
         {error && (
-          <Alert severity="error" sx={{ mt: 3, width: "100%" }}>
+          <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
             {error.error}
           </Alert>
         )}
@@ -104,7 +93,7 @@ const Login = () => {
                     }
                   }}
                   onError={() => {
-                    console.log("Login Failed");
+                    console.log('Login Failed');
                   }}
                 />
               </Box>

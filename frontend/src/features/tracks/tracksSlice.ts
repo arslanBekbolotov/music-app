@@ -1,12 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  createTrack,
-  deleteTrack,
-  fetchTracks,
-  publishTracks,
-} from "./tracksThunk";
-import { IAlbumMutation, ITrack, ValidationError } from "../../types";
-import { RootState } from "../../app/store";
+import { createSlice } from '@reduxjs/toolkit';
+import { createTrack, deleteTrack, fetchTracks, publishTracks } from './tracksThunk';
+import { IAlbumMutation, ITrack, ValidationError } from '../../types';
+import { RootState } from '../../app/store';
 
 interface tracksState {
   tracks: ITrack[];
@@ -23,24 +18,24 @@ interface tracksState {
 const initialState: tracksState = {
   tracks: [],
   currentPlayingTrack: null,
-  youtubeLink: "",
+  youtubeLink: '',
   album: null,
   fetchLoading: false,
   createTrackLoading: false,
   error: false,
-  deleteLoading: "",
+  deleteLoading: '',
   tracksValidationError: null,
 };
 
 export const tracksSlice = createSlice({
-  name: "tracks",
+  name: 'tracks',
   initialState,
   reducers: {
     setCurrentPlayingTrack(state, { payload: track }) {
       state.currentPlayingTrack = track;
     },
     onClose(state) {
-      state.youtubeLink = "";
+      state.youtubeLink = '';
     },
     setYoutubeLink(state, { payload }) {
       state.youtubeLink = payload;
@@ -76,10 +71,10 @@ export const tracksSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(publishTracks.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(publishTracks.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
 
@@ -87,10 +82,10 @@ export const tracksSlice = createSlice({
       state.deleteLoading = action.meta.arg;
     });
     builder.addCase(deleteTrack.fulfilled, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
     });
     builder.addCase(deleteTrack.rejected, (state) => {
-      state.deleteLoading = "";
+      state.deleteLoading = '';
       state.error = true;
     });
   },
@@ -98,12 +93,9 @@ export const tracksSlice = createSlice({
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const { setCurrentPlayingTrack, onClose, setYoutubeLink } =
-  tracksSlice.actions;
-export const selectYoutubeLink = (state: RootState) =>
-  state.tracksStore.youtubeLink;
+export const { setCurrentPlayingTrack, onClose, setYoutubeLink } = tracksSlice.actions;
+export const selectYoutubeLink = (state: RootState) => state.tracksStore.youtubeLink;
 
-export const selectDeleteTrackLoading = (state: RootState) =>
-  state.tracksStore.deleteLoading;
+export const selectDeleteTrackLoading = (state: RootState) => state.tracksStore.deleteLoading;
 export const selectCurrentPlayingMusic = (state: RootState) =>
   state.tracksStore.currentPlayingTrack;

@@ -1,14 +1,14 @@
-import React from "react";
-import { CircularProgress } from "@mui/material";
+import React from 'react';
+import { CircularProgress } from '@mui/material';
 
 const Spinner = () => {
   return (
     <div
       style={{
-        position: "absolute",
-        top: "30%",
-        left: "50%",
-        transform: "translate(-50%",
+        position: 'absolute',
+        top: '30%',
+        left: '50%',
+        transform: 'translate(-50%',
       }}
     >
       <CircularProgress />

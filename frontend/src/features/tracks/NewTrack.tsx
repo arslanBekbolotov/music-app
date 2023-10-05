@@ -8,19 +8,19 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { LoadingButton } from "@mui/lab";
-import SendIcon from "@mui/icons-material/Send";
-import FileInput from "../../components/FileInput";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { useNavigate } from "react-router-dom";
-import { fetchArtists } from "../artists/artistsThunk";
-import { selectArtists } from "../artists/artistsSlice";
-import { ITrackFormMutation } from "../../types";
-import { fetchAlbumsByQuery, fetchAllAlbums } from "../albums/albumsThunk";
-import { selectAlbums } from "../albums/albumsSlice";
-import { createTrack } from "./tracksThunk";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
+import FileInput from '../../components/FileInput';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useNavigate } from 'react-router-dom';
+import { fetchArtists } from '../artists/artistsThunk';
+import { selectArtists } from '../artists/artistsSlice';
+import { ITrackFormMutation } from '../../types';
+import { fetchAlbumsByQuery, fetchAllAlbums } from '../albums/albumsThunk';
+import { selectAlbums } from '../albums/albumsSlice';
+import { createTrack } from './tracksThunk';
 
 const NewTrack = () => {
   const dispatch = useAppDispatch();
@@ -30,14 +30,14 @@ const NewTrack = () => {
   const { createTrackLoading, tracksValidationError } = useAppSelector(
     (state) => state.tracksStore,
   );
-  const [artist, setArtist] = useState<string>("");
+  const [artist, setArtist] = useState<string>('');
   const [state, setState] = useState<ITrackFormMutation>({
-    name: "",
-    album: "",
+    name: '',
+    album: '',
     image: null,
-    youtubeLink: "",
-    number: "",
-    duration: "",
+    youtubeLink: '',
+    number: '',
+    duration: '',
     mp3File: null,
   });
 
@@ -49,10 +49,10 @@ const NewTrack = () => {
   const onChangeSelect = async (e: SelectChangeEvent) => {
     const { value, name } = e.target;
 
-    if (name === "album") {
+    if (name === 'album') {
       setState((prevState) => ({ ...prevState, album: value }));
     } else {
-      setState((prevState) => ({ ...prevState, album: "" }));
+      setState((prevState) => ({ ...prevState, album: '' }));
       setArtist(value);
       await dispatch(fetchAlbumsByQuery(value));
     }
@@ -80,7 +80,7 @@ const NewTrack = () => {
 
     try {
       await dispatch(createTrack(state)).unwrap();
-      navigate("/");
+      navigate('/');
     } catch {
       //nothing
     }
@@ -151,19 +151,11 @@ const NewTrack = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sx={{ pt: "16px" }}>
-            <FileInput
-              onChange={filesInputChangeHandler}
-              name="image"
-              label="image"
-            />
+          <Grid item xs={12} sx={{ pt: '16px' }}>
+            <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
-          <Grid item xs={12} sx={{ pt: "16px" }}>
-            <FileInput
-              onChange={filesInputChangeHandler}
-              name="MP3file"
-              label="MP3file"
-            />
+          <Grid item xs={12} sx={{ pt: '16px' }}>
+            <FileInput onChange={filesInputChangeHandler} name="MP3file" label="MP3file" />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -190,7 +182,7 @@ const NewTrack = () => {
               endIcon={<SendIcon />}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, maxWidth: "25%" }}
+              sx={{ mt: 3, mb: 2, maxWidth: '25%' }}
             >
               Send
             </LoadingButton>

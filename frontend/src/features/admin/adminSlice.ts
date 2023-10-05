@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IAlbum, IArtist, ITrack } from "../../types";
-import { fetchUnpublishedSubjects } from "./adminThunk";
+import { createSlice } from '@reduxjs/toolkit';
+import { IAlbum, IArtist, ITrack } from '../../types';
+import { fetchUnpublishedSubjects } from './adminThunk';
 
 interface AdminState {
   albums: IAlbum[];
@@ -19,22 +19,19 @@ const initialState: AdminState = {
 };
 
 export const adminSlice = createSlice({
-  name: "albums",
+  name: 'albums',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUnpublishedSubjects.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(
-      fetchUnpublishedSubjects.fulfilled,
-      (state, { payload: adminData }) => {
-        state.fetchLoading = false;
-        state.albums = adminData.albums;
-        state.tracks = adminData.tracks;
-        state.artists = adminData.artists;
-      },
-    );
+    builder.addCase(fetchUnpublishedSubjects.fulfilled, (state, { payload: adminData }) => {
+      state.fetchLoading = false;
+      state.albums = adminData.albums;
+      state.tracks = adminData.tracks;
+      state.artists = adminData.artists;
+    });
     builder.addCase(fetchUnpublishedSubjects.rejected, (state) => {
       state.fetchLoading = false;
       state.error = true;

@@ -1,54 +1,49 @@
-import express from "express";
-import { Track } from "../models/Track";
-import { Error } from "mongoose";
-import { Album } from "../models/Album";
-import { mp3FileUpload } from "../multer";
-import auth, { IRequestWithUser } from "../middleware/auth";
-import permit from "../middleware/permit";
-import config from "../config";
-import fs from "fs";
+import express from 'express';
+import { Track } from '../models/Track';
+import { Error } from 'mongoose';
+import { Album } from '../models/Album';
+import { mp3FileUpload } from '../multer';
+import auth, { IRequestWithUser } from '../middleware/auth';
+import permit from '../middleware/permit';
+import config from '../config';
+import fs from 'fs';
 
 const tracksRouter = express.Router();
 
-tracksRouter.post(
-  "/",
-  auth,
-  mp3FileUpload.single("mp3File"),
-  async (req, res, next) => {
-    const user = (req as IRequestWithUser).user;
+tracksRouter.post('/', auth, mp3FileUpload.single('mp3File'), async (req, res, next) => {
+  const user = (req as IRequestWithUser).user;
 
-    const trackData = {
-      name: req.body.name,
-      user: user._id,
-      number: req.body.number,
-      album: req.body.album,
-      duration: req.body.duration,
-      mp3File: req.file ? req.file.filename : null,
-      youtubeLink: req.body.youtubeLink,
-    };
+  const trackData = {
+    name: req.body.name,
+    user: user._id,
+    number: req.body.number,
+    album: req.body.album,
+    duration: req.body.duration,
+    mp3File: req.file ? req.file.filename : null,
+    youtubeLink: req.body.youtubeLink,
+  };
 
-    const track = new Track(trackData);
+  const track = new Track(trackData);
 
-    try {
-      await track.save();
-      return res.send(track);
-    } catch (error) {
-      if (error instanceof Error.ValidationError) {
-        return res.status(400).send(error);
-      }
-
-      return next(error);
+  try {
+    await track.save();
+    return res.send(track);
+  } catch (error) {
+    if (error instanceof Error.ValidationError) {
+      return res.status(400).send(error);
     }
-  },
-);
 
-tracksRouter.get("/", async (req, res) => {
+    return next(error);
+  }
+});
+
+tracksRouter.get('/', async (req, res) => {
   const { album, artist } = req.query;
 
   try {
     if (album) {
       const tracks = await Track.find({ album }).sort({ number: 1 });
-      const albumData = await Album.findOne({ _id: album }).populate("artist");
+      const albumData = await Album.findOne({ _id: album }).populate('artist');
 
       return res.send({ tracks: [...tracks], album: albumData });
     }
@@ -69,60 +64,50 @@ tracksRouter.get("/", async (req, res) => {
   }
 });
 
-tracksRouter.patch(
-  "/:id/togglePublished",
-  auth,
-  permit("", "admin"),
-  async (req, res) => {
-    const { id } = req.params;
+tracksRouter.patch('/:id/togglePublished', auth, permit('', 'admin'), async (req, res) => {
+  const { id } = req.params;
 
-    try {
-      const track = await Track.findById(id);
+  try {
+    const track = await Track.findById(id);
 
-      if (!track) {
-        return res.status(404).send("Not Found!");
-      }
-
-      await Track.findByIdAndUpdate(id, { isPublished: !track.isPublished });
-
-      return res.send({ message: "success" });
-    } catch (e) {
-      res.status(500).send("error");
+    if (!track) {
+      return res.status(404).send('Not Found!');
     }
-  },
-);
 
-tracksRouter.delete(
-  "/:id",
-  auth,
-  permit("track", "admin"),
-  async (req, res) => {
-    const { id } = req.params;
+    await Track.findByIdAndUpdate(id, { isPublished: !track.isPublished });
 
-    try {
-      const track = await Track.findById(id);
+    return res.send({ message: 'success' });
+  } catch (e) {
+    res.status(500).send('error');
+  }
+});
 
-      if (!track) {
-        return res.status(404).send({ message: "Not Found!" });
-      }
+tracksRouter.delete('/:id', auth, permit('track', 'admin'), async (req, res) => {
+  const { id } = req.params;
 
-      await Track.findByIdAndRemove(id);
+  try {
+    const track = await Track.findById(id);
 
-      if (track.image) {
-        const filePath = config.publicPath + "/" + track.image;
-        fs.unlinkSync(filePath);
-      }
-
-      if (track.mp3File) {
-        const filePath = config.publicPath + "/" + track.mp3File;
-        fs.unlinkSync(filePath);
-      }
-
-      res.send("Deleted");
-    } catch (e) {
-      res.status(500).send("error");
+    if (!track) {
+      return res.status(404).send({ message: 'Not Found!' });
     }
-  },
-);
+
+    await Track.findByIdAndRemove(id);
+
+    if (track.image) {
+      const filePath = config.publicPath + '/' + track.image;
+      fs.unlinkSync(filePath);
+    }
+
+    if (track.mp3File) {
+      const filePath = config.publicPath + '/' + track.mp3File;
+      fs.unlinkSync(filePath);
+    }
+
+    res.send('Deleted');
+  } catch (e) {
+    res.status(500).send('error');
+  }
+});
 
 export default tracksRouter;

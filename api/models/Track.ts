@@ -1,7 +1,7 @@
-import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
-import { Album } from "./Album";
-import { ITrack } from "../types";
-import { User } from "./User";
+import mongoose, { HydratedDocument, Schema, Types } from 'mongoose';
+import { Album } from './Album';
+import { ITrack } from '../types';
+import { User } from './User';
 
 const trackSchema = new Schema<ITrack>({
   name: {
@@ -10,20 +10,20 @@ const trackSchema = new Schema<ITrack>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => User.findById(value),
-      message: "User does not exist!",
+      message: 'User does not exist!',
     },
   },
   album: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "Album",
+    ref: 'Album',
     validate: {
       validator: async (value: Types.ObjectId) => Album.findById(value),
-      message: "Album does not exist!",
+      message: 'Album does not exist!',
     },
   },
   image: String,
@@ -32,15 +32,12 @@ const trackSchema = new Schema<ITrack>({
     type: String,
     required: true,
     validate: {
-      validator: async function (
-        this: HydratedDocument<ITrack>,
-        value: string,
-      ) {
+      validator: async function (this: HydratedDocument<ITrack>, value: string) {
         const tracks = await Track.find({ album: this.album });
         const filteredTracks = tracks.filter((item) => item.number === value);
         if (filteredTracks.length) return false;
       },
-      message: "This number is already taken",
+      message: 'This number is already taken',
     },
   },
   duration: String,
@@ -52,4 +49,4 @@ const trackSchema = new Schema<ITrack>({
   },
 });
 
-export const Track = mongoose.model("Track", trackSchema);
+export const Track = mongoose.model('Track', trackSchema);

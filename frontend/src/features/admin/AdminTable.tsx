@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchUnpublishedSubjects } from "./adminThunk";
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchUnpublishedSubjects } from './adminThunk';
 import {
   Paper,
   Table,
@@ -10,15 +10,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import AdminTableRow from "./components/AdminTableRow";
-import Spinner from "../../components/Spinner";
+} from '@mui/material';
+import AdminTableRow from './components/AdminTableRow';
+import Spinner from '../../components/Spinner';
 
 const AdminTable = () => {
   const dispatch = useAppDispatch();
-  const { tracks, albums, artists, fetchLoading } = useAppSelector(
-    (state) => state.adminStore,
-  );
+  const { tracks, albums, artists, fetchLoading } = useAppSelector((state) => state.adminStore);
 
   useEffect(() => {
     dispatch(fetchUnpublishedSubjects());
@@ -26,14 +24,14 @@ const AdminTable = () => {
 
   return (
     <div>
-      <Typography variant="h4" sx={{ mb: "10px" }}>
+      <Typography variant="h4" sx={{ mb: '10px' }}>
         Table of Unpublished Items
       </Typography>
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow sx={{ border: "1px solid #ccc" }}>
+              <TableRow sx={{ border: '1px solid #ccc' }}>
                 <TableCell>Name</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Delete</TableCell>
@@ -45,15 +43,15 @@ const AdminTable = () => {
             ) : (
               <TableBody>
                 {artists.map((artist) => (
-                  <AdminTableRow item={artist} subjectName="artist" />
+                  <AdminTableRow key={artist._id} item={artist} subjectName="artist" />
                 ))}
 
                 {albums.map((album) => (
-                  <AdminTableRow item={album} subjectName="album" />
+                  <AdminTableRow key={album._id} item={album} subjectName="album" />
                 ))}
 
                 {tracks.map((track) => (
-                  <AdminTableRow item={track} subjectName="track" />
+                  <AdminTableRow key={track._id} item={track} subjectName="track" />
                 ))}
               </TableBody>
             )}

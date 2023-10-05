@@ -1,12 +1,12 @@
-import { Box, Container, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { LoadingButton } from "@mui/lab";
-import SendIcon from "@mui/icons-material/Send";
-import FileInput from "../../components/FileInput";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { useNavigate } from "react-router-dom";
-import { createArtist } from "./artistsThunk";
-import { IArtistFormMutation } from "../../types";
+import { Box, Container, Grid, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
+import FileInput from '../../components/FileInput';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useNavigate } from 'react-router-dom';
+import { createArtist } from './artistsThunk';
+import { IArtistFormMutation } from '../../types';
 
 const NewArtist = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const NewArtist = () => {
     (state) => state.artistsStore,
   );
   const [state, setState] = useState<IArtistFormMutation>({
-    name: "",
+    name: '',
     image: null,
   });
 
@@ -42,7 +42,7 @@ const NewArtist = () => {
 
     try {
       await dispatch(createArtist(state)).unwrap();
-      navigate("/");
+      navigate('/');
     } catch {
       //nothing
     }
@@ -65,12 +65,8 @@ const NewArtist = () => {
               helperText={artistValidationError?.errors.name.message}
             />
           </Grid>
-          <Grid item xs={12} sx={{ pt: "16px" }}>
-            <FileInput
-              onChange={filesInputChangeHandler}
-              name="image"
-              label="image"
-            />
+          <Grid item xs={12} sx={{ pt: '16px' }}>
+            <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
           <Grid container item xs={12} justifyContent="center">
             <LoadingButton
@@ -79,7 +75,7 @@ const NewArtist = () => {
               endIcon={<SendIcon />}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, maxWidth: "25%" }}
+              sx={{ mt: 3, mb: 2, maxWidth: '25%' }}
             >
               Send
             </LoadingButton>
