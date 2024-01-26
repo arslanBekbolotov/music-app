@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "format-all": "prettier --write .",
     "seed": "ts-node fixtures.ts",

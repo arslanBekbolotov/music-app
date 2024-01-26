@@ -7,7 +7,7 @@ import {User} from './models/User';
 import {randomUUID} from 'crypto';
 
 const run = async () => {
-    await mongoose.connect(config.url);
+    await mongoose.connect(config.url || '');
     const db = mongoose.connection;
 
     try {

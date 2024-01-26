@@ -1,5 +1,5 @@
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 import albumsRouter from './routes/albums';
 import artistsRouter from './routes/artists';
 import tracksRouter from './routes/tracks';
@@ -10,7 +10,7 @@ import config from "./config";
 import mongoose from "mongoose";
 
 const app = express();
-const PORT= 8001;
+const PORT= process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.static('public'));
@@ -23,7 +23,7 @@ app.use('/track_history', trackHistoryRouter);
 app.use('/unpublished', adminRouter);
 
 
-const url = config.url;
+const url = config.url || '';
 
 try {
   mongoose.connect(url);
