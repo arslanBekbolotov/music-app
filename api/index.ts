@@ -8,6 +8,7 @@ import trackHistoryRouter from './routes/trackHistory';
 import adminRouter from './routes/admin';
 import config from "./config";
 import mongoose from "mongoose";
+import path from 'path';
 
 const corsOptions = {
   origin: '*',  // Замените '*' на URL вашего фронтенд-приложения
@@ -16,10 +17,12 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
+
 const app = express();
 const PORT= process.env.PORT || 8080;
-app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.static('public'));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
