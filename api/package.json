@@ -5,7 +5,7 @@
   "main": "index.js",
   "homepage": ".",
   "engines": {
-    "node": "14.x"
+    "node": "20.x"
   },
   "scripts": {
     "format-all": "prettier --write .",
