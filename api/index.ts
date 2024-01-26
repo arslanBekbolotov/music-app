@@ -9,10 +9,16 @@ import adminRouter from './routes/admin';
 import config from "./config";
 import mongoose from "mongoose";
 
+const corsOptions = {
+  origin: '*',  // Замените '*' на URL вашего фронтенд-приложения
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
 const app = express();
 const PORT= process.env.PORT || 8080;
-
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static('public'));
 app.use(express.json());
 app.use('/artists', artistsRouter);
