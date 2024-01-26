@@ -13,5 +13,5 @@ export const addInterceptors = (store: Store<RootState>) => {
 };
 
 export const axiosApi = axios.create({
-  baseURL: process.env.BACKEND_URL,
+  baseURL: 'http://localhost:8001',
 });

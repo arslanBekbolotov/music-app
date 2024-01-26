@@ -27,7 +27,7 @@ const Artists = () => {
         (Array.from(new Array(12)).map((item, index) => (
           <Skeleton key={index} variant="rounded" width={265} height={260} />
         )))}
-      {fetchLoading ? artists && artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />):null}
+      {artists ? artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />):null}
     </div>
   );
 };
