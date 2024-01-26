@@ -25,6 +25,10 @@ app.use('/unpublished', adminRouter);
 
 const url = config.url || '';
 
+app.use('/',(req, res)=>{
+  res.send('Server is running>>>')
+})
+
 try {
   mongoose.connect(url);
 
