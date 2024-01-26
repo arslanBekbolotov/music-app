@@ -4,9 +4,6 @@
   "description": "",
   "main": "index.js",
   "homepage": ".",
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
     "format-all": "prettier --write .",
     "seed": "ts-node fixtures.ts",
