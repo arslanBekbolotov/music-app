@@ -23,11 +23,11 @@ const Artists = () => {
         gap: '30px',
       }}
     >
-      {fetchLoading
-        ? Array.from(new Array(12)).map((item, index) => (
-            <Skeleton key={index} variant="rounded" width={265} height={260} />
-          ))
-        : artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />)}
+      {fetchLoading &&
+        (Array.from(new Array(12)).map((item, index) => (
+          <Skeleton key={index} variant="rounded" width={265} height={260} />
+        )))}
+      {fetchLoading ? artists && artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />):null}
     </div>
   );
 };
