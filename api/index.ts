@@ -8,10 +8,9 @@ import trackHistoryRouter from './routes/trackHistory';
 import adminRouter from './routes/admin';
 import config from "./config";
 import mongoose from "mongoose";
-import path from 'path';
 
 const corsOptions = {
-  origin: '*',  // Замените '*' на URL вашего фронтенд-приложения
+  origin: 'https://music-app-client.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
