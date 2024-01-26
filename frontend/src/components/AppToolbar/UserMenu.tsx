@@ -7,6 +7,7 @@ import {logout} from '../../features/users/usersThunk';
 import {unsetUser} from '../../features/users/usersSlice';
 import {Link as NavLink} from 'react-router-dom';
 import {styled} from '@mui/material/styles';
+import {BASE_URL} from '../../constansts';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -42,7 +43,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
     }
   };
 
-  const avatar = user.avatar ? 'http://localhost:8001/' + user.avatar : '';
+  const avatar = user.avatar ? BASE_URL + user.avatar : '';
 
   return (
     <>

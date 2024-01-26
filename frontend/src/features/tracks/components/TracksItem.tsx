@@ -19,6 +19,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {useNavigate, useParams} from 'react-router-dom';
 import {deleteTrack, fetchTracks, publishTracks} from '../tracksThunk';
 import PublishIcon from '@mui/icons-material/Publish';
+import {BASE_URL} from '../../../constansts';
 
 interface Props {
   track: ITrack;
@@ -96,7 +97,7 @@ const TracksItem: React.FC<Props> = ({track}) => {
         <Box sx={{position: 'relative'}}>
           <CardMedia
             sx={{height: 170, backgroundSize: 'contain', mb: '15px'}}
-            image={track.image ? 'http://localhost:8001/' + track.image : notFoundImage}
+            image={track.image ? BASE_URL + track.image : notFoundImage}
             title={track.name}
           />
           {user && currentPlayingTrack !== track && (

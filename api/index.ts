@@ -20,8 +20,9 @@ const corsOptions = {
 
 const app = express();
 const PORT= process.env.PORT || 8080;
-app.use(express.static(path.join(__dirname, 'build')));
-app.use(express.static('public'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/artists', artistsRouter);
