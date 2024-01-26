@@ -1,16 +1,16 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import albumsRouter from './routes/albums';
 import artistsRouter from './routes/artists';
 import tracksRouter from './routes/tracks';
 import usersRouter from './routes/users';
 import trackHistoryRouter from './routes/trackHistory';
-import config from './config';
 import adminRouter from './routes/admin';
+import config from "./config";
+import mongoose from "mongoose";
 
 const app = express();
-const PORT = 8001;
+const PORT= 8001;
 
 app.use(cors());
 app.use(express.static('public'));
@@ -22,8 +22,11 @@ app.use('/users', usersRouter);
 app.use('/track_history', trackHistoryRouter);
 app.use('/unpublished', adminRouter);
 
-const run = async () => {
-  await mongoose.connect(config.db);
+
+const url = config.url;
+
+try {
+  mongoose.connect(url);
 
   app.listen(PORT, () => {
     console.log(`Server started on ${PORT} port!`);
@@ -32,6 +35,11 @@ const run = async () => {
   process.on('exit', () => {
     mongoose.disconnect();
   });
-};
 
-run().catch((e) => console.log(e));
+} catch (e) {
+  console.log("could not connect");
+}
+
+const dbConnection = mongoose.connection;
+dbConnection.on("error", (err) => console.log(`Connection error ${err}`));
+dbConnection.once("open", () => console.log("Connected to DB!"));
