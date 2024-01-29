@@ -10,7 +10,6 @@ import {deleteAlbum, fetchAlbumsByQuery, publishAlbum} from '../albumsThunk';
 import {selectUser} from '../../users/usersSlice';
 import {selectAlbumDeleteLoading} from '../albumsSlice';
 import PublishIcon from '@mui/icons-material/Publish';
-import {BASE_URL} from '../../../constansts';
 
 interface Props {
   album: IAlbum;
@@ -63,7 +62,7 @@ const AlbumsItem: React.FC<Props> = ({album}) => {
       >
         <CardMedia
           sx={{height: 170, backgroundSize: 'contain', mb: '15px'}}
-          image={album.image ? BASE_URL + album.image : notFoundImage}
+          image={album.image ? album.image : notFoundImage}
           title={album.name}
         />
         <span

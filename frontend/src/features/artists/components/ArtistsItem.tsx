@@ -10,7 +10,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {selectUser} from '../../users/usersSlice';
 import {selectDeleteArtistLoading} from '../artistsSlice';
 import {deleteArtist, fetchArtists, publishArtist} from '../artistsThunk';
-import {BASE_URL} from '../../../constansts';
 
 interface Props {
   artist: IArtist;
@@ -65,7 +64,7 @@ const ArtistsItem: React.FC<Props> = ({artist}) => {
       >
         <CardMedia
           sx={{height: 170, backgroundSize: 'contain', mb: '15px'}}
-          image={artist.image ? BASE_URL + artist.image : notFoundImage}
+          image={artist.image ? artist.image : notFoundImage}
           title={artist.name}
         />
         <Typography sx={{textAlign: 'center', mb: '10px'}}>{artist.name}</Typography>

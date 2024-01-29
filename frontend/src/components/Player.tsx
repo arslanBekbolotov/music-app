@@ -17,7 +17,6 @@ import {
 } from '@mui/icons-material';
 import {CardMedia, Stack} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import {BASE_URL} from '../constansts';
 
 const Widget = styled('div')(({theme}) => ({
   padding: 16,
@@ -149,7 +148,7 @@ const MusicPlayer = () => {
           <CoverImage>
             <CardMedia
               sx={{height: 140}}
-              image={BASE_URL + currentPlayingTrack?.image}
+              image={currentPlayingTrack?.image}
               title={currentPlayingTrack?.name}
             />
           </CoverImage>
@@ -168,7 +167,7 @@ const MusicPlayer = () => {
         {currentPlayingTrack && (
           <audio
             ref={audioPlay}
-            src={BASE_URL + currentPlayingTrack.mp3File}
+            src={currentPlayingTrack.mp3File}
             preload="metadata"
           ></audio>
         )}

@@ -5,6 +5,9 @@ import {Album} from './models/Album';
 import {Track} from './models/Track';
 import {User} from './models/User';
 import {randomUUID} from 'crypto';
+import {cloudinaryImageUploadMethod} from "./controller/uploader";
+import fs from "fs";
+
 
 const run = async () => {
     await mongoose.connect(config.url || '');
@@ -96,13 +99,31 @@ const run = async () => {
             user: user_1._id,
             artist: ac_dc._id,
             release: '1979',
-            mage: 'fixtures/ac_dc.jpeg',
+            image: 'fixtures/ac_dc.jpeg',
             isPublished: false,
         },
     );
 
-    await Track.create(
-        {
+    const [
+        track1,
+        track2,
+        track3,
+        track4,
+        track5,
+        track6,
+        track7,
+        track8,
+        track9,
+        track10,
+        track11,
+        track12,
+        track13,
+        track14,
+        track15,
+        track16,
+        track17,
+        track18,
+    ] = await Track.create({
             name: 'Yesterday',
             user: user_1._id,
             number: '1',
@@ -147,9 +168,6 @@ const run = async () => {
             mp3File: 'fixtures/HereComesTheSun.mp3',
             isPublished: true,
         },
-    );
-
-    await Track.create(
         {
             name: 'A Day in the Life',
             user: user_2._id,
@@ -191,9 +209,6 @@ const run = async () => {
             duration: '3:39',
             isPublished: true,
         },
-    );
-
-    await Track.create(
         {
             name: 'Billie Jean',
             user: user_1._id,
@@ -236,9 +251,6 @@ const run = async () => {
             duration: '3:39',
             isPublished: true,
         },
-    );
-
-    await Track.create(
         {
             name: 'Bad',
             user: user_1._id,
@@ -284,9 +296,6 @@ const run = async () => {
             mp3File: "fixtures/TheyDon'tCareAboutUs.mp3",
             isPublished: true,
         },
-    );
-
-    await Track.create(
         {
             name: 'Thunderstruck',
             user: user_2._id,
@@ -312,7 +321,57 @@ const run = async () => {
             isPublished: false,
             duration: '3:19',
         },
-    );
+    )
+
+    console.log('work')
+
+    async function readFileAsFilePath(filePath: string) {
+        return './public/' + filePath;
+    }
+
+    // Update Artist images
+    for (const artist of [michaelJackson, theBeatles, ac_dc]) {
+        if(!artist.image) return;
+        const path = await readFileAsFilePath(artist.image);
+        const newImageUrl = await cloudinaryImageUploadMethod(path);
+        await Artist.findByIdAndUpdate(artist._id, { image: newImageUrl });
+    }
+
+// Update Album images
+    for (const album of [album1, album2, album3, album4, album5]) {
+        if(!album.image) return;
+        const path = await readFileAsFilePath(album.image);
+        const newImageUrl = await cloudinaryImageUploadMethod(path);
+        await Album.findByIdAndUpdate(album._id, { image: newImageUrl });
+    }
+
+    // Update Track images
+    for (const track of [
+        track1,
+        track2,
+        track3,
+        track4,
+        track5,
+        track6,
+        track7,
+        track8,
+        track9,
+        track10,
+        track11,
+        track12,
+        track13,
+        track14,
+        track15,
+        track16,
+        track17,
+        track18,
+    ]) {
+        if (track.image) {
+            const path = await readFileAsFilePath(track.image);
+            const newImageUrl = await cloudinaryImageUploadMethod(path);
+            await Track.findByIdAndUpdate(track._id, { image: newImageUrl });
+        }
+    }
 
     await db.close();
 };

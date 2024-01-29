@@ -2,31 +2,13 @@ import express from 'express';
 import {Error} from 'mongoose';
 import {User} from '../models/User';
 import config from '../config';
-import {v2 as cloudinary} from 'cloudinary';
 import {OAuth2Client} from 'google-auth-library';
+import {cloudinaryImageUploadMethod} from "../controller/uploader";
 import crypto from 'crypto';
 import {upload} from '../multer';
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
-
-const cloudinaryImageUploadMethod = async (file: any) => {
-  return await new Promise((resolve, reject) => {
-    try {
-      cloudinary.uploader.upload(file, (err: any, res: any) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(res.secure_url);
-        }
-      });
-    } catch (e) {
-      console.error(e);
-      reject(e);
-    }
-  });
-};
 
 usersRouter.post('/', upload.single('avatar'), async (req, res, next) => {
   try {
