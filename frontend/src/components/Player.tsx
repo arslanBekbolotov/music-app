@@ -102,7 +102,7 @@ const MusicPlayer = () => {
     setPaused(!prevValue);
 
     if (prevValue) {
-      audioPlay.current?.play();
+      void audioPlay.current?.play();
       interval = setInterval(() => {
         if (audioPlay.current?.currentTime) {
           setPosition(Math.floor(audioPlay.current.currentTime));

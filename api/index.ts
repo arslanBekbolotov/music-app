@@ -31,14 +31,14 @@ app.use('/unpublished', adminRouter);
 const url = config.url || '';
 
 try {
-  mongoose.connect(url);
+  void mongoose.connect(url);
 
   app.listen(PORT, () => {
     console.log(`Server started on ${PORT} port!`);
   });
 
   process.on('exit', () => {
-    mongoose.disconnect();
+    void mongoose.disconnect();
   });
 
 } catch (e) {
