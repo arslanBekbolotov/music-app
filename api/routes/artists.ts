@@ -4,10 +4,6 @@ import {Artist} from '../models/Artist';
 import {Error} from 'mongoose';
 import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
-import {Album} from '../models/Album';
-import {Track} from '../models/Track';
-// import config from '../config';
-import fs from 'fs';
 
 const artistsRouter = express.Router();
 

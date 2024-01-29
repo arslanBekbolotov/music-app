@@ -7,7 +7,6 @@ import {User} from './models/User';
 import {randomUUID} from 'crypto';
 import {cloudinaryImageUploadMethod} from "./controller/uploader";
 
-
 const run = async () => {
     await mongoose.connect(config.url || '');
     const db = mongoose.connection;
@@ -321,8 +320,6 @@ const run = async () => {
             duration: '3:19',
         },
     )
-
-    console.log('work')
 
     async function readFileAsFilePath(filePath: string) {
         return './public/' + filePath;
