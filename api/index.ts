@@ -10,10 +10,7 @@ import config from "./config";
 import mongoose from "mongoose";
 
 const corsOptions = {
-  origin: 'https://music-app-client.vercel.app',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
+  origin: '*',
 };
 
 
@@ -23,6 +20,7 @@ const PORT= process.env.PORT || 8080;
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: false}))
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
 app.use('/tracks', tracksRouter);
@@ -30,12 +28,7 @@ app.use('/users', usersRouter);
 app.use('/track_history', trackHistoryRouter);
 app.use('/unpublished', adminRouter);
 
-
 const url = config.url || '';
-
-app.use('/',(req, res)=>{
-  res.send('Server is running>>>')
-})
 
 try {
   mongoose.connect(url);

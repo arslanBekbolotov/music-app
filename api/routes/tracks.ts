@@ -2,7 +2,7 @@ import express from 'express';
 import {Track} from '../models/Track';
 import {Error} from 'mongoose';
 import {Album} from '../models/Album';
-import {mp3FileUpload} from '../multer';
+import {upload} from '../multer';
 import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
 import config from '../config';
@@ -10,7 +10,7 @@ import fs from 'fs';
 
 const tracksRouter = express.Router();
 
-tracksRouter.post('/', auth, mp3FileUpload.single('mp3File'), async (req, res, next) => {
+tracksRouter.post('/', auth, upload.single('mp3File'), async (req, res, next) => {
   const user = (req as IRequestWithUser).user;
 
   const trackData = {

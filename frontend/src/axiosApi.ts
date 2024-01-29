@@ -13,5 +13,5 @@ export const addInterceptors = (store: Store<RootState>) => {
 };
 
 export const axiosApi = axios.create({
-  baseURL: 'https://music-app-five-flame.vercel.app/',
+  baseURL: 'http://localhost:8001/',
 });

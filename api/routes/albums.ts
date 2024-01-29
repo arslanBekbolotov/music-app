@@ -1,5 +1,5 @@
 import express from 'express';
-import {imagesUpload} from '../multer';
+import {upload} from '../multer';
 import {Album} from '../models/Album';
 import {Error} from 'mongoose';
 import {Track} from '../models/Track';
@@ -10,7 +10,7 @@ import * as fs from 'fs';
 
 const albumsRouter = express.Router();
 
-albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
+albumsRouter.post('/', auth, upload.single('image'), async (req, res, next) => {
   const user = (req as IRequestWithUser).user;
 
   const albumData = {

@@ -2,20 +2,40 @@ import express from 'express';
 import {Error} from 'mongoose';
 import {User} from '../models/User';
 import config from '../config';
+import {v2 as cloudinary} from 'cloudinary';
 import {OAuth2Client} from 'google-auth-library';
 import crypto from 'crypto';
-import {imagesUpload} from '../multer';
+import {upload} from '../multer';
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
 
-usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
+const cloudinaryImageUploadMethod = async (file: any) => {
+  return await new Promise((resolve, reject) => {
+    try {
+      cloudinary.uploader.upload(file, (err: any, res: any) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(res.secure_url);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      reject(e);
+    }
+  });
+};
+
+usersRouter.post('/', upload.single('avatar'), async (req, res, next) => {
   try {
+    const avatar = await cloudinaryImageUploadMethod(req.file?.path)
     const user = new User({
       username: req.body.username,
       password: req.body.password,
       displayName: req.body.displayName,
-      avatar: req.file && req.file.filename,
+      avatar,
     });
 
     user.generateToken();
