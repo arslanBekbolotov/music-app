@@ -6,7 +6,6 @@ import {Track} from './models/Track';
 import {User} from './models/User';
 import {randomUUID} from 'crypto';
 import {cloudinaryImageUploadMethod} from "./controller/uploader";
-import fs from "fs";
 
 
 const run = async () => {
