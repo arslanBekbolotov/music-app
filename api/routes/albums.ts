@@ -7,18 +7,20 @@ import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
 import config from '../config';
 import * as fs from 'fs';
+import {cloudinaryFileUploadMethod} from "../controller/uploader";
 
 const albumsRouter = express.Router();
 
 albumsRouter.post('/', auth, upload.single('image'), async (req, res, next) => {
   const user = (req as IRequestWithUser).user;
+  const image = await cloudinaryFileUploadMethod(req.file?.path || "")
 
   const albumData = {
     name: req.body.name,
     user: user._id,
     album: req.body.album,
     release: req.body.release,
-    image: req.file ? req.file.filename : null,
+    image,
     artist: req.body.artist,
   };
 

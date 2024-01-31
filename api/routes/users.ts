@@ -3,7 +3,7 @@ import {Error} from 'mongoose';
 import {User} from '../models/User';
 import config from '../config';
 import {OAuth2Client} from 'google-auth-library';
-import {cloudinaryImageUploadMethod} from "../controller/uploader";
+import {cloudinaryFileUploadMethod} from "../controller/uploader";
 import crypto from 'crypto';
 import {upload} from '../multer';
 
@@ -12,7 +12,7 @@ const client = new OAuth2Client(config.google.clientId);
 
 usersRouter.post('/', upload.single('avatar'), async (req, res, next) => {
   try {
-    const avatar = await cloudinaryImageUploadMethod(req.file?.path)
+    const avatar = await cloudinaryFileUploadMethod(req.file?.path || "")
     const user = new User({
       username: req.body.username,
       password: req.body.password,

@@ -1,14 +1,19 @@
-import {v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
+import multer from 'multer';
 
-export const cloudinaryImageUploadMethod = async (file: string) => {
-    return await new Promise((resolve, reject) => {
+export const cloudinaryFileUploadMethod = async (file: string) => {
+    return await new Promise<string>((resolve, reject) => {
         try {
-            cloudinary.uploader.upload(file, (err: unknown, res: {secure_url:string}) => {
+            cloudinary.uploader.upload(file, { resource_types: 'auto' }, (err: unknown, res: UploadApiResponse | undefined) => {
                 if (err) {
                     console.error(err);
                     reject(err);
                 } else {
-                    resolve(res.secure_url);
+                    if (res && res.secure_url) {
+                        resolve(res.secure_url);
+                    } else {
+                        reject(new Error('Invalid or missing secure_url in the Cloudinary response.'));
+                    }
                 }
             });
         } catch (e) {

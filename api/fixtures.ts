@@ -5,7 +5,7 @@ import {Album} from './models/Album';
 import {Track} from './models/Track';
 import {User} from './models/User';
 import {randomUUID} from 'crypto';
-import {cloudinaryImageUploadMethod} from "./controller/uploader";
+import {cloudinaryFileUploadMethod} from "./controller/uploader";
 
 const run = async () => {
     await mongoose.connect(config.url || '');
@@ -321,27 +321,23 @@ const run = async () => {
         },
     )
 
-    async function readFileAsFilePath(filePath: string) {
-        return './public/' + filePath;
-    }
-
     // Update Artist images
     for (const artist of [michaelJackson, theBeatles, ac_dc]) {
         if(!artist.image) return;
-        const path = await readFileAsFilePath(artist.image);
-        const newImageUrl = await cloudinaryImageUploadMethod(path);
+        const path = './public/' + artist.image;
+        const newImageUrl = await cloudinaryFileUploadMethod(path);
         await Artist.findByIdAndUpdate(artist._id, { image: newImageUrl });
     }
 
-// Update Album images
+    // Update Album images
     for (const album of [album1, album2, album3, album4, album5]) {
         if(!album.image) return;
-        const path = await readFileAsFilePath(album.image);
-        const newImageUrl = await cloudinaryImageUploadMethod(path);
+        const path = './public/' + album.image;
+        const newImageUrl = await cloudinaryFileUploadMethod(path);
         await Album.findByIdAndUpdate(album._id, { image: newImageUrl });
     }
 
-    // Update Track images
+    // Update Track images and mp3files
     for (const track of [
         track1,
         track2,
@@ -363,9 +359,14 @@ const run = async () => {
         track18,
     ]) {
         if (track.image) {
-            const path = await readFileAsFilePath(track.image);
-            const newImageUrl = await cloudinaryImageUploadMethod(path);
+            const path = './public/' + track.image;
+            const newImageUrl = await cloudinaryFileUploadMethod(path);
             await Track.findByIdAndUpdate(track._id, { image: newImageUrl });
+        }
+        if(track.mp3File){
+            const musicPath = './public/' + track.mp3File;
+            const newMp3fileUrl = await cloudinaryFileUploadMethod(musicPath);
+            await Track.findByIdAndUpdate(track._id, { mp3File: newMp3fileUrl });
         }
     }
 

@@ -19,8 +19,9 @@ tracksRouter.post('/', auth, upload.single('mp3File'), async (req, res, next) =>
     number: req.body.number,
     album: req.body.album,
     duration: req.body.duration,
-    mp3File: req.file ? req.file.filename : null,
+    // mp3File,
     youtubeLink: req.body.youtubeLink,
+    // image,
   };
 
   const track = new Track(trackData);

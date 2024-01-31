@@ -1,8 +1,9 @@
 import multer from 'multer';
+import {randomUUID} from "crypto";
 
 const multerStorage = multer.diskStorage({
   filename: (_req, file, cb) => {
-    cb(null, file.originalname)
+    cb(null, randomUUID() + file.originalname)
   },
 })
 
