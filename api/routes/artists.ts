@@ -5,6 +5,10 @@ import {Error} from 'mongoose';
 import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
 import {cloudinaryFileUploadMethod} from "../controller/uploader";
+import {Album} from "../models/Album";
+import {Track} from "../models/Track";
+import config from "../config";
+import fs from "fs";
 
 const artistsRouter = express.Router();
 
@@ -60,33 +64,33 @@ artistsRouter.patch('/:id/togglePublished', auth, permit('', 'admin'), async (re
   }
 });
 
-// artistsRouter.delete('/:id', auth, permit('artist', 'admin'), async (req, res) => {
-//   const {id} = req.params;
-//
-//   try {
-//     const artist = await Artist.findById(id);
-//     if (!artist) {
-//       return res.status(404).send({message: 'Not Found!'});
-//     }
-//
-//     const albums = await Album.find({artist: {$in: artist._id}});
-//
-//     for (const album of albums) {
-//       await Track.deleteMany({album: {$in: album._id}});
-//     }
-//
-//     await Album.deleteMany({artist: {$in: artist._id}});
-//     await Artist.findByIdAndRemove(id);
-//
-//     if (artist.image) {
-//       const filePath = config.publicPath + '/' + artist.image;
-//       fs.unlinkSync(filePath);
-//     }
-//
-//     res.send('Deleted');
-//   } catch (e) {
-//     res.status(500).send('error');
-//   }
-// });
+artistsRouter.delete('/:id', auth, permit('artist', 'admin'), async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const artist = await Artist.findById(id);
+    if (!artist) {
+      return res.status(404).send({message: 'Not Found!'});
+    }
+
+    const albums = await Album.find({artist: {$in: artist._id}});
+
+    for (const album of albums) {
+      await Track.deleteMany({album: {$in: album._id}});
+    }
+
+    await Album.deleteMany({artist: {$in: artist._id}});
+    await Artist.findByIdAndRemove(id);
+
+    if (artist.image) {
+      const filePath = config.publicPath + '/' + artist.image;
+      fs.unlinkSync(filePath);
+    }
+
+    res.send('Deleted');
+  } catch (e) {
+    res.status(500).send('error');
+  }
+});
 
 export default artistsRouter;
