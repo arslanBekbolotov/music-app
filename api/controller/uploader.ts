@@ -3,7 +3,7 @@ import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 export const cloudinaryFileUploadMethod = async (file: string) => {
     return await new Promise<string>((resolve, reject) => {
         try {
-            cloudinary.uploader.upload(file, { resource_types: 'auto' }, (err: unknown, res: UploadApiResponse | undefined) => {
+            cloudinary.uploader.upload(file, { resource_type: 'auto' }, (err: unknown, res: UploadApiResponse | undefined) => {
                 if (err) {
                     console.error(err);
                     reject(err);

@@ -320,22 +320,7 @@ const run = async () => {
             duration: '3:19',
         },
     )
-
-    // Update Artist images
-    for (const artist of [michaelJackson, theBeatles, ac_dc]) {
-        if(!artist.image) return;
-        const path = './public/' + artist.image;
-        const newImageUrl = await cloudinaryFileUploadMethod(path);
-        await Artist.findByIdAndUpdate(artist._id, { image: newImageUrl });
-    }
-
-    // Update Album images
-    for (const album of [album1, album2, album3, album4, album5]) {
-        if(!album.image) return;
-        const path = './public/' + album.image;
-        const newImageUrl = await cloudinaryFileUploadMethod(path);
-        await Album.findByIdAndUpdate(album._id, { image: newImageUrl });
-    }
+    console.log('work')
 
     // Update Track images and mp3files
     for (const track of [
@@ -368,6 +353,22 @@ const run = async () => {
             const newMp3fileUrl = await cloudinaryFileUploadMethod(musicPath);
             await Track.findByIdAndUpdate(track._id, { mp3File: newMp3fileUrl });
         }
+    }
+
+    // Update Artist images
+    for (const artist of [michaelJackson, theBeatles, ac_dc]) {
+        if(!artist.image) return;
+        const path = './public/' + artist.image;
+        const newImageUrl = await cloudinaryFileUploadMethod(path);
+        await Artist.findByIdAndUpdate(artist._id, { image: newImageUrl });
+    }
+
+    // Update Album images
+    for (const album of [album1, album2, album3, album4, album5]) {
+        if(!album.image) return;
+        const path = './public/' + album.image;
+        const newImageUrl = await cloudinaryFileUploadMethod(path);
+        await Album.findByIdAndUpdate(album._id, { image: newImageUrl });
     }
 
     await db.close();

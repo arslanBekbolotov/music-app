@@ -7,10 +7,10 @@ import auth, {IRequestWithUser} from '../middleware/auth';
 import permit from '../middleware/permit';
 import config from '../config';
 import fs from 'fs';
+import {cloudinaryFileUploadMethod} from "../controller/uploader";
 
 const tracksRouter = express.Router();
-
-tracksRouter.post('/', auth, upload.single('mp3File'), async (req, res, next) => {
+tracksRouter.post('/', auth, upload.fields([{ name: 'mp3File', maxCount: 1 }, { name: 'image', maxCount: 1 }]), async (req, res, next) => {
   const user = (req as IRequestWithUser).user;
 
   const trackData = {
@@ -19,16 +19,33 @@ tracksRouter.post('/', auth, upload.single('mp3File'), async (req, res, next) =>
     number: req.body.number,
     album: req.body.album,
     duration: req.body.duration,
-    // mp3File,
     youtubeLink: req.body.youtubeLink,
-    // image,
   };
 
-  const track = new Track(trackData);
-
   try {
-    await track.save();
-    return res.send(track);
+    // Проверка, что req.files существует и содержит mp3File и image
+    if (req.files && 'mp3File' in req.files && 'image' in req.files) {
+      // Загрузка mp3 файла на Cloudinary
+      const mp3file = await cloudinaryFileUploadMethod(req.files['mp3File'][0].path);
+
+      // Загрузка изображения на Cloudinary
+      const image = await cloudinaryFileUploadMethod(req.files['image'][0].path);
+
+      // Создание объекта Track с учетом URL файлов на Cloudinary
+      const track = new Track({
+        ...trackData,
+        mp3File: mp3file,
+        image: image,
+      });
+
+      // Сохранение трека в базе данных
+      await track.save();
+
+      return res.send(track);
+    } else {
+      // Если mp3File или image отсутствуют, вернуть ошибку
+      return res.status(400).send({ message: 'mp3File and image are required.' });
+    }
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);
