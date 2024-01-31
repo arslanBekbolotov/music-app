@@ -89,7 +89,7 @@ artistsRouter.delete('/:id', auth, permit('artist', 'admin'), async (req, res) =
 
     res.send('Deleted');
   } catch (e) {
-    res.status(500).send('error');
+    res.status(500).send(e);
   }
 });
 
