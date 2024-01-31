@@ -1,5 +1,4 @@
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
-import multer from 'multer';
 
 export const cloudinaryFileUploadMethod = async (file: string) => {
     return await new Promise<string>((resolve, reject) => {
