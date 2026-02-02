@@ -54,6 +54,8 @@ const TracksItem: React.FC<Props> = ({track}) => {
     if (track.mp3File) {
       dispatch(setCurrentPlayingTrack(track));
     }
+
+    alert('Not found');
     dispatch(createTrackHistory(track._id));
   };
 

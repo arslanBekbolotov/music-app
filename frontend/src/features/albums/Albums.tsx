@@ -35,7 +35,7 @@ const Albums = () => {
               <Skeleton key={index} variant="rounded" width={265} height={260} />
             ))
           : albums.map((album) => <AlbumsItem key={album._id} album={album} />)}
-        {!albums.length && (
+        {!fetchLoading && !albums.length && (
           <h2
             style={{
               position: 'absolute',

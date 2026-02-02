@@ -23,11 +23,17 @@ const usersPersistConfig = {
   whitelist: ['user'],
 };
 
+const tracksPersistConfig = {
+  key: 'store:tracks',
+  storage,
+  whitelist: ['currentPlayingTrack', 'paused', 'position', 'volume'],
+};
+
 const rootReducer = combineReducers({
   adminStore: adminReducer,
   artistsStore: artistsReducer,
   albumsStore: albumsReducer,
-  tracksStore: tracksReducer,
+  tracksStore: persistReducer(tracksPersistConfig, tracksReducer),
   tracksHistoryStore: tracksHistoryReducer,
   usersStore: persistReducer(usersPersistConfig, usersReducer),
 });
