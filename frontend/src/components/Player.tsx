@@ -7,7 +7,12 @@ import IconButton from '@mui/material/IconButton';
 import PauseRounded from '@mui/icons-material/PauseRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setCurrentPlayingTrack} from '../features/tracks/tracksSlice';
+import {
+  setCurrentPlayingTrack,
+  setPaused,
+  setPosition,
+  setVolume,
+} from '../features/tracks/tracksSlice';
 import {useEffect, useRef, useState} from 'react';
 import {
   FastForwardRounded,
@@ -24,8 +29,8 @@ const Widget = styled('div')(({theme}) => ({
   width: 343,
   maxWidth: '100%',
   margin: 'auto',
-  position: 'absolute',
-  bottom: '10%',
+  position: 'fixed',
+  bottom: 16,
   left: '50%',
   transform: 'translateX(-50%)',
   zIndex: 1,
@@ -50,12 +55,11 @@ const MusicPlayer = () => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const [duration, setDuration] = useState(0);
-  const [position, setPosition] = useState(0);
-  const [paused, setPaused] = useState(true);
-  const [volume, setVolume] = useState(50);
-  const {currentPlayingTrack, album, tracks} = useAppSelector((state) => state.tracksStore);
+  const {currentPlayingTrack, album, tracks, position, paused, volume} = useAppSelector(
+    (state) => state.tracksStore,
+  );
   const audioPlay = useRef<HTMLAudioElement | null>(null);
-  let interval: NodeJS.Timer;
+  const intervalRef = useRef<NodeJS.Timer | null>(null);
 
   const mainIconColor = theme.palette.mode === 'dark' ? '#fff' : '#000';
   const lightIconColor =
@@ -65,7 +69,7 @@ const MusicPlayer = () => {
     if (audioPlay.current?.duration) {
       setDuration(Math.floor(audioPlay.current.duration));
     }
-  }, [audioPlay?.current?.onloadedmetadata]);
+  }, [currentPlayingTrack]);
 
   if (currentPlayingTrack !== null && !currentPlayingTrack?.mp3File) {
     return <Widget sx={{mb: '20px'}}>Плейер не найден</Widget>;
@@ -79,37 +83,43 @@ const MusicPlayer = () => {
 
   const closePlayer = () => {
     dispatch(setCurrentPlayingTrack(null));
-    clearInterval(interval);
-    setPaused(true);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    dispatch(setPaused(true));
   };
 
   const onChangeProgress = (value: number) => {
     if (audioPlay.current?.currentTime) {
-      setPosition(value);
+      dispatch(setPosition(value));
       audioPlay.current.currentTime = value;
     }
   };
 
   const onChangeVolume = (value: number) => {
     if (audioPlay.current?.volume || audioPlay.current?.volume === 0) {
-      setVolume(value);
+      dispatch(setVolume(value));
       audioPlay.current.volume = value / 100;
     }
   };
 
   const togglePlay = () => {
-    const prevValue = paused;
-    setPaused(!prevValue);
-
-    if (prevValue) {
+    const wasPaused = paused;
+    dispatch(setPaused(!wasPaused));
+    if (wasPaused) {
       void audioPlay.current?.play();
-      interval = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         if (audioPlay.current?.currentTime) {
-          setPosition(Math.floor(audioPlay.current.currentTime));
+          dispatch(setPosition(Math.floor(audioPlay.current.currentTime)));
         }
       }, 1000);
     } else {
       audioPlay.current?.pause();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
   };
 
@@ -117,7 +127,7 @@ const MusicPlayer = () => {
     const filteredSong = tracks.filter((item) => item.mp3File);
     const index = filteredSong.findIndex((item) => item === currentPlayingTrack);
 
-    setPaused(true);
+    dispatch(setPaused(true));
     if (audioPlay.current?.duration) {
       setDuration(Math.floor(audioPlay.current.duration));
     }
@@ -132,7 +142,7 @@ const MusicPlayer = () => {
       return;
     }
 
-    setPaused(false);
+    dispatch(setPaused(false));
   };
 
   return (
@@ -165,11 +175,7 @@ const MusicPlayer = () => {
           </IconButton>
         </Box>
         {currentPlayingTrack && (
-          <audio
-            ref={audioPlay}
-            src={currentPlayingTrack.mp3File}
-            preload="metadata"
-          ></audio>
+          <audio ref={audioPlay} src={currentPlayingTrack.mp3File} preload="metadata"></audio>
         )}
         <Slider
           aria-label="time-indicator"

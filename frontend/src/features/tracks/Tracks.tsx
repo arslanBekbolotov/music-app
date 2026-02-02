@@ -41,7 +41,7 @@ const Tracks = () => {
               <Skeleton key={index} variant="rounded" width={265} height={260} />
             ))
           : tracks.map((track) => <TracksItem key={track._id} track={track} />)}
-        {!tracks.length && (
+        {!fetchLoading && !tracks.length && (
           <h2
             style={{
               position: 'absolute',

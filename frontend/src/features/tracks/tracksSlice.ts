@@ -13,6 +13,9 @@ interface tracksState {
   error: boolean;
   deleteLoading: string;
   tracksValidationError: ValidationError | null;
+  paused: boolean;
+  position: number;
+  volume: number;
 }
 
 const initialState: tracksState = {
@@ -25,6 +28,9 @@ const initialState: tracksState = {
   error: false,
   deleteLoading: '',
   tracksValidationError: null,
+  paused: true,
+  position: 0,
+  volume: 50,
 };
 
 export const tracksSlice = createSlice({
@@ -33,6 +39,15 @@ export const tracksSlice = createSlice({
   reducers: {
     setCurrentPlayingTrack(state, {payload: track}) {
       state.currentPlayingTrack = track;
+    },
+    setPaused(state, {payload}) {
+      state.paused = payload;
+    },
+    setPosition(state, {payload}) {
+      state.position = payload;
+    },
+    setVolume(state, {payload}) {
+      state.volume = payload;
     },
     onClose(state) {
       state.youtubeLink = '';
@@ -93,9 +108,13 @@ export const tracksSlice = createSlice({
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const {setCurrentPlayingTrack, onClose, setYoutubeLink} = tracksSlice.actions;
+export const {setCurrentPlayingTrack, onClose, setYoutubeLink, setPaused, setPosition, setVolume} =
+  tracksSlice.actions;
 export const selectYoutubeLink = (state: RootState) => state.tracksStore.youtubeLink;
 
 export const selectDeleteTrackLoading = (state: RootState) => state.tracksStore.deleteLoading;
 export const selectCurrentPlayingMusic = (state: RootState) =>
   state.tracksStore.currentPlayingTrack;
+export const selectPaused = (state: RootState) => state.tracksStore.paused;
+export const selectPosition = (state: RootState) => state.tracksStore.position;
+export const selectVolume = (state: RootState) => state.tracksStore.volume;
