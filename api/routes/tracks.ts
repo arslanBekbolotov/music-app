@@ -1,6 +1,6 @@
 import express from 'express';
 import {Track} from '../models/Track';
-import {Error} from 'mongoose';
+import mongoose from 'mongoose';
 import {Album} from '../models/Album';
 import {upload} from '../multer';
 import auth, {IRequestWithUser} from '../middleware/auth';
@@ -10,50 +10,62 @@ import fs from 'fs';
 import {cloudinaryFileUploadMethod} from "../controller/uploader";
 
 const tracksRouter = express.Router();
-tracksRouter.post('/', auth, upload.fields([{ name: 'mp3File', maxCount: 1 }, { name: 'image', maxCount: 1 }]), async (req, res, next) => {
-  const user = (req as IRequestWithUser).user;
 
-  const trackData = {
-    name: req.body.name,
-    user: user._id,
-    number: req.body.number,
-    album: req.body.album,
-    duration: req.body.duration,
-    youtubeLink: req.body.youtubeLink,
-  };
+tracksRouter.post(
+  '/',
+  auth,
+  upload.fields([
+    { name: 'mp3File', maxCount: 1 },
+    { name: 'MP3file', maxCount: 1 },
+    { name: 'image', maxCount: 1 },
+  ]),
+  async (req, res, next) => {
+    try {
+      const user = (req as IRequestWithUser).user;
 
-  try {
-    // Проверка, что req.files существует и содержит mp3File и image
-    if (req.files && 'mp3File' in req.files && 'image' in req.files) {
-      // Загрузка mp3 файла на Cloudinary
-      const mp3file = await cloudinaryFileUploadMethod(req.files['mp3File'][0].path);
+      // 1. Явно приводим тип файлов
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
 
-      // Загрузка изображения на Cloudinary
-      const image = await cloudinaryFileUploadMethod(req.files['image'][0].path);
+      // 2. Извлекаем пути к файлам безопасно через опциональную цепочку
+      // Проверяем оба варианта написания для MP3
+      const mp3FileObject = files?.['mp3File']?.[0] || files?.['MP3file']?.[0];
+      const imageFileObject = files?.['image']?.[0];
 
-      // Создание объекта Track с учетом URL файлов на Cloudinary
-      const track = new Track({
-        ...trackData,
-        mp3File: mp3file,
-        image: image,
-      });
+      // 3. Валидация: если чего-то не хватает, сразу выходим
+      if (!mp3FileObject || !imageFileObject) {
+        return res.status(400).send({ message: 'Both mp3File and image are required.' });
+      }
 
-      // Сохранение трека в базе данных
+      // 4. Загружаем в Cloudinary
+      const [mp3Url, imageUrl] = await Promise.all([
+        cloudinaryFileUploadMethod(mp3FileObject.path),
+        cloudinaryFileUploadMethod(imageFileObject.path)
+      ]);
+
+      const trackData = {
+        name: req.body.name,
+        user: user._id,
+        number: req.body.number,
+        album: req.body.album,
+        duration: req.body.duration,
+        youtubeLink: req.body.youtubeLink,
+        mp3File: mp3Url,
+        image: imageUrl,
+      };
+
+      const track = new Track(trackData);
       await track.save();
 
       return res.send(track);
-    } else {
-      // Если mp3File или image отсутствуют, вернуть ошибку
-      return res.status(400).send({ message: 'mp3File and image are required.' });
-    }
-  } catch (error) {
-    if (error instanceof Error.ValidationError) {
-      return res.status(400).send(error);
-    }
 
-    return next(error);
+    } catch (error) {
+      if (error instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send(error);
+      }
+      return next(error);
+    }
   }
-});
+);
 
 tracksRouter.get('/', async (req, res) => {
   const {album, artist} = req.query;

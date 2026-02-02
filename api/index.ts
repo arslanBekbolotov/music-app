@@ -13,14 +13,13 @@ const corsOptions = {
   origin: '*',
 };
 
-
 const app = express();
 const PORT= process.env.PORT || 8080;
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cors(corsOptions));
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false, limit: '50mb'}))
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
 app.use('/tracks', tracksRouter);

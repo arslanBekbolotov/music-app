@@ -153,7 +153,7 @@ const NewTrack = () => {
             <FileInput onChange={filesInputChangeHandler} name="image" label="image" />
           </Grid>
           <Grid item xs={12} sx={{pt: '16px'}}>
-            <FileInput onChange={filesInputChangeHandler} name="MP3file" label="MP3file" />
+            <FileInput onChange={filesInputChangeHandler} name="mp3File" label="MP3file" />
           </Grid>
           <Grid item xs={12}>
             <TextField

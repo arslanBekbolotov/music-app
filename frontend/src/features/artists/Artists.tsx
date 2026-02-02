@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Skeleton} from '@mui/material';
+import {Skeleton, Typography} from '@mui/material';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectArtists, selectFetchLoading} from './artistsSlice';
 import {fetchArtists} from './artistsThunk';
@@ -15,20 +15,25 @@ const Artists = () => {
   }, [dispatch]);
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gridTemplateRows: 'repeat(3, 1fr)',
-        gap: '30px',
-      }}
-    >
-      {fetchLoading &&
-        Array.from(new Array(12)).map((item, index) => (
-          <Skeleton key={index} variant="rounded" width={265} height={260} />
-        ))}
-      {artists ? artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />) : null}
-    </div>
+    <>
+      <Typography variant="h4" sx={{mb: '20px'}}>
+        Most Popular Artist
+      </Typography>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateRows: 'repeat(3, 1fr)',
+          gap: '30px',
+        }}
+      >
+        {fetchLoading &&
+          Array.from(new Array(12)).map((item, index) => (
+            <Skeleton key={index} variant="rounded" width={265} height={260} />
+          ))}
+        {artists ? artists.map((artist) => <ArtistsItem key={artist._id} artist={artist} />) : null}
+      </div>
+    </>
   );
 };
 

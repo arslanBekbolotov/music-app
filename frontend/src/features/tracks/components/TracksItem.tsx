@@ -34,28 +34,30 @@ const TracksItem: React.FC<Props> = ({track}) => {
   const createTrackHistoryLoading = useAppSelector(selectCreateTrackHistoryLoading);
 
   const playTrack = () => {
-    if (track.youtubeLink && track.mp3File) {
-      if (window.confirm('Do you want to watch the video')) {
+    const hasYoutube = Boolean(track.youtubeLink);
+    const hasMp3 = Boolean(track.mp3File);
+
+    if (!hasYoutube && !hasMp3) {
+      alert('Sorry, no playable media (MP3 or YouTube) was found for this track.');
+      return;
+    }
+
+    if (hasYoutube && hasMp3) {
+      if (
+        window.confirm(
+          'Would you like to watch the Video? (Click "Cancel" to listen in the Player instead)',
+        )
+      ) {
         dispatch(setYoutubeLink(track.youtubeLink));
       } else {
         dispatch(setCurrentPlayingTrack(track));
       }
-
-      dispatch(createTrackHistory(track._id));
-      return;
-    }
-
-    if (track.youtubeLink) {
+    } else if (hasYoutube) {
       dispatch(setYoutubeLink(track.youtubeLink));
-      dispatch(createTrackHistory(track._id));
-      return;
-    }
-
-    if (track.mp3File) {
+    } else {
       dispatch(setCurrentPlayingTrack(track));
     }
 
-    alert('Not found');
     dispatch(createTrackHistory(track._id));
   };
 
@@ -81,6 +83,14 @@ const TracksItem: React.FC<Props> = ({track}) => {
     }
   };
 
+  const handlePlayClick = () => {
+    if (!user) {
+      alert('Please log in or sign up to listen to music!');
+      return;
+    }
+    playTrack();
+  };
+
   if (
     track.isPublished ||
     (!track.isPublished && (user?.role === 'admin' || user?._id === track.user))
@@ -101,9 +111,9 @@ const TracksItem: React.FC<Props> = ({track}) => {
             image={track.image ? track.image : notFoundImage}
             title={track.name}
           />
-          {user && currentPlayingTrack !== track && (
+          {currentPlayingTrack !== track && (
             <IconButton
-              onClick={() => playTrack()}
+              onClick={() => handlePlayClick()}
               sx={{
                 position: 'absolute',
                 top: '40%',
