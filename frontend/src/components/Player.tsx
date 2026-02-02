@@ -91,9 +91,9 @@ const MusicPlayer = () => {
   };
 
   const onChangeProgress = (value: number) => {
-    if (audioPlay.current?.currentTime) {
-      dispatch(setPosition(value));
+    if (audioPlay.current) {
       audioPlay.current.currentTime = value;
+      dispatch(setPosition(value));
     }
   };
 
@@ -175,7 +175,22 @@ const MusicPlayer = () => {
           </IconButton>
         </Box>
         {currentPlayingTrack && (
-          <audio ref={audioPlay} src={currentPlayingTrack.mp3File} preload="metadata"></audio>
+          <audio
+            ref={audioPlay}
+            src={currentPlayingTrack?.mp3File}
+            preload="metadata"
+            onTimeUpdate={() => {
+              if (audioPlay.current) {
+                dispatch(setPosition(Math.floor(audioPlay.current.currentTime)));
+              }
+            }}
+            onLoadedMetadata={() => {
+              if (audioPlay.current) {
+                setDuration(Math.floor(audioPlay.current.duration));
+              }
+            }}
+            onEnded={() => changeSong()} // Автопереход на следующий трек
+          />
         )}
         <Slider
           aria-label="time-indicator"

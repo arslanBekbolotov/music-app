@@ -13,7 +13,7 @@ export const addInterceptors = (store: Store<RootState>) => {
 };
 
 export const axiosApi = axios.create({
-  baseURL: process.env.BACKEND_URL ?? 'http://localhost:8000',
+  baseURL: 'https://music-app-backend-pi.vercel.app',
 });
 
 export default axiosApi;
