@@ -109,8 +109,8 @@ const NewTrack = () => {
               name="number"
               value={state.number}
               onChange={handleChange}
-              error={Boolean(tracksValidationError?.errors.number.message)}
-              helperText={tracksValidationError?.errors.number.message}
+              error={Boolean(tracksValidationError?.errors?.number?.message)}
+              helperText={tracksValidationError?.errors?.number?.message}
             />
           </Grid>
           <Grid item xs={12}>
