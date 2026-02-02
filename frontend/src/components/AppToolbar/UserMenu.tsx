@@ -37,8 +37,9 @@ const UserMenu: React.FC<Props> = ({user}) => {
       await dispatch(logout()).unwrap();
       dispatch(unsetUser());
       navigate('/');
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось выйти из аккаунта. Попробуйте позже.');
     }
   };
 

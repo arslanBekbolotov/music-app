@@ -27,8 +27,9 @@ const ArtistsItem: React.FC<Props> = ({artist}) => {
     try {
       await dispatch(deleteArtist(artist._id)).unwrap();
       await dispatch(fetchArtists());
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось удалить артиста. Попробуйте позже.');
     }
   };
 
@@ -38,8 +39,9 @@ const ArtistsItem: React.FC<Props> = ({artist}) => {
     try {
       await dispatch(publishArtist(artist._id)).unwrap();
       await dispatch(fetchArtists());
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось изменить статус публикации артиста.');
     }
   };
 
