@@ -36,8 +36,9 @@ const AdminTableRow: React.FC<Props> = ({item, subjectName}) => {
       }
 
       await dispatch(fetchUnpublishedSubjects());
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось удалить элемент. Попробуйте позже.');
     }
   };
 
@@ -52,8 +53,9 @@ const AdminTableRow: React.FC<Props> = ({item, subjectName}) => {
       }
 
       await dispatch(fetchUnpublishedSubjects());
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось изменить статус публикации. Попробуйте позже.');
     }
   };
 

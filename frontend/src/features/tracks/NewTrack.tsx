@@ -79,8 +79,9 @@ const NewTrack = () => {
     try {
       await dispatch(createTrack(state)).unwrap();
       navigate('/');
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось создать трек. Проверьте данные и попробуйте снова.');
     }
   };
 

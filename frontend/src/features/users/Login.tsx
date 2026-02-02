@@ -28,8 +28,9 @@ const Login = () => {
     try {
       await dispatch(login(state)).unwrap();
       navigate('/');
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Ошибка входа. Проверьте данные или попробуйте позже.');
     }
   };
 

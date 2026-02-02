@@ -28,8 +28,9 @@ const AlbumsItem: React.FC<Props> = ({album}) => {
     try {
       await dispatch(deleteAlbum(album._id)).unwrap();
       navigate('/');
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось удалить альбом. Попробуйте позже.');
     }
   };
 
@@ -39,8 +40,9 @@ const AlbumsItem: React.FC<Props> = ({album}) => {
     try {
       await dispatch(publishAlbum(album._id)).unwrap();
       await dispatch(fetchAlbumsByQuery(id));
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось изменить статус публикации альбома.');
     }
   };
 

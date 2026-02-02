@@ -67,8 +67,9 @@ const TracksItem: React.FC<Props> = ({track}) => {
     try {
       await dispatch(deleteTrack(track._id)).unwrap();
       navigate('/');
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось удалить трек. Попробуйте позже.');
     }
   };
 
@@ -78,8 +79,9 @@ const TracksItem: React.FC<Props> = ({track}) => {
     try {
       await dispatch(publishTracks(track._id)).unwrap();
       await dispatch(fetchTracks(id));
-    } catch {
-      //nothing
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось изменить статус публикации трека.');
     }
   };
 
